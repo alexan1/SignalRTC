@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalRMVC", "SignalRMVC", "{43502410-E054-4819-89B7-3669D661E5D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MoveShapeDemo", "MoveShapeDemo", "{6517D3ED-D560-41FA-909B-52AEE629C0A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveShapeDemo", "SignalRMove\MoveShapeDemo\MoveShapeDemo.csproj", "{2E201A64-7FE2-4B49-820E-9B948B7494B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRMVC", "SignalRMVC5\SignalRChat\SignalRMVC.csproj", "{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E201A64-7FE2-4B49-820E-9B948B7494B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E201A64-7FE2-4B49-820E-9B948B7494B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E201A64-7FE2-4B49-820E-9B948B7494B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E201A64-7FE2-4B49-820E-9B948B7494B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E201A64-7FE2-4B49-820E-9B948B7494B8} = {6517D3ED-D560-41FA-909B-52AEE629C0A7}
+		{22817C13-21E8-40A9-B9EC-8CB66A4DF7EC} = {43502410-E054-4819-89B7-3669D661E5D6}
+	EndGlobalSection
+EndGlobal
