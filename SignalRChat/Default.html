@@ -48,7 +48,7 @@
             // Create a function that the hub can call to broadcast messages.
             chat.client.broadcastMessage = function (name, message) {
                 // Html encode display name and message.
-                trace('Message');
+                //trace('Message');
                 var encodedName = $('<div />').text(name).html();
                 var encodedMsg = $('<div />').text(message).html();
                 // Add the message to the page.
@@ -64,9 +64,10 @@
                 connection.createOffer(function (desc) {
                     connection.setLocalDescription(desc, function () {
                         chat.server.send(JSON.stringify({ "sdp": desc }));
+                        trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
                     });
                 });
-                trace('Offer sent 2');
+                
                
             };
             // Get the user name and store it to prepend to messages.

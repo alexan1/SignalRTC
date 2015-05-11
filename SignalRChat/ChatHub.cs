@@ -13,7 +13,8 @@ namespace SignalRChat
         }
         public void Offer()
         {
-            Clients.All.sendOffer();
+            //Clients.All.sendOffer();
+            Clients.Others.sendOffer();
         }
     }
 }
