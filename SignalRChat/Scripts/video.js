@@ -127,7 +127,8 @@ function onCreateSessionDescriptionError(error) {
 function onCreateOfferSuccess(desc) {
   trace('Offer from pc1\n' + desc.sdp);
   trace('pc1 setLocalDescription start');
-  pc1.setLocalDescription(desc, function() {
+  pc1.setLocalDescription(desc, function () {
+    chat.server.send(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(pc1);
   });
   trace('pc2 setRemoteDescription start');

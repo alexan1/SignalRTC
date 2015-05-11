@@ -11,5 +11,9 @@ namespace SignalRChat
             Clients.All.broadcastMessage(name, message);
             //Clients.Others.broadcastMessage(name, message);
         }
+        public void Offer()
+        {
+            Clients.All.sendOffer();
+        }
     }
 }
