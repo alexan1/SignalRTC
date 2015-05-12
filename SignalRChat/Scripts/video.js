@@ -43,7 +43,7 @@
     var pc2;
     var sdpConstraints = {
         'mandatory': {
-            'OfferToReceiveAudio': true,
+            'OfferToReceiveAudio': false,
             'OfferToReceiveVideo': true
         }
     };
