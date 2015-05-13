@@ -22,11 +22,11 @@
         <video id="localVideo" autoplay muted></video>
         <video id="remoteVideo" autoplay></video>
 
-        <!--<div>
-            <button id="startButton">Start</button>
+        <div>
+            <!--<button id="startButton">Start</button>-->
             <button id="callButton">Call</button>
             <button id="hangupButton">Hang Up</button>
-        </div>-->
+        </div>
 
     </div>
     <!--Script references. -->
@@ -40,70 +40,8 @@
     <script src="/signalr/hubs"></script>
     <script src="Scripts/adapter.js"></script>
     <script src="Scripts/video.js"></script>
+    <script src="Scripts/signalr.js"></script>
     <!--Add script to update the page and send messages.-->
-    <script type="text/javascript">
-        $(function () {
-            // Declare a proxy to reference the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call to broadcast messages.
-            chat.client.broadcastMessage = function (name, message) {
-                // Html encode display name and message.
-                //trace('Message');
-                var encodedName = $('<div />').text(name).html();
-                var encodedMsg = $('<div />').text(message).html();
-                // Add the message to the page.
-                $('#discussion').append('<li><strong>' + encodedName
-                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-            };
 
-            chat.client.sendOffer = function () {
-                trace('Connection1');
-                var connection = new RTCPeerConnection();
-                trace('localStream');
-                connection.addStream(localStream);
-                connection.createOffer(function (desc) {
-                    connection.setLocalDescription(desc, function () {
-                        chat.server.send(JSON.stringify({ "sdp": desc }));
-                        trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
-                        attachMediaStream(remoteVideo, localStream);
-                    });
-                });
-                
-               
-            };
-            // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
-            start();
-            // Set initial focus to message input box.
-            $('#message').focus();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
-                    // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
-                    // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
-                });
-                $('#sendoffer').click(function () {
-                    chat.server.offer();
-                    trace('Offer sent');
-                });
-
-            });
-        });
-
-        //function SendOffer() {
-
-        //    var connection = new RTCPeerConnection();
-        //    //connection.addStream(stream);
-        //    connection.createOffer(function (desc) {
-        //        connection.setLocalDescription(desc, function () {
-        //            chat.server.send(JSON.stringify({ "sdp": desc }));
-        //        });
-        //    });
-        //}
-
-
-    </script>
 </body>
 </html>

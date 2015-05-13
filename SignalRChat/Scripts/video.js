@@ -2,13 +2,13 @@
 
 //function startVideo() {
     //var startButton = document.getElementById('startButton');
-    //var callButton = document.getElementById('callButton');
-    //var hangupButton = document.getElementById('hangupButton');
-    //callButton.disabled = true;
-    //hangupButton.disabled = true;//
+    var callButton = document.getElementById('callButton');
+    var hangupButton = document.getElementById('hangupButton');
+    callButton.disabled = false;
+    hangupButton.disabled = true;//
     //startButton.onclick = start;
-    //callButton.onclick = call;
-    //hangupButton.onclick = hangup;
+    callButton.onclick = call;
+    hangupButton.onclick = hangup;
 
     var startTime;
     var localVideo = document.getElementById('localVideo');
@@ -65,7 +65,7 @@ function gotStream(stream) {
   // Call the polyfill wrapper to attach the media stream to this element.
   attachMediaStream(localVideo, stream);
   localStream = stream;
-  //callButton.disabled = false;
+  callButton.disabled = false;
 }
 
 function start() {
@@ -81,44 +81,44 @@ function start() {
     });
 }
 
-//function call() {
-//  //callButton.disabled = true;
-//  //hangupButton.disabled = false;
-//  trace('Starting call');
-//  startTime = window.performance.now();
-//  var videoTracks = localStream.getVideoTracks();
-//  var audioTracks = localStream.getAudioTracks();
-//  if (videoTracks.length > 0) {
-//    trace('Using video device: ' + videoTracks[0].label);
-//  }
-//  if (audioTracks.length > 0) {
-//    trace('Using audio device: ' + audioTracks[0].label);
-//  }
-//  var servers = null;
-//  pc1 = new RTCPeerConnection(servers);
-//  trace('Created local peer connection object pc1');
-//  pc1.onicecandidate = function(e) {
-//    onIceCandidate(pc1, e);
-//  };
-//  pc2 = new RTCPeerConnection(servers);
-//  trace('Created remote peer connection object pc2');
-//  pc2.onicecandidate = function(e) {
-//    onIceCandidate(pc2, e);
-//  };
-//  pc1.oniceconnectionstatechange = function(e) {
-//    onIceStateChange(pc1, e);
-//  };
-//  pc2.oniceconnectionstatechange = function(e) {
-//    onIceStateChange(pc2, e);
-//  };
-//  pc2.onaddstream = gotRemoteStream;
+function call() {
+  callButton.disabled = true;
+  hangupButton.disabled = false;
+  trace('Starting call');
+  startTime = window.performance.now();
+  var videoTracks = localStream.getVideoTracks();
+  var audioTracks = localStream.getAudioTracks();
+  if (videoTracks.length > 0) {
+    trace('Using video device: ' + videoTracks[0].label);
+  }
+  if (audioTracks.length > 0) {
+    trace('Using audio device: ' + audioTracks[0].label);
+  }
+  var servers = null;
+  pc1 = new RTCPeerConnection(servers);
+  trace('Created local peer connection object pc1');
+  pc1.onicecandidate = function(e) {
+    onIceCandidate(pc1, e);
+  };
+  pc2 = new RTCPeerConnection(servers);
+  trace('Created remote peer connection object pc2');
+  pc2.onicecandidate = function(e) {
+    onIceCandidate(pc2, e);
+  };
+  pc1.oniceconnectionstatechange = function(e) {
+    onIceStateChange(pc1, e);
+  };
+  pc2.oniceconnectionstatechange = function(e) {
+    onIceStateChange(pc2, e);
+  };
+  pc2.onaddstream = gotRemoteStream;
 
-//  pc1.addStream(localStream);
-//  trace('Added local stream to pc1');
+  pc1.addStream(localStream);
+  trace('Added local stream to pc1');
 
-//  trace('pc1 createOffer start');
-//  pc1.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
-//}
+  trace('pc1 createOffer start');
+  pc1.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
+}
 
 function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString());
@@ -128,7 +128,7 @@ function onCreateOfferSuccess(desc) {
   trace('Offer from pc1\n' + desc.sdp);
   trace('pc1 setLocalDescription start');
   pc1.setLocalDescription(desc, function () {
-    chat.server.send(JSON.stringify({ "sdp": desc }));
+    chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(pc1);
   });
   trace('pc2 setRemoteDescription start');
@@ -198,12 +198,12 @@ function onIceStateChange(pc, event) {
   }
 }
 
-//function hangup() {
-//  trace('Ending call');
-//  pc1.close();
-//  pc2.close();
-//  pc1 = null;
-//  pc2 = null;
-//  hangupButton.disabled = true;
-//  callButton.disabled = false;
-//}
+function hangup() {
+  trace('Ending call');
+  pc1.close();
+  pc2.close();
+  pc1 = null;
+  pc2 = null;
+  hangupButton.disabled = true;
+  callButton.disabled = false;
+}
