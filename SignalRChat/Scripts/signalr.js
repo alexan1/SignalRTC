@@ -12,25 +12,32 @@
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
-    chat.client.sendOffer = function () {
-        trace('Connection1');
-        var pc1 = new RTCPeerConnection();
-        trace('localStream');
-        pc1.onicecandidate = function (e) {
-            onIceCandidate(pc1, e);
-        };
-        pc1.addStream(localStream);
-        pc1.createOffer(function (desc) {
-            pc1.setLocalDescription(desc, function () {
-                chat.server.send(JSON.stringify({ "sdp": desc }));
-                trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
-                //connection.onaddstream = gotRemoteStream;
-                //attachMediaStream(remoteVideo, localStream);
-            });
-        });
 
+    chat.client.sendOffer = function (desc) {
+           
+            chat.server.send(JSON.stringify({ "sdp": desc }));
+            trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
+                  
+            };
 
-    };
+    //chat.client.sendOffer = function () {
+    //    trace('Connection1');
+    //    var pc1 = new RTCPeerConnection();
+    //    trace('localStream');
+    //    pc1.onicecandidate = function (e) {
+    //        onIceCandidate(pc1, e);
+    //    };
+    //    pc1.addStream(localStream);
+    //    pc1.createOffer(function (desc) {
+    //        pc1.setLocalDescription(desc, function () {
+    //            chat.server.send(JSON.stringify({ "sdp": desc }));
+    //            trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
+    //            //connection.onaddstream = gotRemoteStream;
+    //            //attachMediaStream(remoteVideo, localStream);
+    //        });
+    //    });
+    //};
+
     // Get the user name and store it to prepend to messages.
     $('#displayname').val(prompt('Enter your name:', ''));
     start();

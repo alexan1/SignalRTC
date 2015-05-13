@@ -11,10 +11,10 @@ namespace SignalRChat
             Clients.All.broadcastMessage(name, message);
             //Clients.Others.broadcastMessage(name, message);
         }
-        public void Offer()
+        public void Offer(string sdp)
         {
             //Clients.All.sendOffer();
-            Clients.Others.sendOffer();
+            Clients.Others.sendOffer(sdp);
         }
     }
 }
