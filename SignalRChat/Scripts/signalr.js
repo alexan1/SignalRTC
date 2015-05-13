@@ -15,8 +15,8 @@
 
     chat.client.sendOffer = function (desc) {
            
-            chat.server.send(JSON.stringify({ "sdp": desc }));
-            trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
+            //chat.server.send(JSON.stringify({ "sdp": desc }));
+            trace('Offer sent ' + desc );
                   
             };
 

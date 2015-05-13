@@ -100,18 +100,19 @@ function call() {
   pc1.onicecandidate = function(e) {
     onIceCandidate(pc1, e);
   };
-  pc2 = new RTCPeerConnection(servers);
-  trace('Created remote peer connection object pc2');
-  pc2.onicecandidate = function(e) {
-    onIceCandidate(pc2, e);
-  };
+  //pc2 = new RTCPeerConnection(servers);
+  //trace('Created remote peer connection object pc2');
+  //pc2.onicecandidate = function(e) {
+  //  onIceCandidate(pc2, e);
+  //};
   pc1.oniceconnectionstatechange = function(e) {
     onIceStateChange(pc1, e);
   };
-  pc2.oniceconnectionstatechange = function(e) {
-    onIceStateChange(pc2, e);
-  };
-  pc2.onaddstream = gotRemoteStream;
+  //pc2.oniceconnectionstatechange = function(e) {
+  //  onIceStateChange(pc2, e);
+  //};
+  //pc2.onaddstream = gotRemoteStream;
+  pc1.onaddstream = gotRemoteStream;
 
   pc1.addStream(localStream);
   trace('Added local stream to pc1');
@@ -131,16 +132,16 @@ function onCreateOfferSuccess(desc) {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(pc1);
   });
-  trace('pc2 setRemoteDescription start');
-  pc2.setRemoteDescription(desc, function() {
-    onSetRemoteSuccess(pc2);
-  });
-  trace('pc2 createAnswer start');
-  // Since the 'remote' side has no media stream we need
-  // to pass in the right constraints in order for it to
-  // accept the incoming offer of audio and video.
-  pc2.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError,
-      sdpConstraints);
+  //trace('pc2 setRemoteDescription start');
+  //pc2.setRemoteDescription(desc, function() {
+  //  onSetRemoteSuccess(pc2);
+  //});
+  //trace('pc2 createAnswer start');
+  //// Since the 'remote' side has no media stream we need
+  //// to pass in the right constraints in order for it to
+  //// accept the incoming offer of audio and video.
+  //pc2.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError,
+  //    sdpConstraints);
 }
 
 function onSetLocalSuccess(pc) {
@@ -152,6 +153,7 @@ function onSetRemoteSuccess(pc) {
 }
 
 function gotRemoteStream(e) {
+    trace('gotRemoteStream');
   // Call the polyfill wrapper to attach the media stream to this element.
   attachMediaStream(remoteVideo, e.stream);
   trace('pc2 received remote stream');
@@ -171,7 +173,8 @@ function onCreateAnswerSuccess(desc) {
 
 function onIceCandidate(pc, event) {
   if (event.candidate) {
-    getOtherPc(pc).addIceCandidate(new RTCIceCandidate(event.candidate),
+      //getOtherPc(pc).addIceCandidate(new RTCIceCandidate(event.candidate),
+      pc1.addIceCandidate(new RTCIceCandidate(event.candidate),
         function() {
           onAddIceCandidateSuccess(pc);
         },
