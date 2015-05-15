@@ -98,7 +98,8 @@ function call() {
   pc1 = new RTCPeerConnection(servers);
   trace('Created local peer connection object pc1');
   pc1.onicecandidate = function(e) {
-    onIceCandidate(pc1, e);
+      //onIceCandidate(pc1, e);
+      chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
   };
   //pc2 = new RTCPeerConnection(servers);
   //trace('Created remote peer connection object pc2');
@@ -106,19 +107,21 @@ function call() {
   //  onIceCandidate(pc2, e);
   //};
   pc1.oniceconnectionstatechange = function(e) {
-    onIceStateChange(pc1, e);
+      //onIceStateChange(pc1, e);
+      chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
   };
   //pc2.oniceconnectionstatechange = function(e) {
   //  onIceStateChange(pc2, e);
   //};
-  //pc2.onaddstream = gotRemoteStream;
-  pc1.onaddstream = gotRemoteStream;
+  //pc2.onaddstream = gotRemoteStream;  
 
   pc1.addStream(localStream);
   trace('Added local stream to pc1');
 
   trace('pc1 createOffer start');
   pc1.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
+
+  pc1.onaddstream = gotRemoteStream;
 }
 
 function onCreateSessionDescriptionError(error) {
@@ -171,20 +174,20 @@ function onCreateAnswerSuccess(desc) {
   });
 }
 
-function onIceCandidate(pc, event) {
-  if (event.candidate) {
-      //getOtherPc(pc).addIceCandidate(new RTCIceCandidate(event.candidate),
-      pc1.addIceCandidate(new RTCIceCandidate(event.candidate),
-        function() {
-          onAddIceCandidateSuccess(pc);
-        },
-        function(err) {
-          onAddIceCandidateError(pc, err);
-        }
-    );
-    trace(getName(pc) + ' ICE candidate: \n' + event.candidate.candidate);
-  }
-}
+//function onIceCandidate(pc, event) {
+//  if (event.candidate) {
+//      //getOtherPc(pc).addIceCandidate(new RTCIceCandidate(event.candidate),
+//      pc1.addIceCandidate(new RTCIceCandidate(event.candidate),
+//        function() {
+//          onAddIceCandidateSuccess(pc);
+//        },
+//        function(err) {
+//          onAddIceCandidateError(pc, err);
+//        }
+//    );
+//    trace(getName(pc) + ' ICE candidate: \n' + event.candidate.candidate);
+//  }
+//}
 
 function onAddIceCandidateSuccess(pc) {
   trace(getName(pc) + ' addIceCandidate success');
@@ -194,12 +197,12 @@ function onAddIceCandidateError(pc, error) {
   trace(getName(pc) + ' failed to add ICE Candidate: ' + error.toString());
 }
 
-function onIceStateChange(pc, event) {
-  if (pc) {
-    trace(getName(pc) + ' ICE state: ' + pc.iceConnectionState);
-    console.log('ICE state change event: ', event);
-  }
-}
+//function onIceStateChange(pc, event) {
+//  if (pc) {
+//    trace(getName(pc) + ' ICE state: ' + pc.iceConnectionState);
+//    console.log('ICE state change event: ', event);
+//  }
+//}
 
 function hangup() {
   trace('Ending call');
