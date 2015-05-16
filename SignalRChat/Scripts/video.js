@@ -47,6 +47,7 @@
             'OfferToReceiveVideo': true
         }
     };
+    var pc1;
 
     //start();
     //call();
@@ -79,6 +80,16 @@ function start() {
     function(e) {
       alert('getUserMedia() error: ' + e.name);
     });
+  var servers = null;
+  pc1 = new RTCPeerConnection(servers);
+  trace('Created local peer connection object pc1');
+  //pc1.addStream(localStream);
+  //trace('Added local stream to pc1');
+  pc1.onicecandidate = function (e) {
+      //onIceCandidate(pc1, e);
+      chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
+  };
+  pc1.onaddstream = gotRemoteStream;
 }
 
 function call() {
@@ -94,22 +105,22 @@ function call() {
   if (audioTracks.length > 0) {
     trace('Using audio device: ' + audioTracks[0].label);
   }
-  var servers = null;
-  pc1 = new RTCPeerConnection(servers);
-  trace('Created local peer connection object pc1');
-  pc1.onicecandidate = function(e) {
-      //onIceCandidate(pc1, e);
-      chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
-  };
+  //var servers = null;
+  //pc1 = new RTCPeerConnection(servers);
+  //trace('Created local peer connection object pc1');
+  //pc1.onicecandidate = function(e) {
+  //    //onIceCandidate(pc1, e);
+  //    chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
+  //};
   //pc2 = new RTCPeerConnection(servers);
   //trace('Created remote peer connection object pc2');
   //pc2.onicecandidate = function(e) {
   //  onIceCandidate(pc2, e);
   //};
-  pc1.oniceconnectionstatechange = function(e) {
-      //onIceStateChange(pc1, e);
-      chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
-  };
+  //pc1.oniceconnectionstatechange = function(e) {
+  //    //onIceStateChange(pc1, e);
+  //    chat.server.offer(JSON.stringify({ "candidate": e.candidate }));
+  //};
   //pc2.oniceconnectionstatechange = function(e) {
   //  onIceStateChange(pc2, e);
   //};
@@ -121,7 +132,7 @@ function call() {
   trace('pc1 createOffer start');
   pc1.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
 
-  pc1.onaddstream = gotRemoteStream;
+  //pc1.onaddstream = gotRemoteStream;
 }
 
 function onCreateSessionDescriptionError(error) {

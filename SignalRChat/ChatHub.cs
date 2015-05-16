@@ -16,5 +16,11 @@ namespace SignalRChat
             //Clients.All.sendOffer();
             Clients.Others.sendOffer(sdp);
         }
+
+        public override System.Threading.Tasks.Task OnConnected()
+        {
+            Clients.Others.connect();
+            return base.OnConnected();
+        }
     }
 }

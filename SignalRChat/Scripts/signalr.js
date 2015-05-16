@@ -18,7 +18,11 @@
             //chat.server.send(JSON.stringify({ "sdp": desc }));
             trace('Offer sent ' + desc );
                   
-            };
+    };
+
+    chat.client.connect = function () {
+        trace('connected');
+    };
 
     //chat.client.sendOffer = function () {
     //    trace('Connection1');
