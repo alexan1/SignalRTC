@@ -1,10 +1,8 @@
-﻿//$(function () {
-    // Declare a proxy to reference the hub.
+﻿    // Declare a proxy to reference the hub.
     var chat = $.connection.chatHub;
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (name, message) {
-        // Html encode display name and message.
-        //trace('Message');
+        // Html encode display name and message.      
         var encodedName = $('<div />').text(name).html();
         var encodedMsg = $('<div />').text(message).html();
         // Add the message to the page.
@@ -13,34 +11,35 @@
     };
 
 
-    chat.client.sendOffer = function (desc) {
-           
-            //chat.server.send(JSON.stringify({ "sdp": desc }));
-            trace('Offer sent ' + desc );
-                  
+    chat.client.sendOffer = function (desc) {                     
+        trace('Offer sent ' + desc);
+
+        connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
+            if (connection.RemoteDescription.type == 'offer') {
+                connection.addStream(localStream);
+                connection.CreateAnswer(function (desc) {
+                    connection.setLocalDescription(desc, function () {
+                        chat.server.offer(JSON.stringify({ "sdp": connection.LocalDescription }));
+                    });
+                });
+            }
+        });
+
+        chat.client.sendIce = function (desc) {
+            trace('Ice sent ' + desc);
+        };
+        //connection.addStream(localStream);
+        //connection.setRemoteDescription(new RTCSessionDescription(desc.sdp), function () {
+        //    trace(' setRemoteDescription complete');
+        //});
+        //trace('Added local stream to connection');
+        //trace('connection createAnswer start');       
+        //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
     };
 
-    chat.client.connect = function () {
-        trace('connected');
-    };
-
-    //chat.client.sendOffer = function () {
-    //    trace('Connection1');
-    //    var pc1 = new RTCPeerConnection();
-    //    trace('localStream');
-    //    pc1.onicecandidate = function (e) {
-    //        onIceCandidate(pc1, e);
-    //    };
-    //    pc1.addStream(localStream);
-    //    pc1.createOffer(function (desc) {
-    //        pc1.setLocalDescription(desc, function () {
-    //            chat.server.send(JSON.stringify({ "sdp": desc }));
-    //            trace('Offer sent 2 ' + JSON.stringify({ "sdp": desc }));
-    //            //connection.onaddstream = gotRemoteStream;
-    //            //attachMediaStream(remoteVideo, localStream);
-    //        });
-    //    });
-    //};
+    //chat.client.connect = function () {
+    //    trace('connected');
+    //};    
 
     // Get the user name and store it to prepend to messages.
     $('#displayname').val(prompt('Enter your name:', ''));
@@ -56,20 +55,9 @@
             $('#message').val('').focus();
         });
         $('#sendoffer').click(function () {
-            chat.server.offer();
-            trace('Offer sent');
+            //chat.server.offer();            
+            //trace('Offer sent');
+            answer();
         });
 
     });
-//});
-
-//function SendOffer() {
-
-//    var connection = new RTCPeerConnection();
-//    //connection.addStream(stream);
-//    connection.createOffer(function (desc) {
-//        connection.setLocalDescription(desc, function () {
-//            chat.server.send(JSON.stringify({ "sdp": desc }));
-//        });
-//    });
-//}

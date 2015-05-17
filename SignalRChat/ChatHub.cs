@@ -8,19 +8,23 @@ namespace SignalRChat
         public void Send(string name, string message)
         {
             // Call the broadcastMessage method to update clients.
-            Clients.All.broadcastMessage(name, message);
-            //Clients.Others.broadcastMessage(name, message);
+            Clients.All.broadcastMessage(name, message);            
         }
+
         public void Offer(string sdp)
-        {
-            //Clients.All.sendOffer();
+        {            
             Clients.Others.sendOffer(sdp);
         }
 
-        public override System.Threading.Tasks.Task OnConnected()
+        public void IceCandidate(string ice)
         {
-            Clients.Others.connect();
-            return base.OnConnected();
+            Clients.Others.sendIce(ice);
         }
+
+        //public override System.Threading.Tasks.Task OnConnected()
+        //{
+        //    Clients.Others.connect();
+        //    return base.OnConnected();
+        //}
     }
 }
