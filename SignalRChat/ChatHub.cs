@@ -16,6 +16,11 @@ namespace SignalRChat
             Clients.Others.sendOffer(sdp);
         }
 
+        public void Answer(string sdp)
+        {
+            Clients.Others.sendAnswer(sdp);
+        }
+
         public void IceCandidate(string ice)
         {
             Clients.Others.sendIce(ice);

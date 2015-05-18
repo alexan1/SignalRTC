@@ -13,21 +13,20 @@
 
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
+        answer(JSON.parse(desc));
 
-        connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
-            if (connection.RemoteDescription.type == 'offer') {
-                connection.addStream(localStream);
-                connection.CreateAnswer(function (desc) {
-                    connection.setLocalDescription(desc, function () {
-                        chat.server.offer(JSON.stringify({ "sdp": connection.LocalDescription }));
-                    });
-                });
-            }
-        });
+        //connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
+        //    if (connection.RemoteDescription.type == 'offer') {
+        //        connection.addStream(localStream);
+        //        connection.CreateAnswer(function (desc) {
+        //            connection.setLocalDescription(desc, function () {
+        //                chat.server.offer(JSON.stringify({ "sdp": connection.LocalDescription }));
+        //            });
+        //        });
+        //    }
+        //});
 
-        chat.client.sendIce = function (desc) {
-            trace('Ice sent ' + desc);
-        };
+        
         //connection.addStream(localStream);
         //connection.setRemoteDescription(new RTCSessionDescription(desc.sdp), function () {
         //    trace(' setRemoteDescription complete');
@@ -35,6 +34,14 @@
         //trace('Added local stream to connection');
         //trace('connection createAnswer start');       
         //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
+    };
+
+    chat.client.sendIce = function (desc) {
+        trace('Ice sent ' + desc);
+    };
+
+    chat.client.sendAnswer = function (desc) {
+        trace('Answer sent ' + desc);
     };
 
     //chat.client.connect = function () {
@@ -57,7 +64,7 @@
         $('#sendoffer').click(function () {
             //chat.server.offer();            
             //trace('Offer sent');
-            answer();
+            //answer();
         });
 
     });

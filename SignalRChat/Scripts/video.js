@@ -69,7 +69,7 @@ function start() {
       chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
   };
   connection.onaddstream = function (e) {
-      trace('gotRemoteStream');
+      trace('m');//, +localStream.currentSrc);
       // Call the polyfill wrapper to attach the media stream to this element.
       attachMediaStream(remoteVideo, e.stream);
       trace('pc2 received remote stream');
@@ -99,26 +99,27 @@ function call() {
   connection.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
 }
 
-function answer() {
-    trace('give answer');
-    //connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
-    //    if (connection.RemoteDescription.type == 'offer') {
-    //        connection.addStream(localStream);
-    //        connection.CreateAnswer(function (desc) {
-    //            connection.setLocalDescription(desc, function () {
-    //                chat.server.offer(JSON.stringify({ "sdp": connection.LocalDescription }));
-    //            });
-    //        });
-    //    }
-    //});
-    connection.addStream(localStream);
-    trace('Added local stream to connection');
-    trace('connection createAnswer start');
+function answer(message) {
+    trace('give answer ' + message.sdp);
+    connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
+        //if (connection.RemoteDescription.type == 'offer') {
+        trace('setRemoteDescription');
+            connection.addStream(localStream);
+            connection.createAnswer(function (desc) {
+                connection.setLocalDescription(desc, function () {
+                    chat.server.answer(JSON.stringify({ "sdp": desc}));//connection.LocalDescription }));
+                });
+            });
+        //}
+    });
+    //connection.addStream(localStream);
+    //trace('Added local stream to connection');
+    //trace('connection createAnswer start');
     //connection.setRemotelDescription
     //connection.setRemoteDescription(desc, function () {
     //    onSetRemoteSuccess(connection);
     //});
-    connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
+    //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
 }
 
 
@@ -143,12 +144,12 @@ function onSetRemoteSuccess(connection) {
   trace(' setRemoteDescription complete');
 }
 
-function gotRemoteStream(e) {
-    trace('gotRemoteStream');
-  // Call the polyfill wrapper to attach the media stream to this element.
-  attachMediaStream(remoteVideo, e.stream);
-  trace('pc2 received remote stream');
-}
+//function gotRemoteStream(e) {
+//    trace('gotRemoteStream');
+//  // Call the polyfill wrapper to attach the media stream to this element.
+//  attachMediaStream(remoteVideo, e.stream);
+//  trace('pc2 received remote stream');
+//}
 
 function onCreateAnswerSuccess(desc) {
     trace('Answer from pc2:\n' + desc.sdp);
