@@ -164,6 +164,11 @@ function onCreateAnswerSuccess(desc) {
   
 }
 
+function addIceCandidate(message) {
+    trace('add ice candidate');
+    connection.addIceCandidate(new RTCIceCandidate(message.candidate));
+}
+
 function onAddIceCandidateSuccess(connection) {
   trace(' addIceCandidate success');
 }

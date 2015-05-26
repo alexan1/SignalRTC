@@ -10,7 +10,6 @@
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
-
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
         answer(JSON.parse(desc));
@@ -38,6 +37,7 @@
 
     chat.client.sendIce = function (desc) {
         trace('Ice sent ' + desc);
+        addIceCandidate(JSON.parse(desc));
     };
 
     chat.client.sendAnswer = function (desc) {
@@ -61,10 +61,10 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
-        $('#sendoffer').click(function () {
+        //$('#sendoffer').click(function () {
             //chat.server.offer();            
             //trace('Offer sent');
             //answer();
-        });
+        //});
 
     });
