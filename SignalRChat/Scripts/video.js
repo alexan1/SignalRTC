@@ -90,7 +90,7 @@ function call() {
 }
 
 function answer(message) {
-    trace('create answer ' + message.sdp);
+    trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
         //if (connection.RemoteDescription.type == 'offer') {
         trace('setRemoteDescription');

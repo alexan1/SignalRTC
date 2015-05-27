@@ -42,6 +42,7 @@
 
     chat.client.sendAnswer = function (desc) {
         trace('Answer sent ' + desc);
+        connection.setRemoteDescription(new RTCSessionDescription(JSON.parse(desc).sdp));
     };
 
     //chat.client.connect = function () {
