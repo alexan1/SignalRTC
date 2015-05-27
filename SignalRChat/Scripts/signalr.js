@@ -50,7 +50,7 @@
 
     // Get the user name and store it to prepend to messages.
     $('#displayname').val(prompt('Enter your name:', ''));
-    start();
+    //start();
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
@@ -61,6 +61,7 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
+        start();
         //$('#sendoffer').click(function () {
             //chat.server.offer();            
             //trace('Offer sent');

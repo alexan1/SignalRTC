@@ -42,18 +42,9 @@
             trace('Setup time: ' + elapsedTime.toFixed(3) + 'ms');
             startTime = null;
         }
-    };    
+    };   
 
-function gotStream(stream) {
-  trace('Received local stream');
-  // Call the polyfill wrapper to attach the media stream to this element.
-  attachMediaStream(localVideo, stream);
-  localStream = stream;
-  callButton.disabled = false;
-}
-
-function start() {
-  trace('Requesting local stream');  
+function start() {  
   // Call into getUserMedia via the polyfill (adapter.js).
   getUserMedia({
       audio: true,
@@ -64,15 +55,14 @@ function start() {
     });
   var servers = null;
   connection = new RTCPeerConnection(servers);
-  trace('Created local peer connection object');  
+  trace('Created connection object');  
   connection.onicecandidate = function (e) {      
       chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
   };
-  connection.onaddstream = function (e) {
-      trace('m');//, +localStream.currentSrc);
+  connection.onaddstream = function (e) {      
       // Call the polyfill wrapper to attach the media stream to this element.
       attachMediaStream(remoteVideo, e.stream);
-      trace('pc2 received remote stream');
+      trace('received remote stream');
   };
 
       //gotRemoteStream;
@@ -100,7 +90,7 @@ function call() {
 }
 
 function answer(message) {
-    trace('give answer ' + message.sdp);
+    trace('create answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
         //if (connection.RemoteDescription.type == 'offer') {
         trace('setRemoteDescription');
@@ -122,14 +112,21 @@ function answer(message) {
     //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
 }
 
+function gotStream(stream) {
+    trace('Received local stream');
+    // Call the polyfill wrapper to attach the media stream to this element.
+    attachMediaStream(localVideo, stream);
+    localStream = stream;
+    callButton.disabled = false;
+}
 
 function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString());
 }
 
 function onCreateOfferSuccess(desc) {
-    trace('Offer from pc1\n'); //desc.sdp);
-  trace('pc1 setLocalDescription start');
+    trace('Offer created'); //desc.sdp);
+  trace('setLocalDescription start');
   connection.setLocalDescription(desc, function () {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);
@@ -164,9 +161,11 @@ function onCreateAnswerSuccess(desc) {
   
 }
 
-function addIceCandidate(message) {
-    trace('add ice candidate');
-    connection.addIceCandidate(new RTCIceCandidate(message.candidate));
+function addIceCandidate(message) {    
+    if (message.candidate != null) {
+        trace('add ice candidate');
+        connection.addIceCandidate(new RTCIceCandidate(message.candidate));
+    }
 }
 
 function onAddIceCandidateSuccess(connection) {
