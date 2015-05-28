@@ -63,9 +63,7 @@ function start() {
       // Call the polyfill wrapper to attach the media stream to this element.
       attachMediaStream(remoteVideo, e.stream);
       trace('received remote stream');
-  };
-
-      //gotRemoteStream;
+  };     
 }
 
 function call() {
@@ -91,25 +89,15 @@ function call() {
 
 function answer(message) {
     trace('send answer ' + message.sdp);
-    connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
-        //if (connection.RemoteDescription.type == 'offer') {
+    connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
             connection.addStream(localStream);
             connection.createAnswer(function (desc) {
                 connection.setLocalDescription(desc, function () {
-                    chat.server.answer(JSON.stringify({ "sdp": desc}));//connection.LocalDescription }));
+                    chat.server.answer(JSON.stringify({ "sdp": desc}));
                 });
-            });
-        //}
-    });
-    //connection.addStream(localStream);
-    //trace('Added local stream to connection');
-    //trace('connection createAnswer start');
-    //connection.setRemotelDescription
-    //connection.setRemoteDescription(desc, function () {
-    //    onSetRemoteSuccess(connection);
-    //});
-    //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
+            });       
+    });    
 }
 
 function gotStream(stream) {
@@ -125,7 +113,7 @@ function onCreateSessionDescriptionError(error) {
 }
 
 function onCreateOfferSuccess(desc) {
-    trace('Offer created'); //desc.sdp);
+    trace('Offer created'); 
   trace('setLocalDescription start');
   connection.setLocalDescription(desc, function () {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
@@ -141,24 +129,13 @@ function onSetRemoteSuccess(connection) {
   trace(' setRemoteDescription complete');
 }
 
-//function gotRemoteStream(e) {
-//    trace('gotRemoteStream');
-//  // Call the polyfill wrapper to attach the media stream to this element.
-//  attachMediaStream(remoteVideo, e.stream);
-//  trace('pc2 received remote stream');
-//}
-
 function onCreateAnswerSuccess(desc) {
     trace('Answer from pc2:\n' + desc.sdp);
-    trace('pc1 setRemoteDescription start');
-    //connection.setRemoteDescription(desc, function () {
-    //    onSetRemoteSuccess(connection);
-    //});
+    trace('pc1 setRemoteDescription start');    
   trace('pc2 setLocalDescription start');
   connection.setLocalDescription(desc, function () {
       onSetLocalSuccess(connection);
-  });
-  
+  });  
 }
 
 function addIceCandidate(message) {    

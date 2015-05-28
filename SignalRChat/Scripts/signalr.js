@@ -12,27 +12,7 @@
 
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
-        answer(JSON.parse(desc));
-
-        //connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
-        //    if (connection.RemoteDescription.type == 'offer') {
-        //        connection.addStream(localStream);
-        //        connection.CreateAnswer(function (desc) {
-        //            connection.setLocalDescription(desc, function () {
-        //                chat.server.offer(JSON.stringify({ "sdp": connection.LocalDescription }));
-        //            });
-        //        });
-        //    }
-        //});
-
-        
-        //connection.addStream(localStream);
-        //connection.setRemoteDescription(new RTCSessionDescription(desc.sdp), function () {
-        //    trace(' setRemoteDescription complete');
-        //});
-        //trace('Added local stream to connection');
-        //trace('connection createAnswer start');       
-        //connection.createAnswer(onCreateAnswerSuccess, onCreateSessionDescriptionError);
+        answer(JSON.parse(desc));       
     };
 
     chat.client.sendIce = function (desc) {
@@ -43,15 +23,10 @@
     chat.client.sendAnswer = function (desc) {
         trace('Answer sent ' + desc);
         connection.setRemoteDescription(new RTCSessionDescription(JSON.parse(desc).sdp));
-    };
-
-    //chat.client.connect = function () {
-    //    trace('connected');
-    //};    
+    };    
 
     // Get the user name and store it to prepend to messages.
-    $('#displayname').val(prompt('Enter your name:', ''));
-    //start();
+    $('#displayname').val(prompt('Enter your name:', ''));    
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
@@ -63,10 +38,4 @@
             $('#message').val('').focus();
         });
         start();
-        //$('#sendoffer').click(function () {
-            //chat.server.offer();            
-            //trace('Offer sent');
-            //answer();
-        //});
-
     });
