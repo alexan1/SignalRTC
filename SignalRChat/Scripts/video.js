@@ -1,11 +1,11 @@
 ﻿'use strict';
 
     var callButton = document.getElementById('callButton');
-    var hangupButton = document.getElementById('hangupButton');
+    //var hangupButton = document.getElementById('hangupButton');
     callButton.disabled = false;
-    hangupButton.disabled = true;    
+    //hangupButton.disabled = true;    
     callButton.onclick = call;
-    hangupButton.onclick = hangup;
+    //hangupButton.onclick = hangup;
 
     var startTime;
     var localVideo = document.getElementById('localVideo');
@@ -68,7 +68,7 @@ function start() {
 
 function call() {
   callButton.disabled = true;
-  hangupButton.disabled = false;
+  //hangupButton.disabled = false;
   trace('Starting call');
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
@@ -98,6 +98,20 @@ function answer(message) {
                 });
             });       
     });    
+}
+
+function addIceCandidate(message) {
+    if (message.candidate != null) {
+        trace('add ice candidate');
+        connection.addIceCandidate(new RTCIceCandidate(message.candidate));
+    }
+}
+
+function getAnswer(message) {
+    if (message.sdp != null) {
+        trace('get answer');
+        connection.setRemoteDescription(new RTCSessionDescription(message.sdp));
+    }
 }
 
 function gotStream(stream) {
@@ -138,13 +152,6 @@ function onCreateAnswerSuccess(desc) {
   });  
 }
 
-function addIceCandidate(message) {    
-    if (message.candidate != null) {
-        trace('add ice candidate');
-        connection.addIceCandidate(new RTCIceCandidate(message.candidate));
-    }
-}
-
 function onAddIceCandidateSuccess(connection) {
   trace(' addIceCandidate success');
 }
@@ -154,10 +161,10 @@ function onAddIceCandidateError(connection, error) {
 }
 
 
-function hangup() {
-  trace('Ending call');
-  connection.close();  
-  connection = null;  
-  hangupButton.disabled = true;
-  callButton.disabled = false;
-}
+//function hangup() {
+//  trace('Ending call');
+//  connection.close();  
+//  connection = null;  
+//  hangupButton.disabled = true;
+//  callButton.disabled = false;
+//}

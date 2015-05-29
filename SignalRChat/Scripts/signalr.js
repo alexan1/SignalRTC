@@ -22,7 +22,8 @@
 
     chat.client.sendAnswer = function (desc) {
         trace('Answer sent ' + desc);
-        connection.setRemoteDescription(new RTCSessionDescription(JSON.parse(desc).sdp));
+        getAnswer(JSON.parse(desc));
+        //connection.setRemoteDescription(new RTCSessionDescription(JSON.parse(desc).sdp));
     };    
 
     // Get the user name and store it to prepend to messages.
