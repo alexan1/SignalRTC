@@ -51,7 +51,9 @@ function start() {
       video: true
     }, gotStream,
     function(e) {
-      alert('getUserMedia() error: ' + e.name);
+        //alert('getUserMedia() error: ' + e.name);
+        alert('Sorry, you web cam is absent or unavailable');
+        callButton.disabled = true;
     });
   var servers = null;
   connection = new RTCPeerConnection(servers);
@@ -80,8 +82,10 @@ function call() {
     trace('Using audio device: ' + audioTracks[0].label);
   } 
 
-  connection.addStream(localStream);
-  trace('Added local stream to connection');
+  if (localStream != null) {
+      connection.addStream(localStream);
+      trace('Added local stream to connection');
+  }
 
   trace('connection createOffer start');
   connection.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
@@ -91,7 +95,9 @@ function answer(message) {
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
+        if (localStream != null) {
             connection.addStream(localStream);
+        }
             connection.createAnswer(function (desc) {
                 connection.setLocalDescription(desc, function () {
                     chat.server.answer(JSON.stringify({ "sdp": desc}));
