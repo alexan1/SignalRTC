@@ -55,8 +55,12 @@ function start() {
         alert('Sorry, you web cam is absent or unavailable');
         callButton.disabled = true;
     });
-  var servers = null;
+  //var servers = null;
+  //var servers = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
+  var servers = { 'iceServers': [{ 'url': 'stun:74.125.142.127:19302' }] };
+  //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
   connection = new RTCPeerConnection(servers);
+  //connection = new RTCPeerConnection({ iceServers: _iceServers });
   trace('Created connection object');  
   connection.onicecandidate = function (e) {      
       chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
