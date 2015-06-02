@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>SignalR Simple Chat</title>
+    <title>Simple Video Chat</title>
     <style type="text/css">
         .container {
             background-color: #99CCFF;
@@ -13,19 +13,17 @@
 </head>
 <body>
     <div class="container">
-        <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Send" />        
-        <input type="hidden" id="displayname" />
-        <ul id="discussion"></ul>
-
         <video id="localVideo" autoplay muted title="Local video"></video>
         <video id="remoteVideo" autoplay></video>
-
         <div>            
             <button id="callButton">Call</button>
             <!--<button id="hangupButton">Hang Up</button>-->
         </div>
-
+        </br>
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Message" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
     </div>
     <!--Script references. -->
     <!--Reference the jQuery library. -->    

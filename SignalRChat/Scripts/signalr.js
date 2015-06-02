@@ -38,5 +38,10 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
+        $('#message').keypress(function (e) {            
+            if (e.which == 13) {//Enter key pressed
+                $('#sendmessage').click();//Trigger search button click event
+            }
+        });
         start();
     });
