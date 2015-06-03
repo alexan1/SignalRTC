@@ -10,6 +10,12 @@
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
+    chat.client.showUsers = function (user) {
+        trace(user);
+        $('#users').append('<li><strong>' + $('#displayname').val()
+            + '</strong></li>');
+    };
+
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
         answer(JSON.parse(desc));       
@@ -34,10 +40,13 @@
     $.connection.hub.start().done(function () {
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());
+            chat.server.send($('#displayname').val(), $('#message').val());            
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
+
+        //chat.server.allUsers($('#displayname').val());
+
         $('#message').keypress(function (e) {            
             if (e.which == 13) {//Enter key pressed
                 $('#sendmessage').click();//Trigger search button click event

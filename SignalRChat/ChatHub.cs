@@ -26,6 +26,11 @@ namespace SignalRChat
             Clients.Others.sendIce(ice);
         }
 
+        //public void AllUsers(string user)
+        //{
+        //    Clients.All.showUsers(user);
+        //}
+
         //public override System.Threading.Tasks.Task OnConnected()
         //{
         //    Clients.Others.connect();
