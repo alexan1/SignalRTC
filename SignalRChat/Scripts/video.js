@@ -67,6 +67,8 @@ function start() {
   };
   connection.onaddstream = function (e) {      
       // Call the polyfill wrapper to attach the media stream to this element.
+      callButton.disabled = true;
+      remoteVideo.hidden = false;
       attachMediaStream(remoteVideo, e.stream);
       trace('received remote stream');
   };     

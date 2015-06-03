@@ -6,7 +6,7 @@
         var encodedName = $('<div />').text(name).html();
         var encodedMsg = $('<div />').text(message).html();
         // Add the message to the page.
-        $('#discussion').append('<li><strong>' + encodedName
+        $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
@@ -52,5 +52,6 @@
                 $('#sendmessage').click();//Trigger search button click event
             }
         });
+        //remoteVideo.hidden = true;
         start();
     });
