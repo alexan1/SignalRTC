@@ -44,7 +44,8 @@
         }
     };   
 
-function start() {  
+    function start() {
+        remoteVideo.hidden = true;
   // Call into getUserMedia via the polyfill (adapter.js).
   getUserMedia({
       audio: true,
@@ -68,14 +69,15 @@ function start() {
   connection.onaddstream = function (e) {      
       // Call the polyfill wrapper to attach the media stream to this element.
       callButton.disabled = true;
-      remoteVideo.hidden = false;
+      //remoteVideo.hidden = false;
       attachMediaStream(remoteVideo, e.stream);
       trace('received remote stream');
   };     
 }
 
 function call() {
-  callButton.disabled = true;
+    callButton.disabled = true;
+    remoteVideo.hidden = false;
   //hangupButton.disabled = false;
   trace('Starting call');
   startTime = window.performance.now();
@@ -98,6 +100,7 @@ function call() {
 }
 
 function answer(message) {
+    remoteVideo.hidden = false;
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
