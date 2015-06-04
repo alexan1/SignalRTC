@@ -1,11 +1,11 @@
 ﻿'use strict';
 
     var callButton = document.getElementById('callButton');
-    //var hangupButton = document.getElementById('hangupButton');
+    var hangupButton = document.getElementById('hangupButton');
     callButton.disabled = false;
     //hangupButton.disabled = true;    
     callButton.onclick = call;
-    //hangupButton.onclick = hangup;
+    hangupButton.onclick = hangup;
 
     var startTime;
     var localVideo = document.getElementById('localVideo');
@@ -46,6 +46,7 @@
 
     function start() {
         remoteVideo.hidden = true;
+        hangupButton.disabled = true;
   // Call into getUserMedia via the polyfill (adapter.js).
   getUserMedia({
       audio: true,
@@ -78,7 +79,7 @@
 function call() {
     callButton.disabled = true;
     remoteVideo.hidden = false;
-  //hangupButton.disabled = false;
+  hangupButton.disabled = false;
   trace('Starting call');
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
@@ -101,6 +102,7 @@ function call() {
 
 function answer(message) {
     remoteVideo.hidden = false;
+    hangupButton.disabled = false;
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
@@ -176,10 +178,12 @@ function onAddIceCandidateError(connection, error) {
 }
 
 
-//function hangup() {
-//  trace('Ending call');
-//  connection.close();  
-//  connection = null;  
-//  hangupButton.disabled = true;
-//  callButton.disabled = false;
-//}
+function hangup() {
+  trace('Ending call');
+  connection.close();  
+  connection = null;
+  start();
+  //hangupButton.disabled = true;
+  //callButton.disabled = false;
+  //remoteVideo.hidden = true;
+}
