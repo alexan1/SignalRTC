@@ -36,7 +36,8 @@
     $('#displayname').val(prompt('Enter your name:', ''));    
     // Set initial focus to message input box.
     $('#message').focus();
-    // Start the connection.
+// Start the connection.
+    var usr = $.connection.usersOnLine;
     $.connection.hub.start().done(function () {
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.
