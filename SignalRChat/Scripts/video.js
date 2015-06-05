@@ -180,10 +180,10 @@ function onAddIceCandidateError(connection, error) {
 
 function hangup() {
   trace('Ending call');
-  connection.close();  
-  connection = null;
-  start();
-  //hangupButton.disabled = true;
-  //callButton.disabled = false;
-  //remoteVideo.hidden = true;
+  //connection.close();  
+  //connection = null;
+  //start();
+  hangupButton.disabled = true;
+  callButton.disabled = false;
+  remoteVideo.hidden = true;
 }
