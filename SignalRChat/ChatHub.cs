@@ -7,6 +7,7 @@ namespace SignalRChat
     public class ChatHub : Hub
     {
 
+        //static List<User> users = new List<User>();
         static List<string> users = new List<string>(); 
 
         public void Send(string name, string message)
@@ -60,9 +61,9 @@ namespace SignalRChat
             ShowUsersOnLine(); 
          
             return base.OnReconnected(); 
-        } 
- 
-        public override System.Threading.Tasks.Task OnDisconnected() 
+        }
+
+        public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled) 
         { 
             string clientId = GetClientId(); 
              
@@ -71,9 +72,9 @@ namespace SignalRChat
                 users.Remove(clientId); 
             } 
  
-            ShowUsersOnLine(); 
- 
-            return base.OnDisconnected(true); 
+            ShowUsersOnLine();
+
+            return base.OnDisconnected(stopCalled); 
         } 
  
  
@@ -100,6 +101,5 @@ namespace SignalRChat
         { 
             Clients.All.showUsersOnLine(users.Count); 
         } 
-    }
-    }
+    }   
 }

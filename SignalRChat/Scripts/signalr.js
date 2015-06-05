@@ -9,12 +9,16 @@
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
-
-    chat.client.showUsers = function (user) {
-        trace(user);
-        $('#users').append('<li><strong>' + $('#displayname').val()
-            + '</strong></li>');
+    chat.client.showUsersOnLine = function (data) {
+        //$('#users').val(data);
+        $('#users').html('<li><strong>' + data + ' users</strong></li>');
     };
+
+    //chat.client.showUsers = function (user) {
+    //    trace(user);
+    //    $('#users').append('<li><strong>' + $('#displayname').val()
+    //        + '</strong></li>');
+    //};
 
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
@@ -37,7 +41,7 @@
     // Set initial focus to message input box.
     $('#message').focus();
 // Start the connection.
-    var usr = $.connection.usersOnLine;
+    //var usr = $.connection.usersOnLine;
     $.connection.hub.start().done(function () {
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.
