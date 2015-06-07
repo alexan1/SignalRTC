@@ -11,6 +11,7 @@
     };
     chat.client.showUsersOnLine = function (data) {
         //$('#users').val(data);
+        trace(data);
         $('#users').html('<li><strong>' + data + ' users</strong></li>');
     };
 
