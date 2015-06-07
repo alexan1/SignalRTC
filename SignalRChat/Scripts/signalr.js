@@ -12,7 +12,7 @@
     chat.client.showUsersOnLine = function (data) {
         //$('#users').val(data);
         trace(data);
-        $('#users').html('<li><strong>' + data + ' users</strong></li>');
+        $('#users').html('<li><strong>Users: </strong></li>' + data);
     };
 
     //chat.client.showUsers = function (user) {
@@ -37,8 +37,10 @@
         //connection.setRemoteDescription(new RTCSessionDescription(JSON.parse(desc).sdp));
     };    
 
-    // Get the user name and store it to prepend to messages.
-    $('#displayname').val(prompt('Enter your name:', ''));    
+// Get the user name and store it to prepend to messages.
+    var name = prompt('Enter your name:', '');
+    $('#displayname').val(name);
+    trace(name);
     // Set initial focus to message input box.
     $('#message').focus();
 // Start the connection.

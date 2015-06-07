@@ -10,8 +10,7 @@ namespace SignalRChat
     {             
         //static List<string> users = new List<string>(); 
 
-        private readonly static ConnectionMapping<string> _connections =
-            new ConnectionMapping<string>();
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
         public void SendChatMessage(string who, string message)
         {
@@ -26,6 +25,8 @@ namespace SignalRChat
         public override Task OnConnected()
         {
             string name = Context.User.Identity.Name;
+
+            //name = "Alex";
 
             _connections.Add(name, Context.ConnectionId);
 
@@ -138,14 +139,14 @@ namespace SignalRChat
         //    return clientId; 
          
         //} 
-        public void Log(string message)
-        {
-            Clients.All.log(message);
-        } 
+        //public void Log(string message)
+        //{
+        //    Clients.All.log(message);
+        //} 
         public void ShowUsersOnLine()
         {
-            Clients.All.showUsersOnLine(_connections.GetConnections("alex"));
-            //Clients.All.showUsersOnLine(5);
+            //_connections.
+            Clients.All.showUsersOnLine(_connections.Keys);            
         } 
     }
 
@@ -159,6 +160,14 @@ namespace SignalRChat
             get
             {
                 return _connections.Count;
+            }
+        }
+
+        public List<T> Keys
+        {
+            get
+            {
+                return _connections.Keys.ToList();
             }
         }
 
@@ -190,6 +199,11 @@ namespace SignalRChat
 
             return Enumerable.Empty<string>();
         }
+
+        //public List<string> GetNames()
+        //{
+        //    return _connections.Keys.ToList();
+        //}
 
         public void Remove(T key, string connectionId)
         {
