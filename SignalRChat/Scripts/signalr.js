@@ -41,12 +41,21 @@
     var name = prompt('Enter your name:', '');
     $('#displayname').val(name);
     trace(name);
+    //chat.server.connect(name);
+//this.username = name;
+    //$.connection.u
+    //connection.qs = { 'username': 'anik' };
+//Context.User.Identity.Name
+    //'<%HttpContext.Current.User.Identity.Name %>' = name;
+    //System.Web.HttpContext.Current.User.Identity.Name = name;
     // Set initial focus to message input box.
     $('#message').focus();
 // Start the connection.
     //var usr = $.connection.usersOnLine;
     $.connection.hub.start().done(function () {
-        $('#sendmessage').click(function () {
+        trace(name);
+        chat.server.connect(name);
+        $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
             chat.server.send($('#displayname').val(), $('#message').val());            
             // Clear text box and reset focus for next comment.

@@ -22,6 +22,25 @@ namespace SignalRChat
             }
         }
 
+        //public void Connect(string userName)
+        //{
+        //    var id = Context.ConnectionId;
+
+
+        //    if (_connections.Count(x => x.ConnectionId == id) == 0)
+        //    {
+        //        ConnectedUsers.Add(new UserDetail { ConnectionId = id, UserName = userName });
+
+        //        // send to caller
+        //        Clients.Caller.onConnected(id, userName, ConnectedUsers, CurrentMessage);
+
+        //        // send to all except caller client
+        //        Clients.AllExcept(id).onNewUserConnected(id, userName);
+
+        //    }
+
+        //}
+
         public override Task OnConnected()
         {
             string name = Context.User.Identity.Name;
