@@ -4,6 +4,7 @@ using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Security;
 namespace SignalRChat
 {
     public class ChatHub : Hub
@@ -22,8 +23,22 @@ namespace SignalRChat
             }
         }
 
-        //public void Connect(string userName)
-        //{
+        public void Connect(string userName)
+        {
+
+            FormsAuthentication.SetAuthCookie(userName, true);
+            //int a;
+            //var password = "password";
+            //System.Web.Security.FormsAuthentication.Authenticate(userName, password);
+            //Membership.ValidateUser(userName, password);
+            //if (Membership.ValidateUser(userName, password))
+            //    //FormsAuthentication.RedirectFromLoginPage(UsernameTextbox.Text, NotPublicCheckBox.Checked);
+            //    a = 1;
+            //else
+            //    //Msg.Text = "Login failed. Please check your user name and password and try again.";
+            //    a = 2;
+
+            //HttpContext.Current.User.Identity.Name = userName;
         //    var id = Context.ConnectionId;
 
 
@@ -39,7 +54,7 @@ namespace SignalRChat
 
         //    }
 
-        //}
+        }
 
         public override Task OnConnected()
         {
