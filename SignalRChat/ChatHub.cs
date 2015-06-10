@@ -10,33 +10,38 @@ namespace SignalRChat
     public class ChatHub : Hub
     {             
         //static List<string> users = new List<string>(); 
+        
+        public string UserName;
 
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
-        public void SendChatMessage(string who, string message)
-        {
-            string name = Context.User.Identity.Name;
+        //public void SendChatMessage(string who, string message)
+        //{
+        //    string name = Context.User.Identity.Name;
 
-            foreach (var connectionId in _connections.GetConnections(who))
-            {
-                Clients.Client(connectionId).addChatMessage(name + ": " + message);
-            }
-        }
+        //    foreach (var connectionId in _connections.GetConnections(who))
+        //    {
+        //        Clients.Client(connectionId).addChatMessage(name + ": " + message);
+        //    }
+        //}
 
         public void Connect(string userName)
         {
 
-            FormsAuthentication.SetAuthCookie(userName, true);
+            UserName = userName;
+
             //int a;
             //var password = "password";
             //System.Web.Security.FormsAuthentication.Authenticate(userName, password);
             //Membership.ValidateUser(userName, password);
             //if (Membership.ValidateUser(userName, password))
+            //    FormsAuthentication.SetAuthCookie(userName, true);
             //    //FormsAuthentication.RedirectFromLoginPage(UsernameTextbox.Text, NotPublicCheckBox.Checked);
-            //    a = 1;
+            //    //a = 1;
             //else
-            //    //Msg.Text = "Login failed. Please check your user name and password and try again.";
-            //    a = 2;
+            //    FormsAuthentication.SetAuthCookie(userName, true);
+                //Msg.Text = "Login failed. Please check your user name and password and try again.";
+                //a = 2;
 
             //HttpContext.Current.User.Identity.Name = userName;
         //    var id = Context.ConnectionId;
@@ -60,7 +65,7 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
 
-            //name = "Alex";
+            name = UserName;// "Alex";
 
             _connections.Add(name, Context.ConnectionId);
 

@@ -11,7 +11,7 @@
     };
     chat.client.showUsersOnLine = function (data) {
         //$('#users').val(data);
-        trace(data);
+        trace('showUsersOnLine ' + data);
         $('#users').html('<li><strong>Users: </strong></li>' + data);
     };
 
@@ -40,7 +40,7 @@
 // Get the user name and store it to prepend to messages.
     var name = prompt('Enter your name:', '');
     $('#displayname').val(name);
-    trace(name);
+    trace('prompt ' + name);
     //chat.server.connect(name);
 //this.username = name;
     //$.connection.u
@@ -53,7 +53,7 @@
 // Start the connection.
     //var usr = $.connection.usersOnLine;
     $.connection.hub.start().done(function () {
-        trace(name);
+        trace('hub ' + name);
         chat.server.connect(name);
         $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
