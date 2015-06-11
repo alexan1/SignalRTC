@@ -11,8 +11,9 @@
     };
     chat.client.showUsersOnLine = function (data) {
         //$('#users').val(data);
-        trace('showUsersOnLine ' + data);
-        $('#users').html('<li><strong>Users: </strong></li>' + data);
+        var dates = data.toString().replace(",", "<br />");
+        trace('showUsersOnLine ' + data.toString());
+        $('#users').html('<li><strong>Users: </strong></li>' + dates);
     };
 
     //chat.client.showUsers = function (user) {
@@ -51,10 +52,11 @@
     // Set initial focus to message input box.
     $('#message').focus();
 // Start the connection.
-    //var usr = $.connection.usersOnLine;
+//var usr = $.connection.usersOnLine;
+    $.connection.hub.qs = "userName=" + name;
     $.connection.hub.start().done(function () {
         trace('hub ' + name);
-        chat.server.connect(name);
+        //chat.server.connect(name);
         $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
             chat.server.send($('#displayname').val(), $('#message').val());            

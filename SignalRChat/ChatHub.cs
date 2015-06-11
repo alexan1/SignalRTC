@@ -11,7 +11,7 @@ namespace SignalRChat
     {             
         //static List<string> users = new List<string>(); 
         
-        public string UserName;
+        //public string UserName;
 
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
@@ -25,10 +25,10 @@ namespace SignalRChat
         //    }
         //}
 
-        public void Connect(string userName)
-        {
+        //public void Connect(string userName)
+        //{
 
-            UserName = userName;
+        //    UserName = userName;
 
             //int a;
             //var password = "password";
@@ -59,13 +59,13 @@ namespace SignalRChat
 
         //    }
 
-        }
+        //}
 
         public override Task OnConnected()
         {
             string name = Context.User.Identity.Name;
 
-            name = UserName;// "Alex";
+            name = GetClientName();// "Alex";
 
             _connections.Add(name, Context.ConnectionId);
 
@@ -77,6 +77,7 @@ namespace SignalRChat
         public override Task OnDisconnected(bool stopCalled)
         {
             string name = Context.User.Identity.Name;
+            name = GetClientName();
 
             _connections.Remove(name, Context.ConnectionId);
 
@@ -88,6 +89,7 @@ namespace SignalRChat
         public override Task OnReconnected()
         {
             string name = Context.User.Identity.Name;
+            name = GetClientName();
 
             if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
             {
@@ -182,6 +184,24 @@ namespace SignalRChat
         //{
         //    Clients.All.log(message);
         //} 
+
+        private string GetClientName()
+        {
+            string clientName = "";
+            if (!(Context.QueryString["userName"] == null))
+            {
+                //clientId passed from application 
+                clientName = Context.QueryString["userName"].ToString();
+            }
+
+            if (clientName.Trim() == "")
+            {
+                //default clientId: connectionId 
+                clientName = Context.ConnectionId;
+            }
+            return clientName;
+        }
+
         public void ShowUsersOnLine()
         {
             //_connections.
