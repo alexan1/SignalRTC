@@ -59,7 +59,7 @@
     });
   //var servers = null;
   //var servers = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
-  var servers = { 'iceServers': [{ 'url': 'stun:74.125.142.127:19302' }] };
+  var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
   //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
   connection = new RTCPeerConnection(servers);
   //connection = new RTCPeerConnection({ iceServers: _iceServers });
@@ -112,9 +112,24 @@ function answer(message) {
             connection.createAnswer(function (desc) {
                 connection.setLocalDescription(desc, function () {
                     chat.server.answer(JSON.stringify({ "sdp": desc}));
+                },
+                function(e) {
+                    //alert('getUserMedia() error: ' + e.name);
+                    alert('Sorry, not set local description');
+                    //callButton.disabled = true;
                 });
-            });       
-    });    
+            },
+            function (e) {
+                //alert('getUserMedia() error: ' + e.name);
+                alert('Sorry, not set local description');
+                //callButton.disabled = true;
+            });
+    },
+    function (e) {
+        //alert('getUserMedia() error: ' + e.name);
+        alert('Sorry, not set remote description');
+        //callButton.disabled = true;
+    });
 }
 
 function addIceCandidate(message) {
@@ -149,7 +164,12 @@ function onCreateOfferSuccess(desc) {
   connection.setLocalDescription(desc, function () {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);
-  }); 
+  },
+  function(e) {
+      //alert('getUserMedia() error: ' + e.name);
+      alert('Sorry, not set local description');
+      //callButton.disabled = true;
+  });
 }
 
 function onSetLocalSuccess(connection) {
@@ -166,7 +186,12 @@ function onCreateAnswerSuccess(desc) {
   trace('pc2 setLocalDescription start');
   connection.setLocalDescription(desc, function () {
       onSetLocalSuccess(connection);
-  });  
+  },
+  function (e) {
+      //alert('getUserMedia() error: ' + e.name);
+      alert('Sorry, not set local description');
+      //callButton.disabled = true;
+  });
 }
 
 function onAddIceCandidateSuccess(connection) {

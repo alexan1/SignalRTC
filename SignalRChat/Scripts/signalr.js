@@ -13,7 +13,7 @@
         //$('#users').val(data);
         var dates = data.toString().replace(",", "<br />");
         trace('showUsersOnLine ' + data.toString());
-        $('#users').html('<li><strong>Users: </strong></li>' + dates);
+        $('#users').html('<li><strong>Online users: </strong></li>' + dates);
     };
 
     //chat.client.showUsers = function (user) {
