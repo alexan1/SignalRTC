@@ -2,8 +2,7 @@
 
     var callButton = document.getElementById('callButton');
     var hangupButton = document.getElementById('hangupButton');
-    callButton.disabled = false;
-    //hangupButton.disabled = true;    
+    callButton.disabled = false;    
     callButton.onclick = call;
     hangupButton.onclick = hangup;
 
@@ -47,11 +46,9 @@
     function start() {
         remoteVideo.hidden = true;
         hangupButton.disabled = true;
-  // Call into getUserMedia via the polyfill (adapter.js).
-  getUserMedia({
-      audio: true,
-      video: true
-    }, gotStream,
+    // Call into getUserMedia via the polyfill (adapter.js).
+        getUserMedia({ audio: true, video: true },
+        gotStream,
     function(e) {
         //alert('getUserMedia() error: ' + e.name);
         alert('Sorry, you web cam is absent or unavailable');
