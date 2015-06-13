@@ -89,6 +89,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="webrtc.png" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\chatroomone - Web Deploy %282%29.pubxml" />
