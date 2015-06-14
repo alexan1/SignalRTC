@@ -15,7 +15,7 @@
     
     var sdpConstraints = {
         'mandatory': {
-            'OfferToReceiveAudio': false,
+            'OfferToReceiveAudio': true,
             'OfferToReceiveVideo': true
         }
     };
@@ -48,26 +48,18 @@
         hangupButton.disabled = true;
     // Call into getUserMedia via the polyfill (adapter.js).
         getUserMedia({ audio: true, video: true },
-        gotStream,
-    function(e) {
-        //alert('getUserMedia() error: ' + e.name);
-        alert('Sorry, you web cam is absent or unavailable');
-        callButton.disabled = true;
-    });
-  //var servers = null;
-  //var servers = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
+        gotStream, errorHandler);   
+    
   var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
   //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
-  connection = new RTCPeerConnection(servers);
-  //connection = new RTCPeerConnection({ iceServers: _iceServers });
+  connection = new RTCPeerConnection(servers); 
   trace('Created connection object');  
   connection.onicecandidate = function (e) {      
       chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
   };
   connection.onaddstream = function (e) {      
       // Call the polyfill wrapper to attach the media stream to this element.
-      callButton.disabled = true;
-      //remoteVideo.hidden = false;
+      callButton.disabled = true;     
       attachMediaStream(remoteVideo, e.stream);
       trace('received remote stream');
   };     
@@ -94,7 +86,7 @@ function call() {
   }
 
   trace('connection createOffer start');
-  connection.createOffer(onCreateOfferSuccess, onCreateSessionDescriptionError);
+  connection.createOffer(onCreateOfferSuccess, errorHandler, sdpConstraints);
 }
 
 function answer(message) {
@@ -109,24 +101,9 @@ function answer(message) {
             connection.createAnswer(function (desc) {
                 connection.setLocalDescription(desc, function () {
                     chat.server.answer(JSON.stringify({ "sdp": desc}));
-                },
-                function(e) {
-                    //alert('getUserMedia() error: ' + e.name);
-                    alert('Sorry, not set local description');
-                    //callButton.disabled = true;
-                });
-            },
-            function (e) {
-                //alert('getUserMedia() error: ' + e.name);
-                alert('Sorry, not set local description');
-                //callButton.disabled = true;
-            });
-    },
-    function (e) {
-        //alert('getUserMedia() error: ' + e.name);
-        alert('Sorry, not set remote description');
-        //callButton.disabled = true;
-    });
+                }, errorHandler);                
+            }, errorHandler);            
+    }, errorHandler);    
 }
 
 function addIceCandidate(message) {
@@ -151,22 +128,13 @@ function gotStream(stream) {
     callButton.disabled = false;
 }
 
-function onCreateSessionDescriptionError(error) {
-  trace('Failed to create session description: ' + error.toString());
-}
-
 function onCreateOfferSuccess(desc) {
     trace('Offer created'); 
   trace('setLocalDescription start');
   connection.setLocalDescription(desc, function () {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);
-  },
-  function(e) {
-      //alert('getUserMedia() error: ' + e.name);
-      alert('Sorry, not set local description');
-      //callButton.disabled = true;
-  });
+  }, errorHandler);  
 }
 
 function onSetLocalSuccess(connection) {
@@ -183,13 +151,10 @@ function onCreateAnswerSuccess(desc) {
   trace('pc2 setLocalDescription start');
   connection.setLocalDescription(desc, function () {
       onSetLocalSuccess(connection);
-  },
-  function (e) {
-      //alert('getUserMedia() error: ' + e.name);
-      alert('Sorry, not set local description');
-      //callButton.disabled = true;
-  });
-}
+  }, errorHandler);}
+ 
+  
+
 
 function onAddIceCandidateSuccess(connection) {
   trace(' addIceCandidate success');
@@ -199,6 +164,9 @@ function onAddIceCandidateError(connection, error) {
   trace(' failed to add ICE Candidate: ' + error.toString());
 }
 
+var errorHandler = function (err) {
+    console.error(err);
+};
 
 function hangup() {
   trace('Ending call');
