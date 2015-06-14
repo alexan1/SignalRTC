@@ -89,6 +89,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sound\crow.wav" />
     <Content Include="webrtc.png" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP.pubxml" />
@@ -120,6 +121,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
