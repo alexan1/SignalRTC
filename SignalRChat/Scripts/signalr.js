@@ -10,7 +10,7 @@
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
     chat.client.showUsersOnLine = function (data) {       
-        var audio = new Audio('/sound/crow.wav');
+        var audio = new Audio('/sound/bottle-open-1.mp3');
         audio.play();
         var dates = data.toString().replace(/,/g, "<br />");       
         $('#users').html('<li><strong>Online users: </strong></li>' + dates);
