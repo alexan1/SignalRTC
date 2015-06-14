@@ -9,8 +9,9 @@
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
-    chat.client.showUsersOnLine = function (data) {        
-        var dates = data.toString().replace(",", "<br />");       
+    chat.client.showUsersOnLine = function (data) {
+        trace('users: ' + data);
+        var dates = data.toString().replace(/,/g, "<br />");       
         $('#users').html('<li><strong>Online users: </strong></li>' + dates);
     };   
 
