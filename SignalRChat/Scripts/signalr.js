@@ -14,7 +14,11 @@
         audio.play();
         var dates = data.toString().replace(/,/g, "<br />");       
         $('#users').html('<li><strong>Online users: </strong></li>' + dates);
-    };   
+    };
+
+    chat.client.hangUpVideo = function () {
+        hangup();
+    };
 
     chat.client.sendOffer = function (desc) {                     
         trace('Offer sent ' + desc);
@@ -52,5 +56,5 @@
                 $('#sendmessage').click();//Trigger search button click event
             }
         });        
-        start();
+        start(true);
     });

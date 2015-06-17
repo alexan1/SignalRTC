@@ -4,7 +4,11 @@
     var hangupButton = document.getElementById('hangupButton');
     callButton.disabled = false;    
     callButton.onclick = call;
-    hangupButton.onclick = hangup;
+    hangupButton.onclick = function () {
+        chat.server.hangUp();
+    };
+        
+        //hangup;
 
     var startTime;
     var localVideo = document.getElementById('localVideo');
@@ -43,31 +47,33 @@
         }
     };   
 
-    function start() {
-        remoteVideo.hidden = true;
-        hangupButton.disabled = true;
+function start(media) {
+    remoteVideo.hidden = true;
+    callButton.disabled = false;
+    hangupButton.disabled = true;
     // Call into getUserMedia via the polyfill (adapter.js).
+    if (media) {
         getUserMedia({ audio: true, video: true },
-        gotStream, errorWebCam);   
-    
-  var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
-  //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
-  connection = new RTCPeerConnection(servers); 
-  trace('Created connection object');  
-  connection.onicecandidate = function (e) {      
-      chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
-  };
-  connection.onaddstream = function (e) {      
-      // Call the polyfill wrapper to attach the media stream to this element.
-      callButton.disabled = true;     
-      attachMediaStream(remoteVideo, e.stream);
-      trace('received remote stream');
+        gotStream, errorWebCam);
+    }
+    var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
+    //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
+    connection = new RTCPeerConnection(servers); 
+    trace('Created connection object');  
+    connection.onicecandidate = function (e) {      
+        chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
+    };
+    connection.onaddstream = function (e) {      
+        // Call the polyfill wrapper to attach the media stream to this element.
+        callButton.disabled = true;     
+        attachMediaStream(remoteVideo, e.stream);
+        trace('received remote stream');
   };     
 }
 
 function call() {
     callButton.disabled = true;
-    remoteVideo.hidden = false;
+    remoteVideo.hidden = false;    
   hangupButton.disabled = false;
   trace('Starting call');
   startTime = window.performance.now();
@@ -176,10 +182,11 @@ var errorWebCam = function (err) {
 
 function hangup() {
   trace('Ending call');
-  //connection.close();  
-  //connection = null;
-  //start();
-  hangupButton.disabled = true;
-  callButton.disabled = false;
+  connection.close();  
+  connection = null;
   remoteVideo.hidden = true;
+  start(false);
+  //hangupButton.disabled = true;
+  //callButton.disabled = false;
+  
 }

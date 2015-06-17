@@ -57,6 +57,12 @@ namespace SignalRChat
             Clients.All.broadcastMessage(name, message);            
         }
 
+        public void HangUp()
+        {
+            // Call the broadcastMessage method to update clients.
+            Clients.All.hangUpVideo();
+        }
+
         public void Offer(string sdp)
         {            
             Clients.Others.sendOffer(sdp);
