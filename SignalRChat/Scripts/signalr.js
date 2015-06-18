@@ -12,8 +12,22 @@
     chat.client.showUsersOnLine = function (data) {       
         var audio = new Audio('/sound/bottle-open-1.mp3');
         audio.play();
-        var dates = data.toString().replace(/,/g, "<br />");       
-        $('#users').html('<li><strong>Online users: </strong></li>' + dates);
+        //var dates = data.toString().replace(/,/g, "<br />");
+        var dates = data.toString().split(',');
+        //trace('name: '+ $('#displayname').val());
+        //var ndates = dates.remove($('#displayname').val());
+        dates.splice(dates.indexOf($('#displayname').val()), 1);
+        //dates = $.grep(dates, function (value) {
+        //    return value != $('#displayname').val()
+        //});
+        var i;
+        trace('users = ' + dates);
+        //$('#users').html('<li><strong>Online users: </strong></li>' + dates);
+        //for (client in dates) {
+        $('#users').empty();
+        for (i = 0; i < dates.length; i++){
+            $('#users').append('<input type="radio" id=dates[i] value=dates[i] name="user"><label for="dates[i]">' + dates[i] + '</label><br/>');
+        }
     };
 
     chat.client.hangUpVideo = function () {
@@ -38,6 +52,7 @@
 // Get the user name and store it to prepend to messages.
     var name = prompt('Enter your name:', '');
     $('#displayname').val(name);
+    //$('#myName').val(name);
     //trace('prompt ' + name);  
     // Set initial focus to message input box.
     $('#message').focus();
