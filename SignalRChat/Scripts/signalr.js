@@ -25,20 +25,24 @@
         //dates = $.grep(dates, function (value) {
         //    return value != $('#displayname').val()
         //});
-        var i;
-        //trace('keys = ' + keysarray);
-        //trace('users = ' + users);
+        
+        trace('keys = ' + keysarray);
+        trace('users = ' + users);
         //$('#users').html('<li><strong>Online users: </strong></li>' + dates);
         //for (client in dates) {
-        $('#users').empty();
-        for (i = 0; i < keysarray.length; i++) {
-            var connectionId = conarray[i];
-            trace(connectionId);
-            $('#users').append('<label><input type="radio" id=keysarray[i] value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
+        if (keysarray[0] != null) {
+            var i;
+            $('#users').empty();
+            for (i = 0; i < keysarray.length; i++) {
+                var connectionId = conarray[i];
+                trace(connectionId);
+                $('#users').append('<label><input type="radio" value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
+                $('input[name="user"]').val('some value');
+            }
+            //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
+            //trace('connectionId = ', + connectionId);
+            trace($('input[name="user"]:checked', '#users').val());
         }
-        //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
-        //trace('connectionId = ', + connectionId);
-        trace($('input[name="user"]:checked', '#users').val());
     };
 
     chat.client.hangUpVideo = function () {
