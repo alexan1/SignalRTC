@@ -9,35 +9,24 @@
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
-    chat.client.showUsersOnLine = function (keys, connection) {       
-        var audio = new Audio('/sound/bottle-open-1.mp3');
-        audio.play();
-        //var dates = data.toString().replace(/,/g, "<br />");
+    chat.client.showUsersOnLine = function (keys, connection) {        
         var keysarray = keys.toString().split(',');
-        var conarray = connection.toString().split(',');
-        //trace('name: '+ $('#displayname').val());
-        //var ndates = dates.remove($('#displayname').val());
-        //trace('keys = ' + keysarray);
-        //trace('users = ' + users);
+        var conarray = connection.toString().split(',');        
         var number = keysarray.indexOf($('#displayname').val());
         keysarray.splice(number, 1);
-        conarray.splice(number, 1);
-        //dates = $.grep(dates, function (value) {
-        //    return value != $('#displayname').val()
-        //});
-        
-        trace('keys = ' + keysarray);
-        trace('users = ' + users);
-        //$('#users').html('<li><strong>Online users: </strong></li>' + dates);
-        //for (client in dates) {
+        conarray.splice(number, 1);        
+        //trace('keys = ' + keysarray);
+        //trace('users = ' + users);        
         if (keysarray[0] != null) {
+            var audio = new Audio('/sound/bottle-open-1.mp3');
+            audio.play();
             var i;
             $('#users').empty();
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
-                trace(connectionId);
+                //trace(connectionId);
                 $('#users').append('<label><input type="radio" value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
-                $('input[name="user"]').val('some value');
+                $('input[name="user"]').val(conarray[i]);
             }
             //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
             //trace('connectionId = ', + connectionId);
