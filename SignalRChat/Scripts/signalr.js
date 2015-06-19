@@ -9,25 +9,36 @@
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
-    chat.client.showUsersOnLine = function (data) {       
+    chat.client.showUsersOnLine = function (keys, connection) {       
         var audio = new Audio('/sound/bottle-open-1.mp3');
         audio.play();
         //var dates = data.toString().replace(/,/g, "<br />");
-        var dates = data.toString().split(',');
+        var keysarray = keys.toString().split(',');
+        var conarray = connection.toString().split(',');
         //trace('name: '+ $('#displayname').val());
         //var ndates = dates.remove($('#displayname').val());
-        dates.splice(dates.indexOf($('#displayname').val()), 1);
+        //trace('keys = ' + keysarray);
+        //trace('users = ' + users);
+        var number = keysarray.indexOf($('#displayname').val());
+        keysarray.splice(number, 1);
+        conarray.splice(number, 1);
         //dates = $.grep(dates, function (value) {
         //    return value != $('#displayname').val()
         //});
         var i;
-        trace('users = ' + dates);
+        //trace('keys = ' + keysarray);
+        //trace('users = ' + users);
         //$('#users').html('<li><strong>Online users: </strong></li>' + dates);
         //for (client in dates) {
         $('#users').empty();
-        for (i = 0; i < dates.length; i++){
-            $('#users').append('<input type="radio" id=dates[i] value=dates[i] name="user"><label for="dates[i]">' + dates[i] + '</label><br/>');
+        for (i = 0; i < keysarray.length; i++) {
+            var connectionId = conarray[i];
+            trace(connectionId);
+            $('#users').append('<label><input type="radio" id=keysarray[i] value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
         }
+        //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
+        //trace('connectionId = ', + connectionId);
+        trace($('input[name="user"]:checked', '#users').val());
     };
 
     chat.client.hangUpVideo = function () {

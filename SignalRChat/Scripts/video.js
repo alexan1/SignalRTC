@@ -76,6 +76,8 @@ function call() {
     remoteVideo.hidden = false;    
   hangupButton.disabled = false;
   trace('Starting call');
+  var connectionId = $('input:radio[name ="user"]:checked').val();
+  trace('connectionId = ', connectionId);
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
   var audioTracks = localStream.getAudioTracks();
@@ -136,7 +138,9 @@ function gotStream(stream) {
 
 function onCreateOfferSuccess(desc) {
     trace('Offer created'); 
-  trace('setLocalDescription start');
+    trace('setLocalDescription start');
+    //var connectionId = $("input:radio[name ='user']:checked").val();
+    //trace('connectionId = ', connectionId);
   connection.setLocalDescription(desc, function () {
     chat.server.offer(JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);

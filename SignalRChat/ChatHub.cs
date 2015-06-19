@@ -96,8 +96,8 @@ namespace SignalRChat
         }
 
         public void ShowUsersOnLine()
-        {            
-            Clients.All.showUsersOnLine(_connections.Keys);            
+        {
+            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);            
         } 
     }
 
@@ -119,6 +119,14 @@ namespace SignalRChat
             get
             {
                 return _connections.Keys.ToList();
+            }
+        }
+
+        public List<HashSet<string>> Values
+        {
+            get
+            {
+                return _connections.Values.ToList();
             }
         }
 
