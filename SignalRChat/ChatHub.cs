@@ -57,15 +57,24 @@ namespace SignalRChat
             Clients.All.broadcastMessage(name, message);            
         }
 
+        public void SendToUser(string userId, string name, string message)
+        {
+            // Call the broadcastMessage method to update clients.
+            //Clients.All.broadcastMessage(name, message);
+            //Clients..Others.broadcastMessage(name, message);
+            Clients.Client(userId).broadcastMessage(name, message);
+        }
+
         public void HangUp()
         {
             // Call the broadcastMessage method to update clients.
             Clients.All.hangUpVideo();
         }
 
-        public void Offer(string sdp)
-        {            
-            Clients.Others.sendOffer(sdp);
+        public void Offer(string connId, string sdp)
+        {
+            Clients.Client(connId).sendOffer(sdp);
+            //Clients.Others.sendOffer(sdp);
         }
 
         public void Answer(string sdp)
@@ -76,6 +85,7 @@ namespace SignalRChat
         public void IceCandidate(string ice)
         {
             Clients.Others.sendIce(ice);
+            //Clients.Client(connId).sendOffer(ice);
         }       
 
         private string GetClientName()

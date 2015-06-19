@@ -59,8 +59,11 @@ function start(media) {
     var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
     //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
     connection = new RTCPeerConnection(servers); 
-    trace('Created connection object');  
-    connection.onicecandidate = function (e) {      
+    trace('Created connection object');
+    var conn = $('input[name="user"]:checked', '#users').val();
+    trace('conn = ' + conn);
+    connection.onicecandidate = function (e) {
+
         chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
     };
     connection.onaddstream = function (e) {      
@@ -139,10 +142,10 @@ function gotStream(stream) {
 function onCreateOfferSuccess(desc) {
     trace('Offer created'); 
     trace('setLocalDescription start');
-    //var connectionId = $("input:radio[name ='user']:checked").val();
-    //trace('connectionId = ', connectionId);
+    var conn = $('input[name="user"]:checked', '#users').val();
+    trace('conn = ' + conn);
   connection.setLocalDescription(desc, function () {
-    chat.server.offer(JSON.stringify({ "sdp": desc }));
+      chat.server.offer(conn, JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);
   }, errorHandler);  
 }

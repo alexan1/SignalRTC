@@ -26,11 +26,12 @@
                 var connectionId = conarray[i];
                 //trace(connectionId);
                 $('#users').append('<label><input type="radio" value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
-                $('input[name="user"]').val(conarray[i]);
+                $('input[name="user"]:checked').val(conarray[i]);
             }
             //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
             //trace('connectionId = ', + connectionId);
-            trace($('input[name="user"]:checked', '#users').val());
+            //var conn = $('input[name="user"]:checked', '#users').val();
+            //trace('conn = '+ conn);
         }
     };
 
@@ -65,7 +66,10 @@
     $.connection.hub.start().done(function () {       
         $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());            
+            chat.server.send($('#displayname').val(), $('#message').val());
+            //var conn = $('input[name="user"]:checked', '#users').val();
+            //trace('conn = ' + conn);
+            //chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });       
