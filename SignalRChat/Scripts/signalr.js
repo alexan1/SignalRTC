@@ -33,6 +33,9 @@
             //var conn = $('input[name="user"]:checked', '#users').val();
             //trace('conn = '+ conn);
         }
+        else {
+            $('#users').empty();
+        }
     };
 
     chat.client.hangUpVideo = function () {
