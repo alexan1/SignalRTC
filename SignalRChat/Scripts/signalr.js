@@ -81,6 +81,9 @@
             if (e.which == 13) {//Enter key pressed
                 $('#sendmessage').click();//Trigger search button click event
             }
-        });        
+        });
+        $('#clearMessages').click(function () {
+            $('#discussion').empty();
+        });
         start(true);
     });
