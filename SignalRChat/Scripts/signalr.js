@@ -1,13 +1,18 @@
 ﻿    // Declare a proxy to reference the hub.
     var chat = $.connection.chatHub;
     // Create a function that the hub can call to broadcast messages.
-    chat.client.broadcastMessage = function (name, message) {
+    chat.client.broadcastMessage = function (priv, name, message) {
         // Html encode display name and message.      
         var encodedName = $('<div />').text(name).html();
         var encodedMsg = $('<div />').text(message).html();
         // Add the message to the page.
+        //$('#discussion').prepend('<li><strong>' + encodedName
+        //    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+        if (priv) {
+            message = "<font color='blue'><small>[private]</small></font>  " + message;
+        }
         $('#discussion').prepend('<li><strong>' + encodedName
-            + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            + '</strong>:&nbsp;&nbsp;' + message + '</li>');
     };
     chat.client.showUsersOnLine = function (keys, connection) {        
         var keysarray = keys.toString().split(',');
@@ -69,7 +74,16 @@
     $.connection.hub.start().done(function () {       
         $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());
+            trace('remove =' + remoteVideo.hidden);
+            if (remoteVideo.hidden == true) {
+                chat.server.send($('#displayname').val(), $('#message').val());
+            }
+            else {
+                var conn = $('input[name="user"]:checked', '#users').val();
+                    //$.connection.hub.id;//
+                trace('conn = ' + conn);
+                chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
+            }
             //var conn = $('input[name="user"]:checked', '#users').val();
             //trace('conn = ' + conn);
             //chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());

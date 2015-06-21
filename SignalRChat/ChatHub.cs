@@ -53,16 +53,20 @@ namespace SignalRChat
 
         public void Send(string name, string message)
         {
-            // Call the broadcastMessage method to update clients.
-            Clients.All.broadcastMessage(name, message);            
+            // Call the broadcastMessage method to update clients.            
+            Clients.All.broadcastMessage(false, name, message);            
         }
 
-        public void SendToUser(string userId, string name, string message)
+        public void SendToUser(string connId, string name, string message)
         {
             // Call the broadcastMessage method to update clients.
             //Clients.All.broadcastMessage(name, message);
-            //Clients..Others.broadcastMessage(name, message);
-            Clients.Client(userId).broadcastMessage(name, message);
+            //Clients.Others.broadcastMessage(name, message);
+            //message = "<small>[private]</smal> " + message;
+            //var priv = true;
+            Clients.Client(connId).broadcastMessage(true, name, message);
+            Clients.Client(Context.ConnectionId).broadcastMessage(true, name, message);
+
         }
 
         public void HangUp()
