@@ -66,7 +66,12 @@
     };    
 
 // Get the user name and store it to prepend to messages.
-    var name = prompt('Enter your name:', '');
+    var name = "";
+    name = getUrlVars()["user"];
+    trace('user = ' + name);
+    if (!name) {
+        var name = prompt('Enter your name:', '');
+    }
     $('#displayname').val(name);
     //$('#myName').val(name);
     //trace('prompt ' + name);  
@@ -104,3 +109,14 @@
         });
         start(true);
     });
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
