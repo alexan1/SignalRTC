@@ -13,6 +13,9 @@
         }
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
+
+        var audio = new Audio('/sound/page-flip-01a.mp3');
+        audio.play();
     };
     chat.client.showUsersOnLine = function (keys, connection) {        
         var keysarray = keys.toString().split(',');
