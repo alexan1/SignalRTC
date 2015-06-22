@@ -69,7 +69,7 @@
     var name = "";
     name = getUrlVars()["user"];
     trace('user = ' + name);
-    if (!name) {
+    if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
     $('#displayname').val(name);
