@@ -60,8 +60,8 @@ function start(media) {
     //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
     connection = new RTCPeerConnection(servers); 
     trace('Created connection object');
-    var conn = $('input[name="user"]:checked', '#users').val();
-    trace('conn = ' + conn);
+    //var conn = $('input[name="user"]:checked', '#users').val();
+    //trace('conn = ' + conn);
     connection.onicecandidate = function (e) {
 
         chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));

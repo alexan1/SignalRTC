@@ -1,4 +1,5 @@
-﻿    // Declare a proxy to reference the hub.
+﻿// Declare a proxy to reference the hub.
+//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
     var chat = $.connection.chatHub;
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (priv, name, message) {
@@ -68,7 +69,7 @@
 // Get the user name and store it to prepend to messages.
     var name = "";
     name = getUrlVars()["user"];
-    trace('user = ' + name);
+    //trace('user = ' + name);
     if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
