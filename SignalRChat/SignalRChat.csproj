@@ -108,6 +108,7 @@
     <Content Include="sound\bottle-open-1.mp3" />
     <Content Include="sound\crow.wav" />
     <Content Include="sound\page-flip-01a.mp3" />
+    <Content Include="videochat.html" />
     <Content Include="webrtc.png" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP.pubxml" />
