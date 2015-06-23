@@ -105,6 +105,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\utils.js" />
     <Content Include="sound\bottle-open-1.mp3" />
     <Content Include="sound\crow.wav" />
     <Content Include="sound\page-flip-01a.mp3" />
