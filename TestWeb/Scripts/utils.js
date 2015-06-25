@@ -11,3 +11,9 @@
     if (window.focus) { newwindow.focus() }
     return false;
 }
+
+$('#video').hidden = true;
+
+$('#start').click(function () {
+    start(true);
+});

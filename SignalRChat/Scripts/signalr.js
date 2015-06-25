@@ -108,7 +108,7 @@ $.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
         $('#clearMessages').click(function () {
             $('#discussion').empty();
         });
-        start(true);
+        //start(true);
     });
 
     function getUrlVars() {
