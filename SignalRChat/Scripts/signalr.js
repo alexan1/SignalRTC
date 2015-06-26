@@ -1,5 +1,11 @@
 ﻿// Declare a proxy to reference the hub.
-$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+//var url = window.location.href;
+//trace('url = ' + url);
+var scripts = document.getElementsByTagName("script"),
+src = toLocation(scripts[scripts.length - 1].src).origin;
+
+$.connection.hub.url = src + "/signalr";
+trace('connection url = ' + $.connection.hub.url);
     var chat = $.connection.chatHub;
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (priv, name, message) {
@@ -83,8 +89,9 @@ $.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
     $.connection.hub.start().done(function () {       
         $('#sendmessage').click(function () {            
             // Call the Send method on the hub.
-            trace('remove =' + remoteVideo.hidden);
-            if (remoteVideo.hidden == true) {
+            //trace('remove = ' + remoteVideo.hidden);
+            //trace('remove = ' + $('#video').hidden);
+            if ($('#remoteVideo').is(":visible") == false) {
                 chat.server.send($('#displayname').val(), $('#message').val());
             }
             else {
@@ -121,3 +128,9 @@ $.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
         }
         return vars;
     }
+
+    function toLocation(url) {
+        var a = document.createElement('a');
+        a.href = url;
+        return a;
+    };
