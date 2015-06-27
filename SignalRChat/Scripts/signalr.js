@@ -1,14 +1,15 @@
 ﻿// Declare a proxy to reference the hub.
 //var url = window.location.href;
 //trace('url = ' + url);
-
-function starting() {
-    var scripts = document.getElementsByTagName("script"),
+var scripts = document.getElementsByTagName("script"),
     src = toLocation(scripts[scripts.length - 1].src).origin;
+$.connection.hub.url = src + "/signalr";
+trace('connection url = ' + $.connection.hub.url);
+var chat = $.connection.chatHub;
 
-    $.connection.hub.url = src + "/signalr";
-    trace('connection url = ' + $.connection.hub.url);
-    var chat = $.connection.chatHub;
+function starting() {   
+
+    
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (priv, name, message) {
         // Html encode display name and message.      
