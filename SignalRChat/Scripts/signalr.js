@@ -1,11 +1,13 @@
 ﻿// Declare a proxy to reference the hub.
 //var url = window.location.href;
 //trace('url = ' + url);
-var scripts = document.getElementsByTagName("script"),
-src = toLocation(scripts[scripts.length - 1].src).origin;
 
-$.connection.hub.url = src + "/signalr";
-trace('connection url = ' + $.connection.hub.url);
+function starting() {
+    var scripts = document.getElementsByTagName("script"),
+    src = toLocation(scripts[scripts.length - 1].src).origin;
+
+    $.connection.hub.url = src + "/signalr";
+    trace('connection url = ' + $.connection.hub.url);
     var chat = $.connection.chatHub;
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (priv, name, message) {
@@ -24,12 +26,12 @@ trace('connection url = ' + $.connection.hub.url);
         var audio = new Audio('/sound/page-flip-01a.mp3');
         audio.play();
     };
-    chat.client.showUsersOnLine = function (keys, connection) {        
+    chat.client.showUsersOnLine = function (keys, connection) {
         var keysarray = keys.toString().split(',');
-        var conarray = connection.toString().split(',');        
+        var conarray = connection.toString().split(',');
         var number = keysarray.indexOf($('#displayname').val());
         keysarray.splice(number, 1);
-        conarray.splice(number, 1);        
+        conarray.splice(number, 1);
         //trace('keys = ' + keysarray);
         //trace('users = ' + users);        
         if (keysarray[0] != null) {
@@ -57,9 +59,9 @@ trace('connection url = ' + $.connection.hub.url);
         hangup();
     };
 
-    chat.client.sendOffer = function (desc) {                     
+    chat.client.sendOffer = function (desc) {
         trace('Offer sent ' + desc);
-        answer(JSON.parse(desc));       
+        answer(JSON.parse(desc));
     };
 
     chat.client.sendIce = function (desc) {
@@ -69,25 +71,31 @@ trace('connection url = ' + $.connection.hub.url);
 
     chat.client.sendAnswer = function (desc) {
         trace('Answer sent ' + desc);
-        getAnswer(JSON.parse(desc));        
-    };    
+        getAnswer(JSON.parse(desc));
+    };
 
-// Get the user name and store it to prepend to messages.
+    // Get the user name and store it to prepend to messages.
     var name = "";
     name = getUrlVars()["user"];
     //trace('user = ' + name);
     if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
+    //trace('user = ' + name);
+    if (name == null) {
+        name = Math.round(new Date().getTime());
+        //trace('user = ' + name);
+    }
+    $('#myname').val(name);
     $('#displayname').val(name);
     //$('#myName').val(name);
     //trace('prompt ' + name);  
     // Set initial focus to message input box.
     $('#message').focus();
-// Start the connection.
+    // Start the connection.
     $.connection.hub.qs = "userName=" + name;
-    $.connection.hub.start().done(function () {       
-        $('#sendmessage').click(function () {            
+    $.connection.hub.start().done(function () {
+        $('#sendmessage').click(function () {
             // Call the Send method on the hub.
             //trace('remove = ' + remoteVideo.hidden);
             //trace('remove = ' + $('#video').hidden);
@@ -96,7 +104,7 @@ trace('connection url = ' + $.connection.hub.url);
             }
             else {
                 var conn = $('input[name="user"]:checked', '#users').val();
-                    //$.connection.hub.id;//
+                //$.connection.hub.id;//
                 trace('conn = ' + conn);
                 chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
             }
@@ -105,9 +113,9 @@ trace('connection url = ' + $.connection.hub.url);
             //chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
-        });       
+        });
 
-        $('#message').keypress(function (e) {            
+        $('#message').keypress(function (e) {
             if (e.which == 13) {//Enter key pressed
                 $('#sendmessage').click();//Trigger search button click event
             }
@@ -115,8 +123,9 @@ trace('connection url = ' + $.connection.hub.url);
         $('#clearMessages').click(function () {
             $('#discussion').empty();
         });
-        //start(true);
+        start(true);
     });
+};
 
     function getUrlVars() {
         var vars = [], hash;
