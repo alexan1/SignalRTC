@@ -45,7 +45,9 @@ function starting() {
                 //trace(connectionId);
                 $('#users').append('<label><input type="radio" value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);
+                //$('input[name="user"]:checked').val(conarray[i]);
             }
+            $('input[name="user"][value="public"]').prop('checked', true);
             //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
             //trace('connectionId = ', + connectionId);
             //var conn = $('input[name="user"]:checked', '#users').val();
@@ -100,13 +102,12 @@ function starting() {
             // Call the Send method on the hub.
             //trace('remove = ' + remoteVideo.hidden);
             //trace('remove = ' + $('#video').hidden);
-            if ($('#remoteVideo').is(":visible") == false) {
+            var conn = $('input[name="user"]:checked').val();
+            trace('conn = ', conn);
+            if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
             }
-            else {
-                var conn = $('input[name="user"]:checked', '#users').val();
-                //$.connection.hub.id;//
-                trace('conn = ' + conn);
+            else {                
                 chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
             }
             //var conn = $('input[name="user"]:checked', '#users').val();
