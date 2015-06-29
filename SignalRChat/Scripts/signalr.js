@@ -19,7 +19,7 @@ function starting() {
         //$('#discussion').prepend('<li><strong>' + encodedName
         //    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
         if (priv) {
-            message = "<font color='blue'><small>[private]</small></font>  " + message;
+            message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
         }
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
@@ -43,9 +43,8 @@ function starting() {
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
                 //trace(connectionId);
-                $('#users').append('<label><input type="radio" value= connectionId name="user" checked>' + keysarray[i] + '</label><br/>');
-                $('input[name="user"]:checked').val(conarray[i]);
-                //$('input[name="user"]:checked').val(conarray[i]);
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '</label><br/>');
+                $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);
             //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
@@ -103,12 +102,15 @@ function starting() {
             //trace('remove = ' + remoteVideo.hidden);
             //trace('remove = ' + $('#video').hidden);
             var conn = $('input[name="user"]:checked').val();
-            trace('conn = ', conn);
+            //var conname = ($("label[for='" + conn + "']").text());
+            //var conname = $('input[name="user"]:checked').parent().next().find('label').text();
+            var conname = $('input[name="user"]:checked').next().text();
+            //trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
             }
             else {                
-                chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
+                chat.server.sendToUser(conname, conn, $('#displayname').val(), $('#message').val());
             }
             //var conn = $('input[name="user"]:checked', '#users').val();
             //trace('conn = ' + conn);

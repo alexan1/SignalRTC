@@ -75,12 +75,17 @@ function start(media) {
 }
 
 function call() {
+    var conn = $('input[name="user"]:checked').val();
+    trace('conn1 = ' + conn);
+    if (conn == "public") {
+        alert("Sorry, you need to select user with whom you want to have video chat.");
+        //hangup();
+        return;
+    }
     callButton.disabled = true;
     remoteVideo.hidden = false;    
   hangupButton.disabled = false;
-  trace('Starting call');
-  var connectionId = $('input:radio[name ="user"]:checked').val();
-  trace('connectionId = ', connectionId);
+  trace('Starting call');  
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
   var audioTracks = localStream.getAudioTracks();
@@ -142,8 +147,14 @@ function gotStream(stream) {
 function onCreateOfferSuccess(desc) {
     trace('Offer created'); 
     trace('setLocalDescription start');
-    var conn = $('input[name="user"]:checked', '#users').val();
-    trace('conn = ' + conn);
+    var conn = $('input[name="user"]:checked').val();
+    trace('conn2 = ' + conn);
+    if (conn == "public")
+    {
+        alert("Sorry, you need to select user with whom you want to have video chat.");
+        hangup();
+        return;
+    }
   connection.setLocalDescription(desc, function () {
       chat.server.offer(conn, JSON.stringify({ "sdp": desc }));
     onSetLocalSuccess(connection);
