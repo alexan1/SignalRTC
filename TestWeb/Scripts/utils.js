@@ -10,7 +10,12 @@ $('#start').click(function () {
 });
 
 $('#videocam').click(function () {   
-    $('#video').show();
-    $('#videocam').hide();
-    start(true);
+    $('#video').toggle();    
+    if ($('#video').is(':visible')) {
+        $('#videocam').html('Turn your webcam off');
+        start(true);
+    }
+    else {
+        $('#videocam').html('Turn your webcam on');
+    }
 });
