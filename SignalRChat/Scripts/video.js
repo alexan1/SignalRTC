@@ -195,6 +195,7 @@ var errorHandler = function (err) {
 var errorWebCam = function (err) {
     console.error(err);
     alert('Sorry, WebCam is absent');
+    $('#video').hide();
     callButton.disabled = true;
 };
 

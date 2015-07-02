@@ -24,15 +24,15 @@
         
 
         <div id="video">
-            <video id="remoteVideo" autoplay width="640" height="480"></video>
-            <video id="localVideo" autoplay muted title="Local video" width="320" height="240"></video>
-            <br/><br /><input id="displayname" disabled style="background-color: #99CCFF;" /><br/><br />
+            <video id="remoteVideo" autoplay width="640" height="480" controls></video>
+            <video id="localVideo" autoplay muted title="Local video" width="320" height="240"></video>            
             <div>
                 <button id="callButton">Call</button>
                 <button id="hangupButton">Hang Up</button>
             </div>
-        </div>
-        <br />
+        </div>        
+        <br /><input id="displayname" disabled style="background-color: #99CCFF;" /><br /><br />
+        <button id="videocam">Turn your webcam on</button><br /><br />
         <input type="text" id="message" />
         <input type="button" id="sendmessage" value="Message" />
         
@@ -46,9 +46,10 @@
         <p>This is video chat web application. It's based on <a href="http://www.webrtc.org/">WebRTC</a> for video communication and uses <a href="http://signalr.net/">SignalR</a> for text chat and signaling (establishing commection for video chat clients). </p>
         <p>Because of WebRTC restrictions it can be used only on Chrome and Firefox browsers (sorry, not IE).</p>
         <p>And of course you need web cam and should allow your browser to use it.</p>
-        <p>When you press <strong>Start</strong> button you should see your stream from your web cam and also list of users currently visiting this site.</p> 
+        <p>When you press <strong>Start</strong> button you will see all users currently visiting this site.</p> 
         <p>If you write messages in text box and send them to specific user (selecting radio button with user name) or to all users (Public option).</p>
-        <p>You can select user with whom you want to connect and press <strong>Call</strong> button.</p>
+        <p>You can activate your webcam by pressing <strong>Your webcam</strong> button.</p>
+        <p>You can select user with whom you want to have video chat press <strong>Call</strong> button.</p>
         <p>You can have video chat only with one user and at the same time to have text chat with him or with other users.</p>
         <p>When you want to stop video chat you press <strong>Hang Up</strong> button.</p>
         <p>There is no registration now and text messages not saved.</p>
