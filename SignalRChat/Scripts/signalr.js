@@ -127,7 +127,7 @@ function starting() {
         $('#clearMessages').click(function () {
             $('#discussion').empty();
         });
-        start(true);
+        //start(true);
     });
 };
 
