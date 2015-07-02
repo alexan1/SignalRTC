@@ -17,10 +17,10 @@ $('#start').click(function () {
 $('#videocam').click(function () {   
     $('#video').toggle();    
     if ($('#video').is(':visible')) {
-        $('#videocam').html('Turn your webcam off');
+        $('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
         start(true);
     }
     else {
-        $('#videocam').html('Turn your webcam on');
+        $('#videocam').html('Webcam (ON/<strong><u>OFF</u></strong>)');
     }
 });
