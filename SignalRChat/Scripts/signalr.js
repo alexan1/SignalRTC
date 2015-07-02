@@ -79,13 +79,13 @@ function starting() {
     // Get the user name and store it to prepend to messages.
     var name = "";
     name = getUrlVars()["user"];
-    //trace('user = ' + name);
+    trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
-    //trace('user = ' + name);
-    if (name == null) {
-        name = Math.round(new Date().getTime());
+    trace('user2 = ' + name);
+    if (!(name) || name == null) {
+        name = generateQuickGuid();//Math.round(new Date().getTime());
         //trace('user = ' + name);
     }
     $('#myname').val(name);
