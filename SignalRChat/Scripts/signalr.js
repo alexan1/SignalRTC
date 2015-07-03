@@ -20,7 +20,8 @@ function starting() {
         //    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
         if (priv) {
             message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
-        }
+        };
+        message = message + $.now();
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
 
