@@ -21,7 +21,7 @@ function starting() {
         if (priv) {
             message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
         };
-        message = message + $.now();
+        message = message + "    <font color='Gray'><small>" + getTime() + "</small></font>";
         $('#discussion').prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
 

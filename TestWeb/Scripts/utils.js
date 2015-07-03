@@ -5,6 +5,11 @@ function generateQuickGuid() {
         //+ Math.random().toString(36).substring(2, 15);
 }
 
+function getTime() {
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
+
 
 $('#start').click(function () {
     $('#content').show();
