@@ -7,17 +7,14 @@ $.connection.hub.url = src + "/signalr";
 trace('connection url = ' + $.connection.hub.url);
 var chat = $.connection.chatHub;
 
-function starting() {   
-
+function starting() {
     
     // Create a function that the hub can call to broadcast messages.
     chat.client.broadcastMessage = function (priv, name, message) {
         // Html encode display name and message.      
         var encodedName = $('<div />').text(name).html();
         var encodedMsg = $('<div />').text(message).html();
-        // Add the message to the page.
-        //$('#discussion').prepend('<li><strong>' + encodedName
-        //    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+        // Add the message to the page.       
         if (priv) {
             message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
         };
@@ -28,6 +25,7 @@ function starting() {
         var audio = new Audio('/sound/page-flip-01a.mp3');
         audio.play();
     };
+
     chat.client.showUsersOnLine = function (keys, connection) {
         var keysarray = keys.toString().split(',');
         var conarray = connection.toString().split(',');
@@ -47,11 +45,7 @@ function starting() {
                 $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '</label><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
-            $('input[name="user"][value="public"]').prop('checked', true);
-            //var connectionId = $('input:radio[name ="user"]:checked', '#users').val();
-            //trace('connectionId = ', + connectionId);
-            //var conn = $('input[name="user"]:checked', '#users').val();
-            //trace('conn = '+ conn);
+            $('input[name="user"][value="public"]').prop('checked', true);           
         }
         else {
             $('#users').empty();
@@ -77,10 +71,17 @@ function starting() {
         getAnswer(JSON.parse(desc));
     };
 
+    getUserName();
+    startHub();
+
+    
+};
+
+function getUserName() {
     // Get the user name and store it to prepend to messages.
     var name = "";
     name = getUrlVars()["user"];
-    trace('user1 = ' + name);
+    //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
@@ -91,31 +92,25 @@ function starting() {
     }
     $('#myname').val(name);
     $('#displayname').val(name);
-    //$('#myName').val(name);
-    //trace('prompt ' + name);  
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
     $.connection.hub.qs = "userName=" + name;
+};
+
+function startHub() {
     $.connection.hub.start().done(function () {
         $('#sendmessage').click(function () {
-            // Call the Send method on the hub.
-            //trace('remove = ' + remoteVideo.hidden);
-            //trace('remove = ' + $('#video').hidden);
+            // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
-            //var conname = ($("label[for='" + conn + "']").text());
-            //var conname = $('input[name="user"]:checked').parent().next().find('label').text();
             var conname = $('input[name="user"]:checked').next().text();
             //trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
             }
-            else {                
+            else {
                 chat.server.sendToUser(conname, conn, $('#displayname').val(), $('#message').val());
             }
-            //var conn = $('input[name="user"]:checked', '#users').val();
-            //trace('conn = ' + conn);
-            //chat.server.sendToUser(conn, $('#displayname').val(), $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
@@ -132,19 +127,4 @@ function starting() {
     });
 };
 
-    function getUrlVars() {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for (var i = 0; i < hashes.length; i++) {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
-    }
-
-    function toLocation(url) {
-        var a = document.createElement('a');
-        a.href = url;
-        return a;
-    };
+   
