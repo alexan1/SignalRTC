@@ -7,6 +7,12 @@ $.connection.hub.url = src + "/signalr";
 trace('connection url = ' + $.connection.hub.url);
 var chat = $.connection.chatHub;
 
+function toLocation(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a;
+};
+
 function starting() {
     
     // Create a function that the hub can call to broadcast messages.

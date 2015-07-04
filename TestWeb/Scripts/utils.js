@@ -21,12 +21,6 @@ function getUrlVars() {
     return vars;
 }
 
-function toLocation(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a;
-};
-
 
 $('#start').click(function () {
     $('#content').show();
