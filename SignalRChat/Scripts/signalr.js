@@ -91,6 +91,7 @@ function getUserName() {
     if (!(name) || name == "undefined") {
         var name = prompt('Enter your name:', '');
     }
+    name = $.trim(name);
     trace('user2 = ' + name);
     if (!(name) || name == null) {
         name = generateQuickGuid();//Math.round(new Date().getTime());
