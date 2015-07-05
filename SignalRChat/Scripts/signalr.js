@@ -78,9 +78,7 @@ function starting() {
     };
 
     getUserName();
-    startHub();
-
-    
+    startHub();    
 };
 
 function getUserName() {

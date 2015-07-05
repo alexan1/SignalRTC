@@ -37,6 +37,7 @@ $('#videocam').click(function () {
         start(true);
     }
     else {
+        localStream.stop();
         $('#videocam').html('Webcam (ON/<strong><u>OFF</u></strong>)');
     }
 });
