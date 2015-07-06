@@ -32,8 +32,8 @@ $('#start').click(function () {
 
 $('#videocam').click(function () {   
     $('#video').toggle();    
-    if ($('#video').is(':visible')) {
-        $('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
+    if ($('#localVideo').is(':visible')) {
+        //$('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
         start(true);
     }
     else {

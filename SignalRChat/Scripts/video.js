@@ -83,7 +83,10 @@ function call() {
         return;
     }
     callButton.disabled = true;
-    remoteVideo.hidden = false;    
+    $('#remoteVideo').show("slow", function() {
+            $('#videocam').hide();
+        });    
+    //remoteVideo.hidden = false;    
   hangupButton.disabled = false;
   trace('Starting call');  
   startTime = window.performance.now();
@@ -140,6 +143,7 @@ function gotStream(stream) {
     trace('Received local stream');
     // Call the polyfill wrapper to attach the media stream to this element.
     attachMediaStream(localVideo, stream);
+    $('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
     localStream = stream;
     callButton.disabled = false;
 }
