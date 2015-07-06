@@ -149,6 +149,7 @@ function onCreateOfferSuccess(desc) {
     trace('setLocalDescription start');
     var conn = $('input[name="user"]:checked').val();
     trace('conn2 = ' + conn);
+    $('#videocam').hide();
     if (conn == "public")
     {
         alert("Sorry, you need to select user with whom you want to have video chat.");
@@ -204,6 +205,7 @@ function hangup() {
   connection.close();  
   connection = null;
   remoteVideo.hidden = true;
+  $('#videocam').show();
   start(false);
   //hangupButton.disabled = true;
   //callButton.disabled = false;
