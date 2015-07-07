@@ -208,7 +208,8 @@ function hangup() {
   trace('Ending call');
   connection.close();  
   connection = null;
-  remoteVideo.hidden = true;
+    //remoteVideo.hidden = true;
+  $('#remoteVideo').hide();
   $('#videocam').show();
   start(false);
   //hangupButton.disabled = true;
