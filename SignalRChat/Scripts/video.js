@@ -83,7 +83,7 @@ function call() {
         return;
     }
     callButton.disabled = true;
-    $('#remoteVideo').show("slow", function() {
+    $('#remoteVideo').show(function() {
             $('#videocam').hide();
         });    
     //remoteVideo.hidden = false;    
@@ -109,7 +109,10 @@ function call() {
 }
 
 function answer(message) {
-    remoteVideo.hidden = false;
+    //remoteVideo.hidden = false;
+    $('#remoteVideo').show(function () {
+        $('#videocam').hide();
+    });
     hangupButton.disabled = false;
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
