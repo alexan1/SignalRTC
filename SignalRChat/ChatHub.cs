@@ -15,7 +15,7 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
 
-            name = GetClientName();// "Alex";
+            name = GetClientName();
 
             _connections.Add(name, Context.ConnectionId);
 
@@ -58,27 +58,20 @@ namespace SignalRChat
         }
 
         public void SendToUser(string toname, string connId, string name, string message)
-        {
-            // Call the broadcastMessage method to update clients.
-            //Clients.All.broadcastMessage(name, message);
-            //Clients.Others.broadcastMessage(name, message);
-            //message = "<small>[private]</smal> " + message;
-            //var priv = true;
+        {           
             Clients.Client(connId).broadcastMessage(toname, name, message);
             Clients.Client(Context.ConnectionId).broadcastMessage(toname, name, message);
 
         }
 
         public void HangUp()
-        {
-            // Call the broadcastMessage method to update clients.
+        {            
             Clients.All.hangUpVideo();
         }
 
         public void Offer(string connId, string sdp)
         {
-            Clients.Client(connId).sendOffer(sdp);
-            //Clients.Others.sendOffer(sdp);
+            Clients.Client(connId).sendOffer(sdp);            
         }
 
         public void Answer(string sdp)
@@ -88,8 +81,7 @@ namespace SignalRChat
 
         public void IceCandidate(string ice)
         {
-            Clients.Others.sendIce(ice);
-            //Clients.Client(connId).sendOffer(ice);
+            Clients.Others.sendIce(ice);           
         }       
 
         private string GetClientName()
