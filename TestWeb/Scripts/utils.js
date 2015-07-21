@@ -24,6 +24,7 @@ function getUrlVars() {
 
 $('#start').click(function () {
     $('#content').show();
+    $('#videocam').show();
     $('#video').hide();
     $('#info').hide();
     $('#start').hide();
