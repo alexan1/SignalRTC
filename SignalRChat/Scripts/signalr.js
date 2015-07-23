@@ -95,6 +95,7 @@ function getUserName() {
         name = generateQuickGuid();//Math.round(new Date().getTime());
         //trace('user = ' + name);
     }
+    console.trace('user = ' + name);
     $('#myname').val(name);
     $('#displayname').val(name);
     // Set initial focus to message input box.

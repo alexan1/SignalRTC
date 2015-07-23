@@ -68,8 +68,9 @@ function start(media) {
     };
     connection.onaddstream = function (e) {      
         // Call the polyfill wrapper to attach the media stream to this element.
-        callButton.disabled = true;     
-        attachMediaStream(remoteVideo, e.stream);
+        callButton.disabled = true;
+        $('#videocam').hide();
+        attachMediaStream(remoteVideo, e.stream);        
         trace('received remote stream');
   };     
 }
@@ -110,9 +111,9 @@ function call() {
 
 function answer(message) {
     //remoteVideo.hidden = false;
-    $('#remoteVideo').show(function () {
-        $('#videocam').hide();
-    });
+    $('#remoteVideo').show(); //function (); {
+    //    $('#videocam').hide();
+    //});
     hangupButton.disabled = false;
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       

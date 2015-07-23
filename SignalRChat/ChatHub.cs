@@ -9,7 +9,9 @@ namespace SignalRChat
 {
     public class ChatHub : Hub
     {         
-        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();       
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+
+        static List<User> ConnectedUsers = new List<User>();
 
         public override Task OnConnected()
         {
@@ -18,6 +20,9 @@ namespace SignalRChat
             name = GetClientName();
 
             _connections.Add(name, Context.ConnectionId);
+
+            var browser = "Chrome";
+            ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
 
             ShowUsersOnLine();
 
@@ -30,6 +35,8 @@ namespace SignalRChat
             name = GetClientName();
 
             _connections.Remove(name, Context.ConnectionId);
+
+            ConnectedUsers.Remove(new User() { Name = name, ConnectionId = Context.ConnectionId });
 
             ShowUsersOnLine();
 
@@ -44,6 +51,8 @@ namespace SignalRChat
             if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
             {
                 _connections.Add(name, Context.ConnectionId);
+                var browser = "Chrome";
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
             }
 
             ShowUsersOnLine();
@@ -103,8 +112,10 @@ namespace SignalRChat
 
         public void ShowUsersOnLine()
         {
-            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);            
-        } 
+            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
+            //Clients.All.showUsersOnLine(ConnectedUsers);
+
+        }
     }
 
     public class ConnectionMapping<T>
