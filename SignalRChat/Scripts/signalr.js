@@ -96,6 +96,7 @@ function getUserName() {
         //trace('user = ' + name);
     }
     console.trace('user = ' + name);
+    console.trace('browser = ' + webrtcDetectedBrowser);
     $('#myname').val(name);
     $('#displayname').val(name);
     // Set initial focus to message input box.
