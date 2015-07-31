@@ -9,7 +9,7 @@ namespace SignalRChat
 {
     public class ChatHub : Hub
     {         
-        //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
         static List<User> ConnectedUsers = new List<User>();
 
@@ -19,7 +19,7 @@ namespace SignalRChat
 
             name = GetClientName();
 
-            //_connections.Add(name, Context.ConnectionId);
+            _connections.Add(name, Context.ConnectionId);
 
             var browser = "Chrome";
             ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
@@ -34,7 +34,7 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
             name = GetClientName();
 
-            //_connections.Remove(name, Context.ConnectionId);
+            _connections.Remove(name, Context.ConnectionId);
 
             ConnectedUsers.Remove(new User() { Name = name, ConnectionId = Context.ConnectionId });
 
@@ -48,15 +48,9 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
             name = GetClientName();
 
-            //var count = 0;
-
-            //var count = ConnectedUsers.Count(c => c.ConnectionId == Context.ConnectionId);
-
-            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
-            //if (count == 0)
-            if (false)
-                {
-                //_connections.Add(name, Context.ConnectionId);
+            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
+            {
+                _connections.Add(name, Context.ConnectionId);
                 var browser = "Chrome";
                 ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
             }
@@ -118,93 +112,90 @@ namespace SignalRChat
 
         public void ShowUsersOnLine()
         {
-            //Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
-            var names = ConnectedUsers.Select(C => C.Name).ToList();
-            var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
-            Clients.All.showUsersOnLine(names, connections);
+            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
+            //Clients.All.showUsersOnLine(ConnectedUsers);
 
         }
     }
 
-    //public class ConnectionMapping<T>
-    //{
-    //    private readonly Dictionary<T, HashSet<string>> _connections =
-    //        new Dictionary<T, HashSet<string>>();
+    public class ConnectionMapping<T>
+    {
+        private readonly Dictionary<T, HashSet<string>> _connections =
+            new Dictionary<T, HashSet<string>>();
 
-    //    public int Count
-    //    {
-    //        get
-    //        {
-    //            return _connections.Count;
-    //        }
-    //    }
+        public int Count
+        {
+            get
+            {
+                return _connections.Count;
+            }
+        }
 
-    //    public List<T> Keys
-    //    {
-    //        get
-    //        {
-    //            return _connections.Keys.ToList();
-    //        }
-    //    }
+        public List<T> Keys
+        {
+            get
+            {
+                return _connections.Keys.ToList();
+            }
+        }
 
-    //    public List<HashSet<string>> Values
-    //    {
-    //        get
-    //        {
-    //            return _connections.Values.ToList();
-    //        }
-    //    }
+        public List<HashSet<string>> Values
+        {
+            get
+            {
+                return _connections.Values.ToList();
+            }
+        }
 
-    //    public void Add(T key, string connectionId)
-    //    {
-    //        lock (_connections)
-    //        {
-    //            HashSet<string> connections;
-    //            if (!_connections.TryGetValue(key, out connections))
-    //            {
-    //                connections = new HashSet<string>();
-    //                _connections.Add(key, connections);
-    //            }
+        public void Add(T key, string connectionId)
+        {
+            lock (_connections)
+            {
+                HashSet<string> connections;
+                if (!_connections.TryGetValue(key, out connections))
+                {
+                    connections = new HashSet<string>();
+                    _connections.Add(key, connections);
+                }
 
-    //            lock (connections)
-    //            {
-    //                connections.Add(connectionId);
-    //            }
-    //        }
-    //    }
+                lock (connections)
+                {
+                    connections.Add(connectionId);
+                }
+            }
+        }
 
-    //    public IEnumerable<string> GetConnections(T key)
-    //    {
-    //        HashSet<string> connections;
-    //        if (_connections.TryGetValue(key, out connections))
-    //        {
-    //            return connections;
-    //        }
+        public IEnumerable<string> GetConnections(T key)
+        {
+            HashSet<string> connections;
+            if (_connections.TryGetValue(key, out connections))
+            {
+                return connections;
+            }
 
-    //        return Enumerable.Empty<string>();
-    //    }       
+            return Enumerable.Empty<string>();
+        }       
 
-    //    public void Remove(T key, string connectionId)
-    //    {
-    //        lock (_connections)
-    //        {
-    //            HashSet<string> connections;
-    //            if (!_connections.TryGetValue(key, out connections))
-    //            {
-    //                return;
-    //            }
+        public void Remove(T key, string connectionId)
+        {
+            lock (_connections)
+            {
+                HashSet<string> connections;
+                if (!_connections.TryGetValue(key, out connections))
+                {
+                    return;
+                }
 
-    //            lock (connections)
-    //            {
-    //                connections.Remove(connectionId);
+                lock (connections)
+                {
+                    connections.Remove(connectionId);
 
-    //                if (connections.Count == 0)
-    //                {
-    //                    _connections.Remove(key);
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
+                    if (connections.Count == 0)
+                    {
+                        _connections.Remove(key);
+                    }
+                }
+            }
+        }
+    }
 }
