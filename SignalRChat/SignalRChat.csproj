@@ -116,6 +116,7 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\signalr-start.js" />
     <Content Include="signalRTCicon.png" />
     <Content Include="sound\bottle-open-1.mp3" />
     <Content Include="sound\crow.wav" />
