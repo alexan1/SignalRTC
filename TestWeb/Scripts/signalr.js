@@ -1,21 +1,25 @@
 ﻿// Declare a proxy to reference the hub.
 //var url = window.location.href;
 //trace('url = ' + url);
-var scripts = document.getElementsByTagName("script"),
-    src = toLocation(scripts[scripts.length - 1].src).origin;
-$.connection.hub.url = src + "/signalr";
-trace('connection url = ' + $.connection.hub.url);
-var chat = $.connection.chatHub;
+//var scripts = document.getElementsByTagName("script"),
+//    src = toLocation(scripts[scripts.length - 1].src).origin;
+//$.connection.hub.url = src + "/signalr";
+//trace('connection url = ' + $.connection.hub.url);
+//var chat = $.connection.chatHub;
 
-function toLocation(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a;
-};
+//function toLocation(url) {
+//    var a = document.createElement('a');
+//    a.href = url;
+//    return a;
+//};
+
+//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+$.connection.hub.url = "http://localhost:52527/signalr";
+var chat = $.connection.chatHub;
 
 function starting() {
     
-    // Create a function that the hub can call to broadcast messages.
+    // Create a function that the hub can call to broadcast messages.    
     chat.client.broadcastMessage = function (priv, name, message) {
         // Html encode display name and message.      
         var encodedName = $('<div />').text(name).html();
@@ -90,7 +94,7 @@ function getUserName() {
         var name = prompt('Enter your name:', '');
     }
     name = $.trim(name);
-    trace('user2 = ' + name);
+    //trace('user2 = ' + name);
     if (!(name) || name == null) {
         name = generateQuickGuid();//Math.round(new Date().getTime());
         //trace('user = ' + name);
