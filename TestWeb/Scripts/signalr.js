@@ -36,14 +36,17 @@ function starting() {
         audio.play();
     };
 
-    chat.client.showUsersOnLine = function (keys, connection) {
+    chat.client.showUsersOnLine = function (keys, connection, browsers) {
+        console.trace('keys = ' + keys);
+        console.trace('connection = ' + connection);
+        console.trace('browsers = ' + browsers);
         var keysarray = keys.toString().split(',');
         var conarray = connection.toString().split(',');
+        var browserarray = browsers.toString().split(',');
         var number = keysarray.indexOf($('#displayname').val());
         keysarray.splice(number, 1);
         conarray.splice(number, 1);
-        //trace('keys = ' + keysarray);
-        //trace('users = ' + users);        
+        browserarray.splice(number, 1);        
         if (keysarray[0] != null) {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
@@ -52,7 +55,7 @@ function starting() {
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
                 //trace(connectionId);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '</label><br/>');
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '  ' + browserarray[i] + '</label><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           
@@ -106,7 +109,8 @@ function getUserName() {
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
-    $.connection.hub.qs = "userName=" + name;
+    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
+    //$.connection.hub.qs = "browser=" + webrtcDetectedBrowser;
 };
 
 function startHub() {

@@ -18,12 +18,12 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
 
             name = GetClientName();
-
+            var browser = GetBrowser();
             //_connections.Add(name, Context.ConnectionId);
 
             if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
             {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId });
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser });
             };
 
             ShowUsersOnLine();
@@ -51,7 +51,8 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
             name = GetClientName();
-            
+            var browser = GetBrowser();
+
             //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))           
             //{
             //    _connections.Add(name, Context.ConnectionId);                
@@ -59,7 +60,7 @@ namespace SignalRChat
 
             if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
             {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId});
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser });
             };
 
 
@@ -118,12 +119,25 @@ namespace SignalRChat
             return clientName;
         }
 
+        private string GetBrowser()
+        {
+            string browser = "My Browser";
+            if (!(Context.QueryString["browser"] == null))
+            {
+                //clientId passed from application 
+                browser = Context.QueryString["browser"].ToString();
+            }
+            
+            return browser;
+        }
+
         public void ShowUsersOnLine()
         {
             //Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
             var names = ConnectedUsers.Select(C => C.Name).ToList();
             var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
-            Clients.All.showUsersOnLine(names, connections);
+            var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
+            Clients.All.showUsersOnLine(names, connections, browsers);
 
         }
     }
