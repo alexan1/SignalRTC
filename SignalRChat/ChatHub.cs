@@ -9,9 +9,9 @@ namespace SignalRChat
 {
     public class ChatHub : Hub
     {         
-        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+        //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
-        //static List<User> ConnectedUsers = new List<User>();
+        static List<User> ConnectedUsers = new List<User>();
 
         public override Task OnConnected()
         {
@@ -19,10 +19,12 @@ namespace SignalRChat
 
             name = GetClientName();
 
-            _connections.Add(name, Context.ConnectionId);
+            //_connections.Add(name, Context.ConnectionId);
 
-            //var browser = "Chrome";
-            //ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
+            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
+            {
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId });
+            };
 
             ShowUsersOnLine();
 
@@ -34,10 +36,11 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
             name = GetClientName();
 
-            _connections.Remove(name, Context.ConnectionId);
+            //_connections.Remove(name, Context.ConnectionId);
 
-            //ConnectedUsers.Remove(new User() { Name = name, ConnectionId = Context.ConnectionId });
-            
+            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+
+            ConnectedUsers.Remove(item);
 
             ShowUsersOnLine();
 
@@ -48,19 +51,17 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
             name = GetClientName();
+            
+            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))           
+            //{
+            //    _connections.Add(name, Context.ConnectionId);                
+            //};
 
-            //var count = 0;
+            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
+            {
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId});
+            };
 
-            //var count = ConnectedUsers.Count(c => c.ConnectionId == Context.ConnectionId);
-
-            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
-            //if (count == 0)
-            //if (false)
-                {
-                _connections.Add(name, Context.ConnectionId);
-                //var browser = "Chrome";
-                //ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
-            }
 
             ShowUsersOnLine();
 
@@ -119,93 +120,11 @@ namespace SignalRChat
 
         public void ShowUsersOnLine()
         {
-            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
-            //var names = ConnectedUsers.Select(C => C.Name).ToList();
-            //var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
-            //Clients.All.showUsersOnLine(names, connections);
+            //Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
+            var names = ConnectedUsers.Select(C => C.Name).ToList();
+            var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
+            Clients.All.showUsersOnLine(names, connections);
 
         }
     }
-
-    public class ConnectionMapping<T>
-    {
-        private readonly Dictionary<T, HashSet<string>> _connections =
-            new Dictionary<T, HashSet<string>>();
-
-        public int Count
-        {
-            get
-            {
-                return _connections.Count;
-            }
-        }
-
-        public List<T> Keys
-        {
-            get
-            {
-                return _connections.Keys.ToList();
-            }
-        }
-
-        public List<HashSet<string>> Values
-        {
-            get
-            {
-                return _connections.Values.ToList();
-            }
-        }
-
-        public void Add(T key, string connectionId)
-        {
-            lock (_connections)
-            {
-                HashSet<string> connections;
-                if (!_connections.TryGetValue(key, out connections))
-                {
-                    connections = new HashSet<string>();
-                    _connections.Add(key, connections);
-                }
-
-                lock (connections)
-                {
-                    connections.Add(connectionId);
-                }
-            }
-        }
-
-        public IEnumerable<string> GetConnections(T key)
-        {
-            HashSet<string> connections;
-            if (_connections.TryGetValue(key, out connections))
-            {
-                return connections;
-            }
-
-            return Enumerable.Empty<string>();
-        }
-
-        public void Remove(T key, string connectionId)
-        {
-            lock (_connections)
-            {
-                HashSet<string> connections;
-                if (!_connections.TryGetValue(key, out connections))
-                {
-                    return;
-                }
-
-                lock (connections)
-                {
-                    connections.Remove(connectionId);
-
-                    if (connections.Count == 0)
-                    {
-                        _connections.Remove(key);
-                    }
-                }
-            }
-        }
-    }
-
 }
