@@ -118,7 +118,7 @@ function startHub() {
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
-            var conname = $('input[name="user"]:checked').next().text();
+            var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
             //trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
