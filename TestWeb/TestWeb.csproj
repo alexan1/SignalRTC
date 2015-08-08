@@ -78,6 +78,7 @@
     <Content Include="Scripts\signalr.js" />
     <Content Include="Scripts\utils.js" />
     <Content Include="Scripts\video.js" />
+    <Content Include="signalrtc.css" />
     <Content Include="signalRTCicon.png" />
     <Content Include="sound\bottle-open-1.mp3" />
     <Content Include="sound\page-flip-01a.mp3" />
