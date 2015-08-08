@@ -55,7 +55,7 @@ function starting() {
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
                 //trace(connectionId);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '  ' + browserarray[i] + '</label><br/>');
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '</label>  ' + browserarray[i] + '<br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           
