@@ -56,7 +56,7 @@ function start(media) {
     $("#hangupButton").prop('disabled', true);
     // Call into getUserMedia via the polyfill (adapter.js).
     if (media) {
-        getUserMedia({ audio: true, video: true },
+        navigator.getUserMedia({ audio: true, video: true },
         gotStream, errorWebCam);
     }
     var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
