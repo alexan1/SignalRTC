@@ -50,32 +50,39 @@
         }
     };   
 
-function start(media) {
-    $("#remoteVideo").hide();
-    $("#callButton").prop('disabled', false);
-    $("#hangupButton").prop('disabled', true);
-    // Call into getUserMedia via the polyfill (adapter.js).
-    if (media) {
-        navigator.getUserMedia({ audio: true, video: true },
-        gotStream, errorWebCam);
-    }
-    var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
-    //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
-    connection = new RTCPeerConnection(servers); 
-    trace('Created connection object');
-    //var conn = $('input[name="user"]:checked', '#users').val();
-    //trace('conn = ' + conn);
-    connection.onicecandidate = function (e) {
+    function start(media) {
+        $("#remoteVideo").hide();
+        $("#callButton").prop('disabled', false);
+        $("#hangupButton").prop('disabled', true);
+        // Call into getUserMedia via the polyfill (adapter.js).    
+        if (media && navigator.getUserMedia) {
+            navigator.getUserMedia({ audio: true, video: true },
+            gotStream, errorWebCam);
+        };   
 
-        chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
-    };
-    connection.onaddstream = function (e) {      
-        // Call the polyfill wrapper to attach the media stream to this element.
-        $("#callButton").prop('disabled', true);
-        $('#videocam').hide();
-        attachMediaStream(remoteVideo, e.stream);        
-        trace('received remote stream');
-  };     
+        if (RTCPeerConnection) {
+            var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
+            //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
+            connection = new RTCPeerConnection(servers);
+            trace('Created connection object');
+            //var conn = $('input[name="user"]:checked', '#users').val();
+            //trace('conn = ' + conn);
+            connection.onicecandidate = function (e) {
+
+                chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
+            };
+            connection.onaddstream = function (e) {
+                // Call the polyfill wrapper to attach the media stream to this element.
+                $("#callButton").prop('disabled', true);
+                $('#videocam').hide();
+                attachMediaStream(remoteVideo, e.stream);
+                trace('received remote stream');
+            };
+            $('#call').show();
+        }
+        else {
+            $('#call').hide();
+        };
 }
 
 function call() {

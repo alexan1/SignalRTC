@@ -24,7 +24,12 @@ function getUrlVars() {
 
 $('#start').click(function () {
     $('#content').show();
-    $('#videocam').show();
+    if (navigator.getUserMedia) {
+        $('#videocam').show();
+    }
+    else {
+        $('#videocam').hide();
+    }
     $('#video').hide();
     $('#info').hide();
     $('#start').hide();
