@@ -121,7 +121,7 @@ namespace SignalRChat
 
         private string GetBrowser()
         {
-            string browser = "My Browser";
+            string browser = "no WebRTC";
             if (!(Context.QueryString["browser"] == null))
             {
                 //clientId passed from application 

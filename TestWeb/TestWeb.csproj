@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\alexan.pubxml" />
+    <Content Include="favicon.ico" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

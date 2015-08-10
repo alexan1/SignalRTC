@@ -113,6 +113,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="signalRTCicon.png" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\chatroomone - FTP.pubxml" />
