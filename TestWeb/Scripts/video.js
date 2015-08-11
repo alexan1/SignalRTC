@@ -54,9 +54,10 @@
         $("#remoteVideo").hide();
         $("#callButton").prop('disabled', false);
         $("#hangupButton").prop('disabled', true);
-        // Call into getUserMedia via the polyfill (adapter.js).    
+        // Call into getUserMedia via the polyfill (adapter.js). 
+        var constraints = { audio: true, video: true };
         if (media && navigator.getUserMedia) {
-            navigator.getUserMedia({ audio: true, video: true },
+            navigator.getUserMedia(constraints,
             gotStream, errorWebCam);
         };   
 
@@ -157,7 +158,7 @@ function gotStream(stream) {
     trace('Received local stream');
     // Call the polyfill wrapper to attach the media stream to this element.
     attachMediaStream($("#localVideo")[0], stream);
-    $('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
+    $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
     localStream = stream;
     $("#callButton").prop('disabled', false);
 }
@@ -214,6 +215,18 @@ var errorHandler = function (err) {
 var errorWebCam = function (err) {
     console.error(err);
     alert('Sorry, WebCam is absent');
+    var constraints = { audio: true, video: false };
+    navigator.getUserMedia(constraints,
+            gotStream, errorWebCam);
+    $('#localVideo').hide();
+    //$('#videocam').html('Mic (<strong><u>ON</u></strong>/OFF)');
+    //$('#video').hide();
+    //$("#callButton").prop('disabled', true);
+};
+
+var errorMic = function (err) {
+    console.error(err);
+    alert('Sorry, Mic is absent');    
     $('#video').hide();
     $("#callButton").prop('disabled', true);
 };

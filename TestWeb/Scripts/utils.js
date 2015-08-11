@@ -44,6 +44,6 @@ $('#videocam').click(function () {
     }
     else {
         localStream.stop();
-        $('#videocam').html('Webcam (ON/<strong><u>OFF</u></strong>)');
+        $('#videocam').html('Webcam/Audio (ON/<strong><u>OFF</u></strong>)');
     }
 });
