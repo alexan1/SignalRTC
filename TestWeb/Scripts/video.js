@@ -54,6 +54,7 @@
         $("#remoteVideo").hide();
         $("#callButton").prop('disabled', false);
         $("#hangupButton").prop('disabled', true);
+        $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
         // Call into getUserMedia via the polyfill (adapter.js). 
         var constraints = { audio: true, video: true };
         if (media && navigator.getUserMedia) {
