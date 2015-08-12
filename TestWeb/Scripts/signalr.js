@@ -13,8 +13,8 @@
 //    return a;
 //};
 
-$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-//$.connection.hub.url = "http://localhost:52527/signalr";
+//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+$.connection.hub.url = "http://localhost:52527/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
@@ -36,17 +36,20 @@ function starting() {
         audio.play();
     };
 
-    chat.client.showUsersOnLine = function (keys, connection, browsers) {
+    chat.client.showUsersOnLine = function (keys, connection, browsers, medias) {
         console.trace('keys = ' + keys);
         console.trace('connection = ' + connection);
         console.trace('browsers = ' + browsers);
+        console.trace('medias = ' + medias);
         var keysarray = keys.toString().split(',');
         var conarray = connection.toString().split(',');
         var browserarray = browsers.toString().split(',');
+        var mediaarray = medias.toString().split(',');
         var number = keysarray.indexOf($('#displayname').val());
         keysarray.splice(number, 1);
         conarray.splice(number, 1);
-        browserarray.splice(number, 1);        
+        browserarray.splice(number, 1);
+        mediaarray.splice(number, 1);
         if (keysarray[0] != null) {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
@@ -54,8 +57,26 @@ function starting() {
             $('#users').empty();
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
+                var media = mediaarray[i];
+                console.trace('media = ' + media);
+                var med = " ";
+                switch (media) {
+                    case 0:
+                        break;
+                        med = " ";
+                    case 1:
+                        med = "WebCam";
+                        break;
+                    case 2:
+                        med = "Mic";
+                        break;
+                    //default:
+                    //    med = "Nothing";
+                    //    break;
+                }
+                
                 //trace(connectionId);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/</small></font><br/>');
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '  ' + med + '/</small></font><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           

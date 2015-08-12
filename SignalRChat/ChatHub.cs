@@ -8,8 +8,7 @@ using System.Web.Security;
 namespace SignalRChat
 {
     public class ChatHub : Hub
-    {         
-        //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+    {               
 
         static List<User> ConnectedUsers = new List<User>();
 
@@ -18,12 +17,11 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
 
             name = GetClientName();
-            var browser = GetBrowser();
-            //_connections.Add(name, Context.ConnectionId);
+            var browser = GetBrowser();            
 
             if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
             {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser });
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
             };
 
             ShowUsersOnLine();
@@ -35,9 +33,7 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
             name = GetClientName();
-
-            //_connections.Remove(name, Context.ConnectionId);
-
+            
             var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 
             ConnectedUsers.Remove(item);
@@ -52,15 +48,10 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
             name = GetClientName();
             var browser = GetBrowser();
-
-            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))           
-            //{
-            //    _connections.Add(name, Context.ConnectionId);                
-            //};
-
+            
             if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
             {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser });
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
             };
 
 
@@ -131,13 +122,20 @@ namespace SignalRChat
             return browser;
         }
 
-        public void ShowUsersOnLine()
+        public void ActivateMedia()
         {
-            //Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
+            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            item.BroMedia = Media.WebCam;
+            ShowUsersOnLine();
+        }
+
+        public void ShowUsersOnLine()
+        {            
             var names = ConnectedUsers.Select(C => C.Name).ToList();
             var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
             var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
-            Clients.All.showUsersOnLine(names, connections, browsers);
+            var medias = ConnectedUsers.Select(C => C.BroMedia).ToList();
+            Clients.All.showUsersOnLine(names, connections, browsers, medias);
 
         }
     }

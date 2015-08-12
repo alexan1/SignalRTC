@@ -162,6 +162,7 @@ function gotStream(stream) {
     $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
     localStream = stream;
     $("#callButton").prop('disabled', false);
+    chat.server.activateMedia();
 }
 
 function onCreateOfferSuccess(desc) {
