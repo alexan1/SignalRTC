@@ -13,8 +13,8 @@
 //    return a;
 //};
 
-//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-$.connection.hub.url = "http://localhost:52527/signalr";
+$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+//$.connection.hub.url = "http://localhost:52527/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
@@ -76,7 +76,7 @@ function starting() {
                 }
                 
                 console.trace('med = ' + med);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/ </small></font><font color="Red"><small>/  ' + med + '</small></font><br/>');
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/ </small></font><font color="Red"><small>  ' + med + '</small></font><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           

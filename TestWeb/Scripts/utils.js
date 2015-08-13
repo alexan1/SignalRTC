@@ -45,5 +45,6 @@ $('#videocam').click(function () {
     else {
         localStream.stop();
         $('#videocam').html('Webcam/Audio (ON/<strong><u>OFF</u></strong>)');
+        chat.server.activateMedia(false);
     }
 });
