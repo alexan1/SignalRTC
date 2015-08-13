@@ -61,22 +61,22 @@ function starting() {
                 console.trace('media = ' + media);
                 var med = " ";
                 switch (media) {
-                    case 0:
-                        break;
+                    case "0":                        
                         med = " ";
-                    case 1:
+                        break;
+                    case "1":
                         med = "WebCam";
                         break;
-                    case 2:
+                    case "2":
                         med = "Mic";
                         break;
-                    //default:
-                    //    med = "Nothing";
-                    //    break;
+                    default:
+                        med = "Nothing";
+                        break;
                 }
                 
-                //trace(connectionId);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '  ' + med + '/</small></font><br/>');
+                console.trace('med = ' + med);
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/ </small></font><font color="Red"><small>/  ' + med + '</small></font><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           
