@@ -248,13 +248,10 @@ var errorMic = function (err) {
 function hangup() {
   trace('Ending call');
   connection.close();  
-  connection = null;
-    //remoteVideo.hidden = true;
+  connection = null;    
   $('#remoteVideo').hide();
-  $('#device').show();
-    //start(false);
+  $('#device').show();   
   connect();
-  //hangupButton.disabled = true;
-  //callButton.disabled = false;
-  
+  $("#callButton").prop('disabled', false);
+  $("#hangupButton").prop('disabled', true);  
 }
