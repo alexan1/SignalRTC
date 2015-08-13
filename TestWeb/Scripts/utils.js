@@ -25,10 +25,10 @@ function getUrlVars() {
 $('#start').click(function () {
     $('#content').show();
     if (navigator.getUserMedia) {
-        $('#videocam').show();
+        $('#device').show();
     }
     else {
-        $('#videocam').hide();
+        $('#device').hide();
     }
     $('#video').hide();
     $('#info').hide();
@@ -40,11 +40,25 @@ $('#videocam').click(function () {
     $('#video').toggle();    
     if ($('#localVideo').is(':visible')) {
         //$('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
-        start(true);
+        startDev(1);
+        connect();
     }
     else {
         localStream.stop();
         $('#videocam').html('Webcam/Audio (ON/<strong><u>OFF</u></strong>)');
+        chat.server.activateMedia(false);
+    }
+});
+
+$('#mic').click(function () {
+    $('#video').toggle();
+    if ($('#localVideo').is(':visible')) {        
+        startDev(2);
+        connect();
+    }
+    else {
+        localStream.stop();
+        $('#mic').html('Microphone (ON/<strong><u>OFF</u></strong>)');
         chat.server.activateMedia(false);
     }
 });

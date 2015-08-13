@@ -50,18 +50,33 @@
         }
     };   
 
-    function start(media) {
+    function startDev(media) {
         $("#remoteVideo").hide();
         $("#callButton").prop('disabled', false);
         $("#hangupButton").prop('disabled', true);
         $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
         // Call into getUserMedia via the polyfill (adapter.js). 
-        var constraints = { audio: true, video: true };
-        if (media && navigator.getUserMedia) {
+        console.trace('media = ' + media);
+        var constraints;
+        switch (media) {
+            case 1:
+                constraints = { audio: true, video: true };
+                break;
+            case 2:
+                constraints = { audio: true, video: false };
+                break;
+            default:
+                constraints = { audio: false, video: false };
+                break;
+        }
+        
+        if (navigator.getUserMedia) {
             navigator.getUserMedia(constraints,
             gotStream, errorWebCam);
-        };   
+        };
+    }
 
+    function connect() {
         if (RTCPeerConnection) {
             var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
             //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
@@ -76,7 +91,7 @@
             connection.onaddstream = function (e) {
                 // Call the polyfill wrapper to attach the media stream to this element.
                 $("#callButton").prop('disabled', true);
-                $('#videocam').hide();
+                $('#device').hide();
                 attachMediaStream(remoteVideo, e.stream);
                 trace('received remote stream');
             };
@@ -97,7 +112,7 @@ function call() {
     }
     $("#callButton").prop('disabled', true);
     $('#remoteVideo').show(function() {
-            $('#videocam').hide();
+            $('#device').hide();
         });    
     //remoteVideo.hidden = false;    
     $("#hangupButton").prop('disabled', false);
@@ -170,7 +185,7 @@ function onCreateOfferSuccess(desc) {
     trace('setLocalDescription start');
     var conn = $('input[name="user"]:checked').val();
     trace('conn2 = ' + conn);
-    $('#videocam').hide();
+    $('#device').hide();
     if (conn == "public")
     {
         alert("Sorry, you need to select user with whom you want to have video chat.");
@@ -216,10 +231,7 @@ var errorHandler = function (err) {
 
 var errorWebCam = function (err) {
     console.error(err);
-    alert('Sorry, WebCam is absent');
-    var constraints = { audio: true, video: false };
-    navigator.getUserMedia(constraints,
-            gotStream, errorWebCam);
+    alert('Sorry, WebCam is absent');    
     $('#localVideo').hide();
     //$('#videocam').html('Mic (<strong><u>ON</u></strong>/OFF)');
     //$('#video').hide();
@@ -239,8 +251,9 @@ function hangup() {
   connection = null;
     //remoteVideo.hidden = true;
   $('#remoteVideo').hide();
-  $('#videocam').show();
-  start(false);
+  $('#device').show();
+    //start(false);
+  connect();
   //hangupButton.disabled = true;
   //callButton.disabled = false;
   

@@ -158,8 +158,7 @@ function startHub() {
         });
         $('#clearMessages').click(function () {
             $('#discussion').empty();
-        });
-        //start(true);
+        });        
     });
 };
 
