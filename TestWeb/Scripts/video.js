@@ -53,17 +53,17 @@
     function startDev(media) {
         $("#remoteVideo").hide();
         $("#callButton").prop('disabled', false);
-        $("#hangupButton").prop('disabled', true);
-        $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
-        // Call into getUserMedia via the polyfill (adapter.js). 
+        $("#hangupButton").prop('disabled', true);       
         console.trace('media = ' + media);
         var constraints;
         switch (media) {
             case 1:
                 constraints = { audio: true, video: true };
+                $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
                 break;
             case 2:
                 constraints = { audio: true, video: false };
+                $('#mic').html('Microphone (<strong><u>ON</u></strong>/OFF)');
                 break;
             default:
                 constraints = { audio: false, video: false };
@@ -172,12 +172,20 @@ function getAnswer(message) {
 
 function gotStream(stream) {
     trace('Received local stream');
-    // Call the polyfill wrapper to attach the media stream to this element.
-    attachMediaStream($("#localVideo")[0], stream);
-    $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
+    var media = 0;
+    if (stream.getVideoTracks().length) {
+        $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
+        attachMediaStream($("#localVideo")[0], stream);
+        media = 1;
+    }
+    else {
+        $('#mic').html('Microphone (<strong><u>ON</u></strong>/OFF)');
+        media = 2;
+        $('#video').hide();
+    }
     localStream = stream;
     $("#callButton").prop('disabled', false);
-    chat.server.activateMedia(true);
+    chat.server.activateMedia(media);
 }
 
 function onCreateOfferSuccess(desc) {

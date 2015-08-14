@@ -122,17 +122,25 @@ namespace SignalRChat
             return browser;
         }
 
-        public void ActivateMedia(bool cam)
+        public void ActivateMedia(int media)
         {
             var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            if (cam)
+            switch (media)
             {
-                item.BroMedia = Media.WebCam;
+                case 0:
+                    item.BroMedia = Media.None;
+                    break;
+                case 1:
+                    item.BroMedia = Media.WebCam;
+                    break;
+                case 2:
+                    item.BroMedia = Media.Mic;
+                    break;
+                default:
+                    item.BroMedia = Media.None;
+                    break;
             }
-            else
-            {
-                item.BroMedia = Media.None;
-            }
+                      
             ShowUsersOnLine();
         }
 
