@@ -58,7 +58,7 @@ $('#mic').click(function () {
     }
     else {
         localStream.stop();
-        $('#mic').html('Microphone (ON/<strong><u>OFF</u></strong>)');
+        $('#mic').html('Only microphone (ON/<strong><u>OFF</u></strong>)');
         chat.server.activateMedia(false);
     }
 });

@@ -63,7 +63,7 @@
                 break;
             case 2:
                 constraints = { audio: true, video: false };
-                $('#mic').html('Microphone (<strong><u>ON</u></strong>/OFF)');
+                $('#mic').html('Only microphone (<strong><u>ON</u></strong>/OFF)');
                 break;
             default:
                 constraints = { audio: false, video: false };
@@ -179,7 +179,7 @@ function gotStream(stream) {
         media = 1;
     }
     else {
-        $('#mic').html('Microphone (<strong><u>ON</u></strong>/OFF)');
+        $('#mic').html('Only microphone (<strong><u>ON</u></strong>/OFF)');
         media = 2;
         $('#video').hide();
     }
