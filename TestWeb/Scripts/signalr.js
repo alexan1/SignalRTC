@@ -13,8 +13,8 @@
 //    return a;
 //};
 
-//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-$.connection.hub.url = "http://localhost:52527/signalr";
+$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+//$.connection.hub.url = "http://localhost:52527/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
