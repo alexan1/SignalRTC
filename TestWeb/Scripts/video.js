@@ -59,11 +59,11 @@
         switch (media) {
             case 1:
                 constraints = { audio: true, video: true };
-                $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
+                $('#videocam').html(camon);
                 break;
             case 2:
                 constraints = { audio: true, video: false };
-                $('#mic').html('Only microphone (<strong><u>ON</u></strong>/OFF)');
+                $('#mic').html(micon);
                 break;
             default:
                 constraints = { audio: false, video: false };
@@ -174,12 +174,12 @@ function gotStream(stream) {
     trace('Received local stream');
     var media = 0;
     if (stream.getVideoTracks().length) {
-        $('#videocam').html('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
+        $('#videocam').html(camon);
         attachMediaStream($("#localVideo")[0], stream);
         media = 1;
     }
     else {
-        $('#mic').html('Only microphone (<strong><u>ON</u></strong>/OFF)');
+        $('#mic').html(micon);
         media = 2;
         $('#video').hide();
     }

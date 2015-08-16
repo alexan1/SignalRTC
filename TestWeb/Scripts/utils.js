@@ -34,6 +34,7 @@ $('#start').click(function () {
     $('#audio').hide();
     $('#info').hide();
     $('#start').hide();
+    $('#call').hide();
     starting();
 });
 
@@ -46,8 +47,9 @@ $('#videocam').click(function () {
     }
     else {
         localStream.stop();
-        $('#videocam').html('Webcam/Audio (ON/<strong><u>OFF</u></strong>)');
+        $('#videocam').html(camoff);
         chat.server.activateMedia(0);
+        $('#call').hide();
     }
 });
 
@@ -62,20 +64,11 @@ $('#mic').click(function () {
         localStream.stop();
         $(this).html(micoff);
         chat.server.activateMedia(0);
+        $('#call').hide();
     }
 });
 
-var micoff = "Only microphone (ON/<strong><u>OFF</u></strong>)";
+var camoff = 'Webcam/Audio (ON/<strong><u>OFF</u></strong>)';
+var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
+var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
 var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';
-
-//('#videocam').toggle(function () {
-//    $(this).text('Webcam/Audio (ON/<strong><u>OFF</u></strong>)');
-//}, function () {
-//    $(this).text('Webcam/Audio (<strong><u>ON</u></strong>/OFF)');
-//});
-
-//$('#mic').toggle(function () {
-//    $(this).text('Only microphone (ON/<strong><u>OFF</u></strong>)');
-//}, function () {
-//    $(this).text('Only microphone (<strong><u>ON</u></strong>/OFF)');
-//});
