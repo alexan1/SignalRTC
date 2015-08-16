@@ -24,10 +24,17 @@ function getUrlVars() {
 
 $('#start').click(function () {
     $('#content').show();
-    $('#videocam').show();
+    if (navigator.getUserMedia) {
+        $('#device').show();
+    }
+    else {
+        $('#device').hide();
+    }
     $('#video').hide();
+    $('#audio').hide();
     $('#info').hide();
     $('#start').hide();
+    $('#call').hide();
     starting();
 });
 
@@ -35,10 +42,33 @@ $('#videocam').click(function () {
     $('#video').toggle();    
     if ($('#localVideo').is(':visible')) {
         //$('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
-        start(true);
+        startDev(1);
+        connect();
     }
     else {
         localStream.stop();
-        $('#videocam').html('Webcam (ON/<strong><u>OFF</u></strong>)');
+        $('#videocam').html(camoff);
+        chat.server.activateMedia(0);
+        $('#call').hide();
     }
 });
+
+$('#mic').click(function () {
+        
+    if ($.trim($(this).html()) === micoff) {
+        $(this).html(micon);
+        startDev(2);
+        connect();
+    }
+    else {
+        localStream.stop();
+        $(this).html(micoff);
+        chat.server.activateMedia(0);
+        $('#call').hide();
+    }
+});
+
+var camoff = 'Webcam/Audio (ON/<strong><u>OFF</u></strong>)';
+var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
+var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
+var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';

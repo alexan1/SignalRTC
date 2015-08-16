@@ -1,18 +1,21 @@
 ﻿'use strict';
 
-    var callButton = document.getElementById('callButton');
-    var hangupButton = document.getElementById('hangupButton');
-    callButton.disabled = false;    
-    callButton.onclick = call;
-    hangupButton.onclick = function () {
+    //var callButton = document.getElementById('callButton');
+    //var hangupButton = document.getElementById('hangupButton');
+    $("#callButton").prop('disabled', false);
+    $("#callButton").click(function () {
+        console.trace("Call me!");
+        call();
+    });
+    $("#hangupButton").click(function () {
         chat.server.hangUp();
-    };
+    });
         
         //hangup;
 
     var startTime;
-    var localVideo = document.getElementById('localVideo');
-    var remoteVideo = document.getElementById('remoteVideo');
+    //var localVideo = document.getElementById('localVideo');
+    //var remoteVideo = document.getElementById('remoteVideo');
 
     var localStream;
     var connection;
@@ -24,21 +27,21 @@
         }
     };
 
-    localVideo.addEventListener('loadedmetadata', function () {
+    $("#localVideo").on('loadedmetadata', function () {
         trace('Local video currentSrc: ' + this.currentSrc +
           ', videoWidth: ' + this.videoWidth +
           'px,  videoHeight: ' + this.videoHeight + 'px');
     });
 
-    remoteVideo.addEventListener('loadedmetadata', function () {
+    $("#remoteVideo").on('loadedmetadata', function () {
         trace('Remote video currentSrc: ' + this.currentSrc +
           ', videoWidth: ' + this.videoWidth +
           'px,  videoHeight: ' + this.videoHeight + 'px');
     });
 
-    remoteVideo.onresize = function () {
+    $("#remoteVideo").onresize = function () {
         trace('Remote video size changed to ' +
-          remoteVideo.videoWidth + 'x' + remoteVideo.videoHeight);
+          $("#remoteVideo").videoWidth + 'x' + $("#remoteVideo").videoHeight);
         // We'll use the first onsize callback as an indication that video has started playing out.
         if (startTime) {
             var elapsedTime = window.performance.now() - startTime;
@@ -47,32 +50,56 @@
         }
     };   
 
-function start(media) {
-    remoteVideo.hidden = true;
-    callButton.disabled = false;
-    hangupButton.disabled = true;
-    // Call into getUserMedia via the polyfill (adapter.js).
-    if (media) {
-        getUserMedia({ audio: true, video: true },
-        gotStream, errorWebCam);
+    function startDev(media) {
+        $("#remoteVideo").hide();
+        $("#callButton").prop('disabled', false);
+        $("#hangupButton").prop('disabled', true);       
+        console.trace('media = ' + media);
+        var constraints;
+        switch (media) {
+            case 1:
+                constraints = { audio: true, video: true };
+                $('#videocam').html(camon);
+                break;
+            case 2:
+                constraints = { audio: true, video: false };
+                $('#mic').html(micon);
+                break;
+            default:
+                constraints = { audio: false, video: false };
+                break;
+        }
+        
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(constraints,
+            gotStream, errorWebCam);
+        };
     }
-    var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
-    //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
-    connection = new RTCPeerConnection(servers); 
-    trace('Created connection object');
-    //var conn = $('input[name="user"]:checked', '#users').val();
-    //trace('conn = ' + conn);
-    connection.onicecandidate = function (e) {
 
-        chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
-    };
-    connection.onaddstream = function (e) {      
-        // Call the polyfill wrapper to attach the media stream to this element.
-        callButton.disabled = true;
-        $('#videocam').hide();
-        attachMediaStream(remoteVideo, e.stream);        
-        trace('received remote stream');
-  };     
+    function connect() {
+        if (RTCPeerConnection) {
+            var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
+            //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
+            connection = new RTCPeerConnection(servers);
+            trace('Created connection object');
+            //var conn = $('input[name="user"]:checked', '#users').val();
+            //trace('conn = ' + conn);
+            connection.onicecandidate = function (e) {
+
+                chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
+            };
+            connection.onaddstream = function (e) {
+                // Call the polyfill wrapper to attach the media stream to this element.
+                $("#callButton").prop('disabled', true);
+                $('#device').hide();
+                attachMediaStream(remoteVideo, e.stream);
+                trace('received remote stream');
+            };
+            $('#call').show();
+        }
+        else {
+            $('#call').hide();
+        };
 }
 
 function call() {
@@ -83,12 +110,12 @@ function call() {
         //hangup();
         return;
     }
-    callButton.disabled = true;
+    $("#callButton").prop('disabled', true);
     $('#remoteVideo').show(function() {
-            $('#videocam').hide();
+            $('#device').hide();
         });    
     //remoteVideo.hidden = false;    
-  hangupButton.disabled = false;
+    $("#hangupButton").prop('disabled', false);
   trace('Starting call');  
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
@@ -114,7 +141,7 @@ function answer(message) {
     $('#remoteVideo').show(); //function (); {
     //    $('#videocam').hide();
     //});
-    hangupButton.disabled = false;
+    $("#hangupButton").prop('disabled', false);
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
@@ -145,11 +172,20 @@ function getAnswer(message) {
 
 function gotStream(stream) {
     trace('Received local stream');
-    // Call the polyfill wrapper to attach the media stream to this element.
-    attachMediaStream(localVideo, stream);
-    $('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
+    var media = 0;
+    if (stream.getVideoTracks().length) {
+        $('#videocam').html(camon);
+        attachMediaStream($("#localVideo")[0], stream);
+        media = 1;
+    }
+    else {
+        $('#mic').html(micon);
+        media = 2;
+        $('#video').hide();
+    }
     localStream = stream;
-    callButton.disabled = false;
+    $("#callButton").prop('disabled', false);
+    chat.server.activateMedia(media);
 }
 
 function onCreateOfferSuccess(desc) {
@@ -157,7 +193,7 @@ function onCreateOfferSuccess(desc) {
     trace('setLocalDescription start');
     var conn = $('input[name="user"]:checked').val();
     trace('conn2 = ' + conn);
-    $('#videocam').hide();
+    $('#device').hide();
     if (conn == "public")
     {
         alert("Sorry, you need to select user with whom you want to have video chat.");
@@ -203,20 +239,27 @@ var errorHandler = function (err) {
 
 var errorWebCam = function (err) {
     console.error(err);
-    alert('Sorry, WebCam is absent');
+    alert('Sorry, WebCam is absent');    
+    $('#localVideo').hide();
+    //$('#videocam').html('Mic (<strong><u>ON</u></strong>/OFF)');
+    //$('#video').hide();
+    //$("#callButton").prop('disabled', true);
+};
+
+var errorMic = function (err) {
+    console.error(err);
+    alert('Sorry, Mic is absent');    
     $('#video').hide();
-    callButton.disabled = true;
+    $("#callButton").prop('disabled', true);
 };
 
 function hangup() {
   trace('Ending call');
   connection.close();  
-  connection = null;
-    //remoteVideo.hidden = true;
+  connection = null;    
   $('#remoteVideo').hide();
-  $('#videocam').show();
-  start(false);
-  //hangupButton.disabled = true;
-  //callButton.disabled = false;
-  
+  $('#device').show();   
+  connect();
+  $("#callButton").prop('disabled', false);
+  $("#hangupButton").prop('disabled', true);  
 }

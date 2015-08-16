@@ -1,21 +1,25 @@
 ﻿// Declare a proxy to reference the hub.
 //var url = window.location.href;
 //trace('url = ' + url);
-var scripts = document.getElementsByTagName("script"),
-    src = toLocation(scripts[scripts.length - 1].src).origin;
-$.connection.hub.url = src + "/signalr";
-trace('connection url = ' + $.connection.hub.url);
-var chat = $.connection.chatHub;
+//var scripts = document.getElementsByTagName("script"),
+//    src = toLocation(scripts[scripts.length - 1].src).origin;
+//$.connection.hub.url = src + "/signalr";
+//trace('connection url = ' + $.connection.hub.url);
+//var chat = $.connection.chatHub;
 
-function toLocation(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a;
-};
+//function toLocation(url) {
+//    var a = document.createElement('a');
+//    a.href = url;
+//    return a;
+//};
+
+$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+//$.connection.hub.url = "http://localhost:52527/signalr";
+var chat = $.connection.chatHub;
 
 function starting() {
     
-    // Create a function that the hub can call to broadcast messages.
+    // Create a function that the hub can call to broadcast messages.    
     chat.client.broadcastMessage = function (priv, name, message) {
         // Html encode display name and message.      
         var encodedName = $('<div />').text(name).html();
@@ -32,14 +36,20 @@ function starting() {
         audio.play();
     };
 
-    chat.client.showUsersOnLine = function (keys, connection) {
+    chat.client.showUsersOnLine = function (keys, connection, browsers, medias) {
+        console.trace('keys = ' + keys);
+        console.trace('connection = ' + connection);
+        console.trace('browsers = ' + browsers);
+        console.trace('medias = ' + medias);
         var keysarray = keys.toString().split(',');
         var conarray = connection.toString().split(',');
+        var browserarray = browsers.toString().split(',');
+        var mediaarray = medias.toString().split(',');
         var number = keysarray.indexOf($('#displayname').val());
         keysarray.splice(number, 1);
         conarray.splice(number, 1);
-        //trace('keys = ' + keysarray);
-        //trace('users = ' + users);        
+        browserarray.splice(number, 1);
+        mediaarray.splice(number, 1);
         if (keysarray[0] != null) {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
@@ -47,8 +57,26 @@ function starting() {
             $('#users').empty();
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
-                //trace(connectionId);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + '</label><br/>');
+                var media = mediaarray[i];
+                console.trace('media = ' + media);
+                var med = " ";
+                switch (media) {
+                    case "0":                        
+                        med = " ";
+                        break;
+                    case "1":
+                        med = "WebCam";
+                        break;
+                    case "2":
+                        med = "Mic";
+                        break;
+                    default:
+                        med = "Nothing";
+                        break;
+                }
+                
+                console.trace('med = ' + med);
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/ </small></font><font color="Red"><small>  ' + med + '</small></font><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           
@@ -90,7 +118,7 @@ function getUserName() {
         var name = prompt('Enter your name:', '');
     }
     name = $.trim(name);
-    trace('user2 = ' + name);
+    //trace('user2 = ' + name);
     if (!(name) || name == null) {
         name = generateQuickGuid();//Math.round(new Date().getTime());
         //trace('user = ' + name);
@@ -102,7 +130,8 @@ function getUserName() {
     // Set initial focus to message input box.
     $('#message').focus();
     // Start the connection.
-    $.connection.hub.qs = "userName=" + name;
+    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
+    //$.connection.hub.qs = "browser=" + webrtcDetectedBrowser;
 };
 
 function startHub() {
@@ -110,7 +139,7 @@ function startHub() {
         $('#sendmessage').click(function () {
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
-            var conname = $('input[name="user"]:checked').next().text();
+            var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
             //trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
@@ -129,8 +158,7 @@ function startHub() {
         });
         $('#clearMessages').click(function () {
             $('#discussion').empty();
-        });
-        //start(true);
+        });        
     });
 };
 

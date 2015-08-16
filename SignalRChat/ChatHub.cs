@@ -8,8 +8,7 @@ using System.Web.Security;
 namespace SignalRChat
 {
     public class ChatHub : Hub
-    {         
-        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+    {               
 
         static List<User> ConnectedUsers = new List<User>();
 
@@ -18,11 +17,12 @@ namespace SignalRChat
             string name = Context.User.Identity.Name;
 
             name = GetClientName();
+            var browser = GetBrowser();            
 
-            _connections.Add(name, Context.ConnectionId);
-
-            var browser = "Chrome";
-            ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
+            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
+            {
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
+            };
 
             ShowUsersOnLine();
 
@@ -33,10 +33,10 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
             name = GetClientName();
+            
+            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
 
-            _connections.Remove(name, Context.ConnectionId);
-
-            ConnectedUsers.Remove(new User() { Name = name, ConnectionId = Context.ConnectionId });
+            ConnectedUsers.Remove(item);
 
             ShowUsersOnLine();
 
@@ -47,13 +47,13 @@ namespace SignalRChat
         {
             string name = Context.User.Identity.Name;
             name = GetClientName();
-
-            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
+            var browser = GetBrowser();
+            
+            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
             {
-                _connections.Add(name, Context.ConnectionId);
-                var browser = "Chrome";
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, WebCam = false });
-            }
+                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
+            };
+
 
             ShowUsersOnLine();
 
@@ -110,92 +110,48 @@ namespace SignalRChat
             return clientName;
         }
 
+        private string GetBrowser()
+        {
+            string browser = "no WebRTC";
+            if (!(Context.QueryString["browser"] == null))
+            {
+                //clientId passed from application 
+                browser = Context.QueryString["browser"].ToString();
+            }
+            
+            return browser;
+        }
+
+        public void ActivateMedia(int media)
+        {
+            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            switch (media)
+            {
+                case 0:
+                    item.BroMedia = Media.None;
+                    break;
+                case 1:
+                    item.BroMedia = Media.WebCam;
+                    break;
+                case 2:
+                    item.BroMedia = Media.Mic;
+                    break;
+                default:
+                    item.BroMedia = Media.None;
+                    break;
+            }
+                      
+            ShowUsersOnLine();
+        }
+
         public void ShowUsersOnLine()
-        {
-            Clients.All.showUsersOnLine(_connections.Keys, _connections.Values);
-            //Clients.All.showUsersOnLine(ConnectedUsers);
+        {            
+            var names = ConnectedUsers.Select(C => C.Name).ToList();
+            var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
+            var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
+            var medias = ConnectedUsers.Select(C => C.BroMedia).ToList();
+            Clients.All.showUsersOnLine(names, connections, browsers, medias);
 
-        }
-    }
-
-    public class ConnectionMapping<T>
-    {
-        private readonly Dictionary<T, HashSet<string>> _connections =
-            new Dictionary<T, HashSet<string>>();
-
-        public int Count
-        {
-            get
-            {
-                return _connections.Count;
-            }
-        }
-
-        public List<T> Keys
-        {
-            get
-            {
-                return _connections.Keys.ToList();
-            }
-        }
-
-        public List<HashSet<string>> Values
-        {
-            get
-            {
-                return _connections.Values.ToList();
-            }
-        }
-
-        public void Add(T key, string connectionId)
-        {
-            lock (_connections)
-            {
-                HashSet<string> connections;
-                if (!_connections.TryGetValue(key, out connections))
-                {
-                    connections = new HashSet<string>();
-                    _connections.Add(key, connections);
-                }
-
-                lock (connections)
-                {
-                    connections.Add(connectionId);
-                }
-            }
-        }
-
-        public IEnumerable<string> GetConnections(T key)
-        {
-            HashSet<string> connections;
-            if (_connections.TryGetValue(key, out connections))
-            {
-                return connections;
-            }
-
-            return Enumerable.Empty<string>();
-        }       
-
-        public void Remove(T key, string connectionId)
-        {
-            lock (_connections)
-            {
-                HashSet<string> connections;
-                if (!_connections.TryGetValue(key, out connections))
-                {
-                    return;
-                }
-
-                lock (connections)
-                {
-                    connections.Remove(connectionId);
-
-                    if (connections.Count == 0)
-                    {
-                        _connections.Remove(key);
-                    }
-                }
-            }
         }
     }
 }
