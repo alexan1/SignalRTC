@@ -73,7 +73,7 @@ var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
 var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
 var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';
 
-$('input:radio').click(function () {
+$('input[name = "user"]').click(function () {
         var selecteduser = $('input:radio:checked').next().text();
         console.trace('selected user = ', selecteduser);
         if (selecteduser == "") {
