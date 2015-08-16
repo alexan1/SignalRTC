@@ -2,7 +2,7 @@
 
     //var callButton = document.getElementById('callButton');
     //var hangupButton = document.getElementById('hangupButton');
-    $("#callButton").prop('disabled', false);
+    $("#callButton").prop('disabled', true);
     $("#callButton").click(function () {
         console.trace("Call me!");
         call();
@@ -52,7 +52,7 @@
 
     function startDev(media) {
         $("#remoteVideo").hide();
-        $("#callButton").prop('disabled', false);
+        $("#callButton").prop('disabled', true);
         $("#hangupButton").prop('disabled', true);       
         console.trace('media = ' + media);
         var constraints;
@@ -80,8 +80,9 @@
         if (RTCPeerConnection) {
             var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
             //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
+            
             connection = new RTCPeerConnection(servers);
-            trace('Created connection object');
+            //trace('Created connection object');
             //var conn = $('input[name="user"]:checked', '#users').val();
             //trace('conn = ' + conn);
             connection.onicecandidate = function (e) {
@@ -184,7 +185,7 @@ function gotStream(stream) {
         $('#video').hide();
     }
     localStream = stream;
-    $("#callButton").prop('disabled', false);
+    //$("#callButton").prop('disabled', false);
     chat.server.activateMedia(media);
 }
 
@@ -260,6 +261,6 @@ function hangup() {
   $('#remoteVideo').hide();
   $('#device').show();   
   connect();
-  $("#callButton").prop('disabled', false);
+  //$("#callButton").prop('disabled', false);
   $("#hangupButton").prop('disabled', true);  
 }

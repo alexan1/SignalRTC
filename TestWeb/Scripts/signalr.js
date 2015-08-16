@@ -76,7 +76,7 @@ function starting() {
                 }
                 
                 console.trace('med = ' + med);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <font color="Green"><small>/' + browserarray[i] + '/ </small></font><font color="Red"><small>  ' + med + '</small></font><br/>');
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);           
