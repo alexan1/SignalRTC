@@ -73,13 +73,15 @@ function starting() {
                     default:
                         med = "Nothing";
                         break;
-                }
-                
+                }                
                 console.trace('med = ' + med);
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
+                $('#users').append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />')
+                $('#users').append('<input type="radio" value= connectionId name="user"><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
-            $('input[name="user"][value="public"]').prop('checked', true);           
+            $('input[name="user"][value="public"]').prop('checked', true);
+            var selecteduser = $('input:radio:checked').next().text();
+            console.trace('selected user = ', selecteduser);
         }
         else {
             $('#users').empty();
