@@ -55,6 +55,7 @@ function starting() {
             audio.play();
             var i;
             $('#users').empty();
+            $('#users').append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />');
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
                 var media = mediaarray[i];
@@ -75,17 +76,18 @@ function starting() {
                         break;
                 }                
                 console.trace('med = ' + med);
-                $('#users').append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />')
-                $('#users').append('<input type="radio" value= connectionId name="user"><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
+                
+                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
             $('input[name="user"][value="public"]').prop('checked', true);
-            var selecteduser = $('input:radio:checked').next().text();
-            console.trace('selected user = ', selecteduser);
+            //var selecteduser = $('input:radio:checked').next().text();
+            //console.trace('selected user = ', selecteduser);
         }
         else {
             $('#users').empty();
         }
+        $("#callButton").prop('disabled', true);
     };
 
     chat.client.hangUpVideo = function () {
@@ -142,7 +144,7 @@ function startHub() {
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
             var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
-            //trace('conn = ' + conn + '/' + conname);
+            console.trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
                 chat.server.send($('#displayname').val(), $('#message').val());
             }

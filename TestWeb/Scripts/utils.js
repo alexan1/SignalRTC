@@ -73,12 +73,11 @@ var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
 var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
 var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';
 
-$('#users').on("change", "input[type=radio]", function () {
-    //console.trace("aaaa");
+$('#users').on("change", "input[type=radio]", function () {   
     var selecteduser = "";
-    selecteduser = $('input:radio:checked').next().next().next().text();
+    selecteduser = $('input:radio:checked').next().next().next().text().trim();
     console.trace('selected user = ', selecteduser);
-    if (selecteduser == "" || selecteduser == null) {
+    if (!selecteduser || selecteduser == "" || selecteduser == null) {
         $("#callButton").prop('disabled', true);
     }
     else {
