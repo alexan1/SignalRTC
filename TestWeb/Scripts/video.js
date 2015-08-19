@@ -242,9 +242,8 @@ var errorWebCam = function (err) {
     console.error(err);
     alert('Sorry, WebCam is absent');    
     $('#localVideo').hide();
-    //$('#videocam').html('Mic (<strong><u>ON</u></strong>/OFF)');
-    //$('#video').hide();
-    //$("#callButton").prop('disabled', true);
+    $('#videocam').html(camoff);
+    $('#call').hide();
 };
 
 var errorMic = function (err) {
@@ -252,6 +251,8 @@ var errorMic = function (err) {
     alert('Sorry, Mic is absent');    
     $('#video').hide();
     $("#callButton").prop('disabled', true);
+    $('#mic').html(micoff);
+    $('#call').hide();
 };
 
 function hangup() {
