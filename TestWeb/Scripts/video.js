@@ -182,7 +182,7 @@ function gotStream(stream) {
     else {
         $('#mic').html(micon);
         media = 2;
-        $('#video').hide();
+        //$('#video').hide();
     }
     localStream = stream;
     //$("#callButton").prop('disabled', false);

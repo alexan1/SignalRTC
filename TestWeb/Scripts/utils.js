@@ -45,7 +45,9 @@ $('#videocam').click(function () {
         connect();
     }
     else {
-        localStream.stop();
+        if (localStream != undefined) {
+            localStream.stop();
+        };
         $('#videocam').html(camoff);
         chat.server.activateMedia(0);
         $('#call').hide();
@@ -53,14 +55,16 @@ $('#videocam').click(function () {
 });
 
 $('#mic').click(function () {
-        
+    $('#video').toggle();
     if ($.trim($(this).html()) === micoff) {
         $(this).html(micon);
         startDev(2);
         connect();
     }
     else {
-        localStream.stop();
+        if (localStream != undefined) {
+            localStream.stop();
+        };
         $(this).html(micoff);
         chat.server.activateMedia(0);
         $('#call').hide();
