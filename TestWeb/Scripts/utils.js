@@ -40,8 +40,7 @@ $('#start').click(function () {
 
 $('#videocam').click(function () {   
     $('#video').toggle();    
-    if ($('#localVideo').is(':visible')) {
-        //$('#videocam').html('Webcam (<strong><u>ON</u></strong>/OFF)');
+    if ($('#localVideo').is(':visible')) {       
         startDev(1);
         connect();
     }
@@ -72,3 +71,16 @@ var camoff = 'Webcam/Audio (ON/<strong><u>OFF</u></strong>)';
 var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
 var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
 var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';
+
+$('#users').on("change", "input[type=radio]", function () {   
+    var selecteduser = "";
+    selecteduser = $('input:radio:checked').next().next().next().text().trim();
+    console.trace('selected user = ', selecteduser);
+    if (!selecteduser || selecteduser == "" || selecteduser == null) {
+        $("#callButton").prop('disabled', true);
+    }
+    else {
+         $("#callButton").prop('disabled', false);
+    }
+
+    });
