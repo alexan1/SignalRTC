@@ -1,8 +1,9 @@
 ﻿$('#video').hide();
 
-//$('#myModal').modal('show');
+$('#myModal').modal('show');
+//$('#myname').modal('show');
 
-starting();
+//starting();
 
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15);
@@ -25,8 +26,11 @@ function getUrlVars() {
     return vars;
 }
 
+$('#start1').click(function () {
+    $('#myname').modal('show');
+});
 
-$('#start').click(function () {
+$('#start2').click(function () {
     $('#content').show();
     if (navigator.getUserMedia) {
         $('#device').show();

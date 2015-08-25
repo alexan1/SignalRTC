@@ -27,10 +27,14 @@
 </head>
 <body>
 
-    <div class="container" id="content">
+    <div class="jumbotron ">
+        <!--<h1>Jumbotron heading</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+
+    <div class="container" id="content">-->
         <!--<input type="text" readonly  disabled id="myName" /><br /><br />-->
         <!--Users online:-->
-
         <!--<input type="radio" value="public" name="user" checked><label>Public</label><br />-->
         <div id="users">
         </div>
@@ -40,12 +44,12 @@
             <video id="remoteVideo" autoplay width="640" height="480" controls></video>
             <video id="localVideo" autoplay muted title="Local video" width="320" height="240"></video>
         </div>
-           <br />         
-            <div id="call">
-                <button id="callButton">Call</button>
-                <button id="hangupButton">Hang Up</button>
-            </div>
-        
+        <br />
+        <div id="call">
+            <button id="callButton">Call</button>
+            <button id="hangupButton">Hang Up</button>
+        </div>
+
         <br /><input id="displayname" disabled style="background-color: #99CCFF;" /><br /><br />
         <div id="device">
             <button id="videocam">Webcam/Audio (ON/<strong><u>OFF</u></strong>)</button>&nbsp;
@@ -57,40 +61,17 @@
         <ul id="discussion"></ul>
         <button id="clearMessages">Clear messages</button>
     </div>
-
-    <!--<div class="jumbotron " id="info">
-        <center><h2 class="h2">Video Chat</h2></center>
-
-        <p>This is video chat web application. It's based on <a href="http://www.webrtc.org/">WebRTC</a> for video communication and uses <a href="http://signalr.net/">SignalR</a> for text chat and signaling (establishing connection for video chat clients). </p>
-        <p>Because of WebRTC restrictions it can be used only on Chrome and Firefox browsers (sorry, not IE).</p>
-        <p>And of course you need web cam and should allow your browser to use it.</p>
-        <p>When you press <strong>Start</strong> button you will see all users currently visiting this site.</p>
-        <p>If you write messages in text box and send them to specific user (selecting radio button with user name) or to all users (Public option).</p>
-        <p>You can activate your webcam by pressing <strong>Webcam ON/OFF</strong> button.</p>
-        <p>You can select user with whom you want to have video chat press <strong>Call</strong> button.</p>
-        <p>You can have video chat only with one user and at the same time to have text chat with him or with other users.</p>
-        <p>When you want to stop video chat you press <strong>Hang Up</strong> button.</p>
-        <p>There is no registration now and text messages not saved.</p>
-        <p>Please take into account that this is only alpha-version.</p>
-        <br /><br />
-        Please send your <a href="mailto:info@signalrtc.com?Subject=Feedback" target="_top">feedbacks</a>.
-    </div>
-
-    <center>
-        <br />
-        <button id="start" class="btn btn-primary">Start</button>
-    </center>-->
+    
     <br />
     Copyright © 2015 SignalRTC All Rights Reserved
 
     <!-- Modal -->
-    <div class="modal fade show" id="myModal" role="dialog">
+    <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
                     <h4 class="modal-title caption">Video Chat</h4>
                 </div>
                 <div class="modal-body">
@@ -109,12 +90,41 @@
                     Please send your <a href="mailto:info@signalrtc.com?Subject=Feedback" target="_top">feedbacks</a>.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Start</button>
+                    <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Okay</button>
                 </div>
             </div>
-
         </div>
     </div>
+
+    <div class="modal fade" id="myname" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Enter your name:</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="mConta">
+                        <div class="control-group">
+                            
+                            <div class="controls">
+                                <input id="nome" name="nome" type="text">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="start2" type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+            </div>
+        </div>
+
+    </div>
+   
 
     <!--Script references. -->
     <!--Reference the jQuery library. -->
@@ -123,7 +133,7 @@
 
     <!--Reference the SignalR library. -->
     <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
-    
+
     <script src="https://rawgit.com/webrtc/adapter/master/adapter.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
@@ -131,7 +141,7 @@
     <!--For production -->
     <!--Reference the autogenerated SignalR hub script. -->
     <script src="https://chatroomone.azurewebsites.net/signalr/hubs"></script>
-    <!--<script src="http://localhost:52527/signalr/hubs"></script>-->  
+    <!--<script src="http://localhost:52527/signalr/hubs"></script>-->
 
     <script src="Scripts/video.js"></script>
     <script src="Scripts/signalr.js"></script>
