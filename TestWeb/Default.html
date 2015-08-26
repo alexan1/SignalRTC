@@ -3,6 +3,7 @@
 <head>
     <title>SignalRTC</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Web application for video communication">
     <meta name="keywords" content="video,communication,chat,WebRTC,SignalR,Skype">
     <meta name="author" content="SignalRTC">    
@@ -10,7 +11,9 @@
     <!--<link rel="icon" href="signalRTCicon.png" sizes="16x16" type="image/png">-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="Content/bootstrap.min.css" rel="stylesheet" />-->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha256-4nVETqQoIoCwuephcXpJ501G8B5sgBHb1ZsKU/D476I= sha512-cfSmkkLRDAcUNaJxRRWopCyEGX43UkWCAOl2wErYMBGOQVWwOsZ7IFuXScF9H/6nMGbmsgV4m5/xYfesyvHTxw==" crossorigin="anonymous">
     <link href="signalrtc.css" rel="stylesheet" />
     <script>
     (function (i, s, o, g, r, a, m) {
@@ -27,7 +30,7 @@
 </head>
 <body>
 
-    <div class="jumbotron ">
+    <div class="container-fluid">
         <!--<h1>Jumbotron heading</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
@@ -36,116 +39,121 @@
         <!--<input type="text" readonly  disabled id="myName" /><br /><br />-->
         <!--Users online:-->
         <!--<input type="radio" value="public" name="user" checked><label>Public</label><br />-->
-        <div id="users">
+        <br />
+        <div id="users" class="panel panel-default">
         </div>
 
 
-        <div id="video">
+        <div id="video" class="panel panel-default">
             <video id="remoteVideo" autoplay width="640" height="480" controls></video>
             <video id="localVideo" autoplay muted title="Local video" width="320" height="240"></video>
         </div>
         <br />
-        <div id="call">
-            <button id="callButton">Call</button>
-            <button id="hangupButton">Hang Up</button>
+        <div id="call" class="panel panel-default">
+            <button id="callButton" class="btn btn-danger">Call</button>
+            <button id="hangupButton" class="btn btn-danger">Hang Up</button>
         </div>
 
-        <br /><input id="displayname" disabled style="background-color: #99CCFF;" /><br /><br />
-        <div id="device">
-            <button id="videocam">Webcam/Audio (ON/<strong><u>OFF</u></strong>)</button>&nbsp;
-            <button id="mic">Only microphone (ON/<strong><u>OFF</u></strong>)</button><br /><br />
+        <br /><input id="displayname" disabled  /><br /><br />
+        <div id="device" class="panel panel-default">
+            <button id="videocam" class="btn btn-warning">Webcam/Audio (ON/<strong><u>OFF</u></strong>)</button>&nbsp;
+            <button id="mic" class="btn btn-warning">Only microphone (ON/<strong><u>OFF</u></strong>)</button><br /><br />
         </div>
         <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Message" />
-
-        <ul id="discussion"></ul>
-        <button id="clearMessages">Clear messages</button>
-    </div>
+        <input type="button" id="sendmessage" class="btn btn-info" value="Message" />
+        <br /><br />
+        <div class="panel panel-default">
+            <ul id="discussion"></ul>
+            <button id="clearMessages" class="btn btn-info">Clear messages</button>
+        </div>
+        </div>
     
     <br />
-    Copyright © 2015 SignalRTC All Rights Reserved
+    <div class="panel-footer">
+        Copyright © 2015 SignalRTC All Rights Reserved
+    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title caption">Video Chat</h4>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title caption">Video Chat</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This is video chat web application. It's based on <a href="http://www.webrtc.org/">WebRTC</a> for video communication and uses <a href="http://signalr.net/">SignalR</a> for text chat and signaling (establishing connection for video chat clients). </p>
+                        <p>Because of WebRTC restrictions it can be used only on Chrome and Firefox browsers (sorry, not IE).</p>
+                        <p>And of course you need web cam and should allow your browser to use it.</p>
+                        <p>When you press <strong>Start</strong> button you will see all users currently visiting this site.</p>
+                        <p>If you write messages in text box and send them to specific user (selecting radio button with user name) or to all users (Public option).</p>
+                        <p>You can activate your webcam by pressing <strong>Webcam ON/OFF</strong> button.</p>
+                        <p>You can select user with whom you want to have video chat press <strong>Call</strong> button.</p>
+                        <p>You can have video chat only with one user and at the same time to have text chat with him or with other users.</p>
+                        <p>When you want to stop video chat you press <strong>Hang Up</strong> button.</p>
+                        <p>There is no registration now and text messages not saved.</p>
+                        <p>Please take into account that this is only alpha-version.</p>
+                        <br /><br />
+                        Please send your <a href="mailto:info@signalrtc.com?Subject=Feedback" target="_top">feedbacks</a>.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Okay</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>This is video chat web application. It's based on <a href="http://www.webrtc.org/">WebRTC</a> for video communication and uses <a href="http://signalr.net/">SignalR</a> for text chat and signaling (establishing connection for video chat clients). </p>
-                    <p>Because of WebRTC restrictions it can be used only on Chrome and Firefox browsers (sorry, not IE).</p>
-                    <p>And of course you need web cam and should allow your browser to use it.</p>
-                    <p>When you press <strong>Start</strong> button you will see all users currently visiting this site.</p>
-                    <p>If you write messages in text box and send them to specific user (selecting radio button with user name) or to all users (Public option).</p>
-                    <p>You can activate your webcam by pressing <strong>Webcam ON/OFF</strong> button.</p>
-                    <p>You can select user with whom you want to have video chat press <strong>Call</strong> button.</p>
-                    <p>You can have video chat only with one user and at the same time to have text chat with him or with other users.</p>
-                    <p>When you want to stop video chat you press <strong>Hang Up</strong> button.</p>
-                    <p>There is no registration now and text messages not saved.</p>
-                    <p>Please take into account that this is only alpha-version.</p>
-                    <br /><br />
-                    Please send your <a href="mailto:info@signalrtc.com?Subject=Feedback" target="_top">feedbacks</a>.
+            </div>
+        </div>
+
+        <div class="modal fade" id="myname" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Enter your name:</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="mConta">
+                            <div class="control-group">
+
+                                <div class="controls">
+                                    <input id="nome" name="nome" type="text">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Okay</button>
+                    <button id="start2" type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="myname" role="dialog" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <h4 class="modal-title">Enter your name:</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" id="mConta">
-                        <div class="control-group">
-                            
-                            <div class="controls">
-                                <input id="nome" name="nome" type="text">
-
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button id="start2" type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
-            </div>
         </div>
 
-    </div>
-   
 
-    <!--Script references. -->
-    <!--Reference the jQuery library. -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="Scripts/jquery-2.1.4.min.js">\x3C/script>')</script>
+        <!--Script references. -->
+        <!--Reference the jQuery library. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="Scripts/jquery-2.1.4.min.js">\x3C/script>')</script>
 
-    <!--Reference the SignalR library. -->
-    <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
+        <!--Reference the SignalR library. -->
+        <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
 
-    <script src="https://rawgit.com/webrtc/adapter/master/adapter.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
+        <script src="https://rawgit.com/webrtc/adapter/master/adapter.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+        <!--<script src="Scripts/bootstrap.min.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
-    <!--For production -->
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="https://chatroomone.azurewebsites.net/signalr/hubs"></script>
-    <!--<script src="http://localhost:52527/signalr/hubs"></script>-->
+        <!--For production -->
+        <!--Reference the autogenerated SignalR hub script. -->
+        <script src="https://chatroomone.azurewebsites.net/signalr/hubs"></script>
+        <!--<script src="http://localhost:52527/signalr/hubs"></script>-->
 
-    <script src="Scripts/video.js"></script>
-    <script src="Scripts/signalr.js"></script>
-    <script src="Scripts/utils.js"></script>
+        <script src="Scripts/video.js"></script>
+        <script src="Scripts/signalr.js"></script>
+        <script src="Scripts/utils.js"></script>
 
 </body>
 
