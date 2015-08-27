@@ -30,7 +30,10 @@ $('#start1').click(function () {
     $('#myname').modal('show');
 });
 
-$('#start2').click(function () {
+$('#me').submit(function(event){
+        
+    //event.preventDefault();
+
     $('#content').show();
     if (navigator.getUserMedia) {
         $('#device').show();
@@ -44,7 +47,30 @@ $('#start2').click(function () {
     $('#start').hide();
     $('#call').hide();
     starting();
-});
+
+    });
+
+//$('#start2').click(function () {
+//    $('#content').show();
+//    if (navigator.getUserMedia) {
+//        $('#device').show();
+//    }
+//    else {
+//        $('#device').hide();
+//    }
+//    $('#video').hide();
+//    $('#audio').hide();
+//    $('#info').hide();
+//    $('#start').hide();
+//    $('#call').hide();
+//    starting();
+//});
+
+//$('#user').keypress(function (e) {
+//    if (e.which == 13) {//Enter key pressed
+//        $('#start2').click();
+//    }
+//});
 
 $('#videocam').click(function () {   
     $('#video').toggle();    

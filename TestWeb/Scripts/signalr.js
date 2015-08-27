@@ -119,7 +119,7 @@ function getUserName() {
     name = getUrlVars()["user"];
     //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
-        var name = $("#nome").val();
+        var name = $("#user").val();
         //prompt('Enter your name:', '');
     }
     name = $.trim(name);
@@ -158,7 +158,7 @@ function startHub() {
 
         $('#message').keypress(function (e) {
             if (e.which == 13) {//Enter key pressed
-                $('#sendmessage').click();//Trigger search button click event
+                $('#sendmessage').click();
             }
         });
         $('#clearMessages').click(function () {
