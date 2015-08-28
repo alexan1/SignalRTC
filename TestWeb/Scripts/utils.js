@@ -1,9 +1,29 @@
-﻿$('#video').hide();
+﻿//var $video = $('#video');
+//var $myModal = $('#myModal');
+//var $start1 = $('#start1');
+//var $start2 = $('#start2');
+//var $myname = $('#myname');
+//var $device = $('#device');
+//var $call = $('#call');
+//var $users = $('#users');
+//var $user = $('#user');
+//var $videocam = $('#videocam');
+//var $localVideo = $('#localVideo');
+//var $remoteVideo = $('#remoteVideo');
+//var $mic = $('#mic');
+//var $callButton = $('#callButton');
+//var $hangupButton = $('#hangupButton');
+//var $displayname = $('#displayname');
+//var $message = $('#message');
+//var $sendmessage = $('#sendmessage');
+//var $discussion = $('#discussion');
+//var $clearMessages = $('#clearMessages');
+//var $myname = $('#$myname');
 
-$('#myModal').modal('show');
-//$('#myname').modal('show');
 
-//starting();
+$video.hide();
+
+$myModal.modal('show');
 
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15);
@@ -26,55 +46,32 @@ function getUrlVars() {
     return vars;
 }
 
-$('#start1').click(function () {
-    $('#myname').modal('show');
+$start1.click(function () {
+    $myname.modal('show');
 });
 
-//$('#userform').submit(function (event) {
-        
-//    //event.preventDefault();
 
-//    $('#content').show();
-//    if (navigator.getUserMedia) {
-//        $('#device').show();
-//    }
-//    else {
-//        $('#device').hide();
-//    }
-//    $('#video').hide();
-//    $('#audio').hide();
-//    $('#info').hide();
-//    $('#start').hide();
-//    $('#call').hide();
-//    starting();
-
-//    });
-
-$('#start2').click(function () {
-    $('#content').show();
+$start2.click(function () {    
     if (navigator.getUserMedia) {
-        $('#device').show();
+        $device.show();
     }
     else {
-        $('#device').hide();
+        $device.hide();
     }
-    $('#video').hide();
-    $('#audio').hide();
-    $('#info').hide();
-    $('#start').hide();
-    $('#call').hide();
+    $video.hide();   
+    $call.hide();
     starting();
 });
 
-$('#user').keypress(function (e) {
+$user.keypress(function (e) {
     if (e.which == 13) {//Enter key pressed
-        $('#start2').click();
+        $start2.click();
     }
 });
 
-$('#videocam').click(function () {   
-    $('#video').toggle();    
-    if ($('#localVideo').is(':visible')) {       
+$videocam.click(function () {   
+    $video.toggle();    
+    if ($localVideo.is(':visible')) {       
         startDev(1);
         connect();
     }
@@ -82,14 +79,14 @@ $('#videocam').click(function () {
         if (localStream != undefined) {
             localStream.stop();
         };
-        $('#videocam').html(camoff);
+        $videocam.html(camoff);
         chat.server.activateMedia(0);
-        $('#call').hide();
+        $call.hide();
     }
 });
 
-$('#mic').click(function () {
-    $('#video').toggle();
+$mic.click(function () {
+    $video.toggle();
     if ($.trim($(this).html()) === micoff) {
         $(this).html(micon);
         startDev(2);
@@ -101,7 +98,7 @@ $('#mic').click(function () {
         };
         $(this).html(micoff);
         chat.server.activateMedia(0);
-        $('#call').hide();
+        $call.hide();
     }
 });
 
@@ -110,15 +107,15 @@ var camon = 'Webcam (<strong><u>ON</u></strong>/OFF)';
 var micoff = 'Only microphone (ON/<strong><u>OFF</u></strong>)';
 var micon = 'Only microphone (<strong><u>ON</u></strong>/OFF)';
 
-$('#users').on("change", "input[type=radio]", function () {   
+$users.on("change", "input[type=radio]", function () {   
     var selecteduser = "";
     selecteduser = $('input:radio:checked').next().next().next().text().trim();
     console.trace('selected user = ', selecteduser);
     if (!selecteduser || selecteduser == "" || selecteduser == null) {
-        $("#callButton").prop('disabled', true);
+        $callButton.prop('disabled', true);
     }
     else {
-         $("#callButton").prop('disabled', false);
+         $callButton.prop('disabled', false);
     }
 
     });

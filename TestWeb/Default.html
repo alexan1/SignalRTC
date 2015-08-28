@@ -7,12 +7,9 @@
     <meta name="description" content="Web application for video communication">
     <meta name="keywords" content="video,communication,chat,WebRTC,SignalR,Skype">
     <meta name="author" content="SignalRTC">    
-    <meta name="msvalidate.01" content="2AE989738C7AC2BB9E24406975F12F5C" />
-    <!--<link rel="icon" href="signalRTCicon.png" sizes="16x16" type="image/png">-->
+    <meta name="msvalidate.01" content="2AE989738C7AC2BB9E24406975F12F5C" />    
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <!--<link href="Content/bootstrap.min.css" rel="stylesheet" />-->
-    <!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha256-4nVETqQoIoCwuephcXpJ501G8B5sgBHb1ZsKU/D476I= sha512-cfSmkkLRDAcUNaJxRRWopCyEGX43UkWCAOl2wErYMBGOQVWwOsZ7IFuXScF9H/6nMGbmsgV4m5/xYfesyvHTxw==" crossorigin="anonymous">
     <link href="signalrtc.css" rel="stylesheet" />
     <script>
@@ -30,15 +27,7 @@
 </head>
 <body>
 
-    <div class="container-fluid">
-        <!--<h1>Jumbotron heading</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
-
-    <div class="container" id="content">-->
-        <!--<input type="text" readonly  disabled id="myName" /><br /><br />-->
-        <!--Users online:-->
-        <!--<input type="radio" value="public" name="user" checked><label>Public</label><br />-->
+    <div class="container-fluid">      
         <br />
         <div id="users" class="panel panel-default">
         </div>
@@ -112,16 +101,11 @@
 
                         <h4 class="modal-title">Enter your name:</h4>
                     </div>
-                    <div class="modal-body">
-                        <!--<form class="form-horizontal" id="userform">
-                            <div class="control-group">-->
+                    <div class="modal-body">      
 
                                 <div class="controls">
                                     <input id="user" name="user" type="text" autofocus>
-
-                                </div>
-                            <!--</div>
-                        </form>-->
+                                </div>                          
                     </div>
 
                 </div>
@@ -151,6 +135,7 @@
         <script src="https://chatroomone.azurewebsites.net/signalr/hubs"></script>
         <!--<script src="http://localhost:52527/signalr/hubs"></script>-->
 
+    <script src="Scripts/dom.js"></script>
         <script src="Scripts/video.js"></script>
         <script src="Scripts/signalr.js"></script>
         <script src="Scripts/utils.js"></script>
