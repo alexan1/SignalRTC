@@ -2,12 +2,12 @@
 
     //var callButton = document.getElementById('callButton');
     //var hangupButton = document.getElementById('hangupButton');
-    $("#callButton").prop('disabled', true);
-    $("#callButton").click(function () {
+    $callButton.prop('disabled', true);
+    $callButton.click(function () {
         console.trace("Call me!");
         call();
     });
-    $("#hangupButton").click(function () {
+    $hangupButton.click(function () {
         chat.server.hangUp();
     });
         
@@ -27,21 +27,21 @@
         }
     };
 
-    $("#localVideo").on('loadedmetadata', function () {
+    $localVideo.on('loadedmetadata', function () {
         trace('Local video currentSrc: ' + this.currentSrc +
           ', videoWidth: ' + this.videoWidth +
           'px,  videoHeight: ' + this.videoHeight + 'px');
     });
 
-    $("#remoteVideo").on('loadedmetadata', function () {
+    $remoteVideo.on('loadedmetadata', function () {
         trace('Remote video currentSrc: ' + this.currentSrc +
           ', videoWidth: ' + this.videoWidth +
           'px,  videoHeight: ' + this.videoHeight + 'px');
     });
 
-    $("#remoteVideo").onresize = function () {
+    $remoteVideo.onresize = function () {
         trace('Remote video size changed to ' +
-          $("#remoteVideo").videoWidth + 'x' + $("#remoteVideo").videoHeight);
+          $remoteVideo.videoWidth + 'x' + $remoteVideo.videoHeight);
         // We'll use the first onsize callback as an indication that video has started playing out.
         if (startTime) {
             var elapsedTime = window.performance.now() - startTime;
@@ -51,19 +51,19 @@
     };   
 
     function startDev(media) {
-        $("#remoteVideo").hide();
-        $("#callButton").prop('disabled', true);
-        $("#hangupButton").prop('disabled', true);       
+        $remoteVideo.hide();
+        $callButton.prop('disabled', true);
+        $hangupButton.prop('disabled', true);       
         console.trace('media = ' + media);
         var constraints;
         switch (media) {
             case 1:
                 constraints = { audio: true, video: true };
-                $('#videocam').html(camon);
+                $videocam.html(camon);
                 break;
             case 2:
                 constraints = { audio: true, video: false };
-                $('#mic').html(micon);
+                $mic.html(micon);
                 break;
             default:
                 constraints = { audio: false, video: false };
@@ -91,15 +91,15 @@
             };
             connection.onaddstream = function (e) {
                 // Call the polyfill wrapper to attach the media stream to this element.
-                $("#callButton").prop('disabled', true);
-                $('#device').hide();
+                $callButton.prop('disabled', true);
+                $device.hide();
                 attachMediaStream(remoteVideo, e.stream);
                 trace('received remote stream');
             };
-            $('#call').show();
+            $call.show();
         }
         else {
-            $('#call').hide();
+            $call.hide();
         };
 }
 
@@ -111,12 +111,12 @@ function call() {
         //hangup();
         return;
     }
-    $("#callButton").prop('disabled', true);
-    $('#remoteVideo').show(function() {
-            $('#device').hide();
+    $callButton.prop('disabled', true);
+    $remoteVideo.show(function() {
+            $device.hide();
         });    
-    //remoteVideo.hidden = false;    
-    $("#hangupButton").prop('disabled', false);
+   
+    $hangupButton.prop('disabled', false);
   trace('Starting call');  
   startTime = window.performance.now();
   var videoTracks = localStream.getVideoTracks();
@@ -137,12 +137,9 @@ function call() {
   connection.createOffer(onCreateOfferSuccess, errorHandler, sdpConstraints);
 }
 
-function answer(message) {
-    //remoteVideo.hidden = false;
-    $('#remoteVideo').show(); //function (); {
-    //    $('#videocam').hide();
-    //});
-    $("#hangupButton").prop('disabled', false);
+function answer(message) {    
+    $remoteVideo.show();    
+    $hangupButton.prop('disabled', false);
     trace('send answer ' + message.sdp);
     connection.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {       
         trace('setRemoteDescription');
@@ -175,17 +172,15 @@ function gotStream(stream) {
     trace('Received local stream');
     var media = 0;
     if (stream.getVideoTracks().length) {
-        $('#videocam').html(camon);
+        $videocam.html(camon);
         attachMediaStream($("#localVideo")[0], stream);
         media = 1;
     }
     else {
-        $('#mic').html(micon);
-        media = 2;
-        $('#video').hide();
+        $mic.html(micon);
+        media = 2;        
     }
-    localStream = stream;
-    //$("#callButton").prop('disabled', false);
+    localStream = stream;   
     chat.server.activateMedia(media);
 }
 
@@ -194,7 +189,7 @@ function onCreateOfferSuccess(desc) {
     trace('setLocalDescription start');
     var conn = $('input[name="user"]:checked').val();
     trace('conn2 = ' + conn);
-    $('#device').hide();
+    $device.hide();
     if (conn == "public")
     {
         alert("Sorry, you need to select user with whom you want to have video chat.");
@@ -241,27 +236,27 @@ var errorHandler = function (err) {
 var errorWebCam = function (err) {
     console.error(err);
     alert('Sorry, WebCam is absent');    
-    $('#localVideo').hide();
-    $('#videocam').html(camoff);
-    $('#call').hide();
+    $localVideo.hide();
+    $videocam.html(camoff);
+    $call.hide();
 };
 
 var errorMic = function (err) {
     console.error(err);
     alert('Sorry, Mic is absent');    
-    $('#video').hide();
-    $("#callButton").prop('disabled', true);
-    $('#mic').html(micoff);
-    $('#call').hide();
+    $video.hide();
+    $callButton.prop('disabled', true);
+    $mic.html(micoff);
+    $call.hide();
 };
 
 function hangup() {
   trace('Ending call');
   connection.close();  
   connection = null;    
-  $('#remoteVideo').hide();
-  $('#device').show();   
+  $remoteVideo.hide();
+  $device.show();   
   connect();
   //$("#callButton").prop('disabled', false);
-  $("#hangupButton").prop('disabled', true);  
+  $hangupButton.prop('disabled', true);  
 }

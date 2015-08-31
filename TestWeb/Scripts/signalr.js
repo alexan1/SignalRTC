@@ -29,7 +29,7 @@ function starting() {
             message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
         };
         message = message + "    <font color='Gray'><small>" + getTime() + "</small></font>";
-        $('#discussion').prepend('<li><strong>' + encodedName
+        $discussion.prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
 
         var audio = new Audio('/sound/page-flip-01a.mp3');
@@ -45,7 +45,7 @@ function starting() {
         var conarray = connection.toString().split(',');
         var browserarray = browsers.toString().split(',');
         var mediaarray = medias.toString().split(',');
-        var number = keysarray.indexOf($('#displayname').val());
+        var number = keysarray.indexOf($displayname.val());
         keysarray.splice(number, 1);
         conarray.splice(number, 1);
         browserarray.splice(number, 1);
@@ -54,8 +54,8 @@ function starting() {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
             var i;
-            $('#users').empty();
-            $('#users').append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />');
+            $users.empty();
+            $users.append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />');
             for (i = 0; i < keysarray.length; i++) {
                 var connectionId = conarray[i];
                 var media = mediaarray[i];
@@ -77,17 +77,15 @@ function starting() {
                 }                
                 console.trace('med = ' + med);
                 
-                $('#users').append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label>');
+                $users.append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label><br/>');
                 $('input[name="user"]:checked').val(conarray[i]);                
             }
-            $('input[name="user"][value="public"]').prop('checked', true);
-            //var selecteduser = $('input:radio:checked').next().text();
-            //console.trace('selected user = ', selecteduser);
+            $('input[name="user"][value="public"]').prop('checked', true);            
         }
         else {
-            $('#users').empty();
+            $users.empty();
         }
-        $("#callButton").prop('disabled', true);
+        $callButton.prop('disabled', true);
     };
 
     chat.client.hangUpVideo = function () {
@@ -119,20 +117,20 @@ function getUserName() {
     name = getUrlVars()["user"];
     //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
-        var name = prompt('Enter your name:', '');
+        var name = $("#user").val();       
     }
     name = $.trim(name);
-    //trace('user2 = ' + name);
+    console.trace('user2 = ' + name);
     if (!(name) || name == null) {
-        name = generateQuickGuid();//Math.round(new Date().getTime());
+        name = generateQuickGuid();
         //trace('user = ' + name);
     }
     console.trace('user = ' + name);
     console.trace('browser = ' + webrtcDetectedBrowser);
-    $('#myname').val(name);
-    $('#displayname').val(name);
+    $myname.val(name);
+    $displayname.val(name);
     // Set initial focus to message input box.
-    $('#message').focus();
+    $message.focus();
     // Start the connection.
     $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
     //$.connection.hub.qs = "browser=" + webrtcDetectedBrowser;
@@ -140,28 +138,28 @@ function getUserName() {
 
 function startHub() {
     $.connection.hub.start().done(function () {
-        $('#sendmessage').click(function () {
+        $sendmessage.click(function () {
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
             var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
             console.trace('conn = ' + conn + '/' + conname);
             if (conn == "public") {
-                chat.server.send($('#displayname').val(), $('#message').val());
+                chat.server.send($displayname.val(), $message.val());
             }
             else {
-                chat.server.sendToUser(conname, conn, $('#displayname').val(), $('#message').val());
+                chat.server.sendToUser(conname, conn, $displayname.val(), $message.val());
             }
             // Clear text box and reset focus for next comment.
-            $('#message').val('').focus();
+            $message.val('').focus();
         });
 
-        $('#message').keypress(function (e) {
+        $message.keypress(function (e) {
             if (e.which == 13) {//Enter key pressed
-                $('#sendmessage').click();//Trigger search button click event
+                $sendmessage.click();
             }
         });
-        $('#clearMessages').click(function () {
-            $('#discussion').empty();
+        $clearMessages.click(function () {
+            $discussion.empty();
         });        
     });
 };
