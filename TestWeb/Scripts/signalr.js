@@ -26,7 +26,7 @@ function starting() {
         var encodedMsg = $('<div />').text(message).html();
         // Add the message to the page.       
         if (priv) {
-            message = "<font color='blue'><small>[" + priv + "]</small></font>  " + message;
+            message = "<font color='blue'><small>[" + priv + "]</small></font>  " + encodedMsg;
         };
         message = message + "    <font color='Gray'><small>" + getTime() + "</small></font>";
         $discussion.prepend('<li><strong>' + encodedName
