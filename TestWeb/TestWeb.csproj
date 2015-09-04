@@ -76,6 +76,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dom.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <None Include="Properties\PublishProfiles\alexan_new.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
