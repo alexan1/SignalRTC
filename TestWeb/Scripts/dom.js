@@ -18,3 +18,5 @@ var $message = $('#message');
 var $sendmessage = $('#sendmessage');
 var $discussion = $('#discussion');
 var $clearMessages = $('#clearMessages');
+var $camdev = $('#camdev');
+var $micdev = $('#micdev');

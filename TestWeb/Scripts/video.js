@@ -59,13 +59,13 @@
         
         if (device.kind == 'videoinput') {
             camnumber++;
-            $('#camdev').append($('<option/>', { 
+            $camdev.append($('<option/>', { 
                 value: device.deviceId,
                 text : device.label
             }));
         } else {
             micnumber++;
-            $('#micdev').append($('<option/>', { 
+            $micdev.append($('<option/>', { 
                 value: device.deviceId,
                 text : device.label
             }));
@@ -73,12 +73,12 @@
         });
 
         if (camnumber == 0) {
-            $('#camdev').hide();
-            $('#videocam').prop('disabled', true);
+            $camdev.hide();
+            $videocam.prop('disabled', true);
         }
         if (micnumber == 0) {
-            $('#micdev').hide();
-            $('#mic').prop('disabled', true);
+            $micdev.hide();
+            $mic.prop('disabled', true);
         }
        
 }) 
