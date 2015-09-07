@@ -50,6 +50,29 @@
         }
     };   
 
+    function selectDevice() {
+        navigator.mediaDevices.enumerateDevices().then(function(devices) {
+        devices.forEach(function(device) {
+        console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+      
+        if (device.kind == 'videoinput'){
+            $('#camdev').append($('<option/>', { 
+                value: device.deviceId,
+                text : device.label
+            }));
+        } else {
+            $('#micdev').append($('<option/>', { 
+                value: device.deviceId,
+                text : device.label
+            }));
+        };
+    });
+}) 
+.catch(function(err) {
+    console.log(err.name + ": " + error.message);
+});
+    }
+
     function startDev(media) {
         $remoteVideo.hide();
         $callButton.prop('disabled', true);
@@ -58,7 +81,10 @@
         var constraints;
         switch (media) {
             case 1:
-                constraints = { audio: true, video: true };
+                constraints = {
+                    audio: true,
+                    video: true
+                };
                 $videocam.html(camon);
                 break;
             case 2:

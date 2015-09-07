@@ -54,6 +54,7 @@ $start1.click(function () {
 $start2.click(function () {    
     if (navigator.getUserMedia) {
         $device.show();
+        selectDevice();
     }
     else {
         $device.hide();
