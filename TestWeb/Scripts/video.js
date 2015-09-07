@@ -51,29 +51,46 @@
     };   
 
     function selectDevice() {
-        navigator.mediaDevices.enumerateDevices().then(function(devices) {
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        var camnumber = 0;
+        var micnumber = 0;
         devices.forEach(function(device) {
         console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
-      
-        if (device.kind == 'videoinput'){
+        
+        if (device.kind == 'videoinput') {
+            camnumber++;
             $('#camdev').append($('<option/>', { 
                 value: device.deviceId,
                 text : device.label
             }));
         } else {
+            micnumber++;
             $('#micdev').append($('<option/>', { 
                 value: device.deviceId,
                 text : device.label
             }));
         };
-    });
+        });
+
+        if (camnumber == 0) {
+            $('#camdev').hide();
+            $('#videocam').prop('disabled', true);
+        }
+        if (micnumber == 0) {
+            $('#micdev').hide();
+            $('#mic').prop('disabled', true);
+        }
+       
 }) 
 .catch(function(err) {
-    console.log(err.name + ": " + error.message);
+    console.log(err.name + ": " + err.message);
 });
+        
     }
 
     function startDev(media) {
+        var audioId = $('#micdev').val();
+        var videoId = $('#camdev').val();        
         $remoteVideo.hide();
         $callButton.prop('disabled', true);
         $hangupButton.prop('disabled', true);       
@@ -82,13 +99,27 @@
         switch (media) {
             case 1:
                 constraints = {
-                    audio: true,
-                    video: true
+                    audio: {
+                        optional: [{
+                            sourceId: audioId
+                        }]
+                    },
+                    video: {
+                        optional: [{
+                            sourceId: videoId
+                        }]
+                    }
                 };
                 $videocam.html(camon);
                 break;
             case 2:
-                constraints = { audio: true, video: false };
+                constraints = {
+                    video: false, audio: {
+                        optional: [{
+                            sourceId: audioId
+                        }]
+                    }
+                };
                 $mic.html(micon);
                 break;
             default:
