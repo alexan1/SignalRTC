@@ -20,7 +20,6 @@
 //var $clearMessages = $('#clearMessages');
 //var $myname = $('#$myname');
 
-
 $video.hide();
 
 $myModal.modal('show');
@@ -58,6 +57,7 @@ $start2.click(function () {
     }
     else {
         $device.hide();
+        $alert1.show();
     }
     $video.hide();   
     $call.hide();

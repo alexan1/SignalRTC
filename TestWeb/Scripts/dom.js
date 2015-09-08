@@ -20,3 +20,5 @@ var $discussion = $('#discussion');
 var $clearMessages = $('#clearMessages');
 var $camdev = $('#camdev');
 var $micdev = $('#micdev');
+var $alert1 = $('#alert1');
+
