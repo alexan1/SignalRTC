@@ -1,32 +1,9 @@
-﻿//var $video = $('#video');
-//var $myModal = $('#myModal');
-//var $start1 = $('#start1');
-//var $start2 = $('#start2');
-//var $myname = $('#myname');
-//var $device = $('#device');
-//var $call = $('#call');
-//var $users = $('#users');
-//var $user = $('#user');
-//var $videocam = $('#videocam');
-//var $localVideo = $('#localVideo');
-//var $remoteVideo = $('#remoteVideo');
-//var $mic = $('#mic');
-//var $callButton = $('#callButton');
-//var $hangupButton = $('#hangupButton');
-//var $displayname = $('#displayname');
-//var $message = $('#message');
-//var $sendmessage = $('#sendmessage');
-//var $discussion = $('#discussion');
-//var $clearMessages = $('#clearMessages');
-//var $myname = $('#$myname');
-
-$video.hide();
+﻿$video.hide();
 
 $myModal.modal('show');
 
 function generateQuickGuid() {
-    return Math.random().toString(36).substring(2, 15);
-        //+ Math.random().toString(36).substring(2, 15);
+    return Math.random().toString(36).substring(2, 15);       
 }
 
 function getTime() {

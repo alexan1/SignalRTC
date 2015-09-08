@@ -132,8 +132,7 @@ function getUserName() {
     // Set initial focus to message input box.
     $message.focus();
     // Start the connection.
-    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
-    //$.connection.hub.qs = "browser=" + webrtcDetectedBrowser;
+    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
 };
 
 function startHub() {
