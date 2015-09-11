@@ -23,6 +23,13 @@ function getUrlVars() {
 }
 
 $start1.click(function () {
+    if (typeof (Storage) !== "undefined") {
+        var nexttime = $nexttime.is(':checked');
+        console.log("next time  " + nexttime);
+        localStorage.setItem("nexttime", nexttime);
+    } else {
+        console.log("Sorry! No Web Storage support..");
+    }
     $myname.modal('show');
 });
 
