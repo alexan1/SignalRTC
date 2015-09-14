@@ -1,6 +1,15 @@
 ﻿$video.hide();
 
-$myModal.modal('show');
+console.log("strating next time  " + localStorage.nexttime);
+
+if (localStorage.nexttime == 'false') {
+    $myname.modal('show');
+} else {
+    $myModal.modal('show');
+};
+
+
+//$myname.modal('show');
 
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15);       
@@ -24,12 +33,14 @@ function getUrlVars() {
 
 $start1.click(function () {
     if (typeof (Storage) !== "undefined") {
-        var nexttime = $nexttime.is(':checked');
-        console.log("next time  " + nexttime);
-        localStorage.setItem("nexttime", nexttime);
+        localStorage.nexttime = true;
+        if ($nexttime.is(':checked')) {
+            localStorage.nexttime = false;
+        }
     } else {
         console.log("Sorry! No Web Storage support..");
     }
+    console.log("next time " + localStorage.nexttime);
     $myname.modal('show');
 });
 

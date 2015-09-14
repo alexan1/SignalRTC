@@ -117,7 +117,7 @@ function getUserName() {
     name = getUrlVars()["user"];
     //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
-        var name = $("#user").val();       
+        var name = $user.val();       
     }
     name = $.trim(name);
     console.trace('user2 = ' + name);
