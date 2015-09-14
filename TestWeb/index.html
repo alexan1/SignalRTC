@@ -38,18 +38,18 @@
         </div>
 
 
-        <div id="video" class="panel panel-default">
+        <div id="video" class="panel panel-default" hidden>
             <video id="remoteVideo" autoplay width="640" height="480" controls></video>
             <video id="localVideo" autoplay muted title="Local video" width="320" height="240"></video>
         </div>
         <br />
-        <div id="call" class="panel panel-default">
+        <div id="call" class="panel panel-default" hidden>
             <button id="callButton" class="btn btn-danger">Call</button>
             <button id="hangupButton" class="btn btn-danger">Hang Up</button>
         </div>
 
         <br /><input id="displayname" disabled  /><br /><br />
-        <div id="device" class="panel panel-default">
+        <div id="device" class="panel panel-default" hidden>
             <select id="camdev" class="dropdown"></select>
             <select id="micdev" class="dropdown"></select><br /><br />
             <button id="videocam" class="btn btn-warning">Webcam/Audio (ON/<strong><u>OFF</u></strong>)</button>&nbsp;

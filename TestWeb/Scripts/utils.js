@@ -1,6 +1,6 @@
-﻿$video.hide();
+﻿//$video.hide();
 
-console.log("strating next time  " + localStorage.nexttime);
+//console.log("strating next time  " + localStorage.nexttime);
 
 if (localStorage.nexttime == 'false') {
     $myname.modal('show');
