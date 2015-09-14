@@ -13,8 +13,8 @@
 //    return a;
 //};
 
-$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-//$.connection.hub.url = "http://localhost:52527/signalr";
+//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+$.connection.hub.url = "http://localhost:52527/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
@@ -36,15 +36,15 @@ function starting() {
         audio.play();
     };
 
-    chat.client.showUsersOnLine = function (keys, connection, browsers, medias) {
-        console.trace('keys = ' + keys);
-        console.trace('connection = ' + connection);
-        console.trace('browsers = ' + browsers);
-        console.trace('medias = ' + medias);
-        var keysarray = keys.toString().split(',');
-        var conarray = connection.toString().split(',');
-        var browserarray = browsers.toString().split(',');
-        var mediaarray = medias.toString().split(',');
+    chat.client.showUsersOnLine = function (users) {
+        console.trace('keys = ' + users.keys);
+        console.trace('connection = ' + users.connection);
+        console.trace('browsers = ' + users.browsers);
+        console.trace('medias = ' + users.medias);
+        var keysarray = users.keys.toString().split(',');
+        var conarray = users.connection.toString().split(',');
+        var browserarray = users.browsers.toString().split(',');
+        var mediaarray = users.medias.toString().split(',');
         var number = keysarray.indexOf($displayname.val());
         keysarray.splice(number, 1);
         conarray.splice(number, 1);

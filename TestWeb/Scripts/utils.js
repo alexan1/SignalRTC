@@ -1,15 +1,9 @@
-﻿//$video.hide();
-
-//console.log("strating next time  " + localStorage.nexttime);
-
+﻿
 if (localStorage.nexttime == 'false') {
     $myname.modal('show');
 } else {
     $myModal.modal('show');
 };
-
-
-//$myname.modal('show');
 
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15);       

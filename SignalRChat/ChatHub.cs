@@ -1,10 +1,9 @@
-﻿using System;
-using System.Web;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Security;
+using Newtonsoft.Json;
+
 namespace SignalRChat
 {
     public class ChatHub : Hub
@@ -145,12 +144,16 @@ namespace SignalRChat
         }
 
         public void ShowUsersOnLine()
-        {            
-            var names = ConnectedUsers.Select(C => C.Name).ToList();
-            var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
-            var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
-            var medias = ConnectedUsers.Select(C => C.BroMedia).ToList();
-            Clients.All.showUsersOnLine(names, connections, browsers, medias);
+        {
+            var users = JsonConvert.SerializeObject(ConnectedUsers);
+            //var names = ConnectedUsers.Select(C => C.Name).ToList();
+            //var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
+            //var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
+            //var medias = ConnectedUsers.Select(C => C.BroMedia).ToList();
+            //Clients.All.showUsersOnLine(names, connections, browsers, medias);
+            Clients.All.showUsersOnLine(users);
+            //var json = new JavaScriptSerializer().Serialize(ConnectedUsers);
+
 
         }
     }
