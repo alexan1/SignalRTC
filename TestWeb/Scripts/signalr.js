@@ -14,7 +14,7 @@
 //};
 
 //$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-$.connection.hub.url = "http://localhost:52527/signalr";
+$.connection.hub.url = "https://localhost:44301/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
@@ -37,10 +37,13 @@ function starting() {
     };
 
     chat.client.showUsersOnLine = function (users) {
-        console.trace('keys = ' + users.keys);
-        console.trace('connection = ' + users.connection);
-        console.trace('browsers = ' + users.browsers);
-        console.trace('medias = ' + users.medias);
+        var usersdata = JSON.parse(users);
+        console.trace('users = ' + users);
+        console.trace('users = ' + usersdata);
+        console.trace('names = ' + usersdata.usersName);
+        console.trace('connection = ' + usersdata.ConnectionId);
+        console.trace('browsers = ' + usersdata.Browser);
+        console.trace('medias = ' + usersdata.BroMedia);
         var keysarray = users.keys.toString().split(',');
         var conarray = users.connection.toString().split(',');
         var browserarray = users.browsers.toString().split(',');
