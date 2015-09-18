@@ -37,41 +37,53 @@ function starting() {
     };
 
     chat.client.showUsersOnLine = function (users) {
-        var usersdata = JSON.parse(users);
+        //var users1 = users.filter(function (el) { return el.Name != $displayname.val(); });
+        var usersdata1 = JSON.parse(users);
+        console.log("my name = " + $displayname.val());
+        var usersdata = usersdata1.filter(function (el) { return el.Name != $displayname.val(); });
+
+        //myArray = myArray.filter(function (obj) {
+        //    return obj.field !== 'money';
+        //});
+
         console.trace('users = ' + users);
-        console.trace('users = ' + usersdata);
-        console.trace('names = ' + usersdata.usersName);
-        console.trace('connection = ' + usersdata.ConnectionId);
-        console.trace('browsers = ' + usersdata.Browser);
-        console.trace('medias = ' + usersdata.BroMedia);
-        var keysarray = users.keys.toString().split(',');
-        var conarray = users.connection.toString().split(',');
-        var browserarray = users.browsers.toString().split(',');
-        var mediaarray = users.medias.toString().split(',');
-        var number = keysarray.indexOf($displayname.val());
-        keysarray.splice(number, 1);
-        conarray.splice(number, 1);
-        browserarray.splice(number, 1);
-        mediaarray.splice(number, 1);
-        if (keysarray[0] != null) {
+        console.trace('usersdata1 = ' + usersdata1);
+        console.trace('usersdata = ' + usersdata);
+        //console.trace('names = ' + users[0].Name);
+        //console.trace('namesdata = ' + usersdata[0].Name);
+        //console.trace('connection = ' + usersdata[0].ConnectionId);
+        //console.trace('browsers = ' + usersdata[0].Browser);
+        //console.trace('medias = ' + usersdata[0].BroMedia);
+        
+        //var keysarray = users.keys.toString().split(',');
+        //var conarray = users.connection.toString().split(',');
+        //var browserarray = users.browsers.toString().split(',');
+        //var mediaarray = users.medias.toString().split(',');
+        //var number = usersdata.Name.indexOf($displayname.val());
+        //keysarray.splice(number, 1);
+        //conarray.splice(number, 1);
+        //browserarray.splice(number, 1);
+        //mediaarray.splice(number, 1);
+        //usersdata.splice(number, 1);
+        if (usersdata[0] != null) {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
             var i;
             $users.empty();
             $users.append('<input type="radio" value= "public" name="user" checked><label>Public</label><br />');
-            for (i = 0; i < keysarray.length; i++) {
-                var connectionId = conarray[i];
-                var media = mediaarray[i];
+            for (i = 0; i < usersdata.length; i++) {
+                var connectionId = usersdata[i].ConnectionId;
+                var media = usersdata[i].BroMedia;
                 console.trace('media = ' + media);
                 var med = " ";
                 switch (media) {
-                    case "0":                        
+                    case 0:                        
                         med = " ";
                         break;
-                    case "1":
+                    case 1:
                         med = "WebCam";
                         break;
-                    case "2":
+                    case 2:
                         med = "Mic";
                         break;
                     default:
@@ -80,8 +92,8 @@ function starting() {
                 }                
                 console.trace('med = ' + med);
                 
-                $users.append('<input type="radio" value= connectionId name="user" checked><label>' + keysarray[i] + ' </label>  <label><font color="Green"><small>/' + browserarray[i] + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label><br/>');
-                $('input[name="user"]:checked').val(conarray[i]);                
+                $users.append('<input type="radio" value= connectionId name="user" checked><label>' + usersdata[i].Name + ' </label>  <label><font color="Green"><small>/' + usersdata[i].Browser + '/ </small></font></label><label><font color="Red"><small>  ' + med + '</small></font><br/></label><br/>');
+                $('input[name="user"]:checked').val(usersdata[i].ConnectionId);
             }
             $('input[name="user"][value="public"]').prop('checked', true);            
         }
