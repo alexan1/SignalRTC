@@ -1,7 +1,5 @@
 ﻿'use strict';
-
-    //var callButton = document.getElementById('callButton');
-    //var hangupButton = document.getElementById('hangupButton');
+   
     $callButton.prop('disabled', true);
     $callButton.click(function () {
         console.trace("Call me!");
@@ -9,14 +7,9 @@
     });
     $hangupButton.click(function () {
         chat.server.hangUp();
-    });
-        
-        //hangup;
+    });       
 
     var startTime;
-    //var localVideo = document.getElementById('localVideo');
-    //var remoteVideo = document.getElementById('remoteVideo');
-
     var localStream;
     var connection;
     
@@ -50,7 +43,47 @@
         }
     };   
 
+    function selectDevice() {
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        var camnumber = 0;
+        var micnumber = 0;
+        devices.forEach(function(device) {
+        console.log(device.kind + ": " + device.label + " id = " + device.deviceId);
+        
+        if (device.kind == 'videoinput') {
+            camnumber++;
+            $camdev.append($('<option/>', { 
+                value: device.deviceId,
+                text: device.label || "Webcam" + camnumber
+            }));
+        } else {
+            micnumber++;
+            $micdev.append($('<option/>', { 
+                value: device.deviceId,
+                text: device.label || "Microphone" + micnumber
+            }));
+        };
+        });
+
+        if (camnumber == 0) {
+            $camdev.hide();
+            $videocam.prop('disabled', true);
+        }
+        if (micnumber == 0) {
+            $micdev.hide();
+            $mic.prop('disabled', true);
+        }
+       
+}) 
+.catch(function(err) {
+    console.log(err.name + ": " + err.message);
+});
+        
+    }
+
     function startDev(media) {
+        var audioId = $('#micdev').val();
+        var videoId = $('#camdev').val();        
         $remoteVideo.hide();
         $callButton.prop('disabled', true);
         $hangupButton.prop('disabled', true);       
@@ -58,11 +91,28 @@
         var constraints;
         switch (media) {
             case 1:
-                constraints = { audio: true, video: true };
+                constraints = {
+                    audio: {
+                        optional: [{
+                            sourceId: audioId
+                        }]
+                    },
+                    video: {
+                        optional: [{
+                            sourceId: videoId
+                        }]
+                    }
+                };
                 $videocam.html(camon);
                 break;
             case 2:
-                constraints = { audio: true, video: false };
+                constraints = {
+                    video: false, audio: {
+                        optional: [{
+                            sourceId: audioId
+                        }]
+                    }
+                };
                 $mic.html(micon);
                 break;
             default:
@@ -81,10 +131,7 @@
             var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
             //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
             
-            connection = new RTCPeerConnection(servers);
-            //trace('Created connection object');
-            //var conn = $('input[name="user"]:checked', '#users').val();
-            //trace('conn = ' + conn);
+            connection = new RTCPeerConnection(servers);            
             connection.onicecandidate = function (e) {
 
                 chat.server.iceCandidate(JSON.stringify({ "candidate": e.candidate }));
@@ -100,6 +147,7 @@
         }
         else {
             $call.hide();
+            $alert1.show();
         };
 }
 
@@ -107,8 +155,7 @@ function call() {
     var conn = $('input[name="user"]:checked').val();
     trace('conn1 = ' + conn);
     if (conn == "public") {
-        alert("Sorry, you need to select user with whom you want to have video chat.");
-        //hangup();
+        alert("Sorry, you need to select user with whom you want to have video chat.");        
         return;
     }
     $callButton.prop('disabled', true);
@@ -256,7 +303,6 @@ function hangup() {
   connection = null;    
   $remoteVideo.hide();
   $device.show();   
-  connect();
-  //$("#callButton").prop('disabled', false);
+  connect();  
   $hangupButton.prop('disabled', true);  
 }
