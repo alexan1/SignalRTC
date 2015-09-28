@@ -145,16 +145,8 @@ namespace SignalRChat
 
         public void ShowUsersOnLine()
         {
-            var users = JsonConvert.SerializeObject(ConnectedUsers);
-            //var names = ConnectedUsers.Select(C => C.Name).ToList();
-            //var connections = ConnectedUsers.Select(C => C.ConnectionId).ToList();
-            //var browsers = ConnectedUsers.Select(C => C.Browser).ToList();
-            //var medias = ConnectedUsers.Select(C => C.BroMedia).ToList();
-            //Clients.All.showUsersOnLine(names, connections, browsers, medias);
+            var users = JsonConvert.SerializeObject(ConnectedUsers);            
             Clients.All.showUsersOnLine(users);
-            //var json = new JavaScriptSerializer().Serialize(ConnectedUsers);
-
-
         }
     }
 }

@@ -1,20 +1,5 @@
-﻿// Declare a proxy to reference the hub.
-//var url = window.location.href;
-//trace('url = ' + url);
-//var scripts = document.getElementsByTagName("script"),
-//    src = toLocation(scripts[scripts.length - 1].src).origin;
-//$.connection.hub.url = src + "/signalr";
-//trace('connection url = ' + $.connection.hub.url);
-//var chat = $.connection.chatHub;
-
-//function toLocation(url) {
-//    var a = document.createElement('a');
-//    a.href = url;
-//    return a;
-//};
-
-//$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
-$.connection.hub.url = "https://localhost:44301/signalr";
+﻿$.connection.hub.url = "https://chatroomone.azurewebsites.net/signalr";
+//$.connection.hub.url = "https://localhost:44301/signalr";
 var chat = $.connection.chatHub;
 
 function starting() {
@@ -36,35 +21,14 @@ function starting() {
         audio.play();
     };
 
-    chat.client.showUsersOnLine = function (users) {
-        //var users1 = users.filter(function (el) { return el.Name != $displayname.val(); });
+    chat.client.showUsersOnLine = function (users) {        
         var usersdata1 = JSON.parse(users);
         console.log("my name = " + $displayname.val());
-        var usersdata = usersdata1.filter(function (el) { return el.Name != $displayname.val(); });
+        var usersdata = usersdata1.filter(function (el) { return el.Name != $displayname.val(); });      
 
-        //myArray = myArray.filter(function (obj) {
-        //    return obj.field !== 'money';
-        //});
-
-        console.trace('users = ' + users);
-        console.trace('usersdata1 = ' + usersdata1);
-        console.trace('usersdata = ' + usersdata);
-        //console.trace('names = ' + users[0].Name);
-        //console.trace('namesdata = ' + usersdata[0].Name);
-        //console.trace('connection = ' + usersdata[0].ConnectionId);
-        //console.trace('browsers = ' + usersdata[0].Browser);
-        //console.trace('medias = ' + usersdata[0].BroMedia);
-        
-        //var keysarray = users.keys.toString().split(',');
-        //var conarray = users.connection.toString().split(',');
-        //var browserarray = users.browsers.toString().split(',');
-        //var mediaarray = users.medias.toString().split(',');
-        //var number = usersdata.Name.indexOf($displayname.val());
-        //keysarray.splice(number, 1);
-        //conarray.splice(number, 1);
-        //browserarray.splice(number, 1);
-        //mediaarray.splice(number, 1);
-        //usersdata.splice(number, 1);
+        //console.trace('users = ' + users);
+        //console.trace('usersdata1 = ' + usersdata1);
+        //console.trace('usersdata = ' + usersdata);       
         if (usersdata[0] != null) {
             var audio = new Audio('/sound/bottle-open-1.mp3');
             audio.play();
