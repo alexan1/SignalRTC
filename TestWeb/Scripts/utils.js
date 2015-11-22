@@ -66,8 +66,11 @@ $videocam.click(function () {
         connect();
     }
     else {
-        if (localStream != undefined) {
-            localStream.stop();
+        if (localStream != undefined) {            
+            var videoTracks = localStream.getVideoTracks();
+            videoTracks[0].stop()
+            var audioTracks = localStream.getAudioTracks();
+            audioTracks[0].stop();           
         };
         $videocam.html(camoff);
         chat.server.activateMedia(0);

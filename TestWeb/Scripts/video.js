@@ -121,9 +121,14 @@
         }
         
         if (navigator.getUserMedia) {
-            navigator.getUserMedia(constraints,
-            gotStream, errorWebCam);
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(gotStream)
+            .catch(errorWebCam)
         };
+
+        //    navigator.getUserMedia(constraints,
+        //    gotStream, errorWebCam);
+        //};
     }
 
     function connect() {
