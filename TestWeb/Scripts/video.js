@@ -52,13 +52,13 @@
         
         if (device.kind == 'videoinput') {
             camnumber++;
-            $camdev.append($('<option/>', { 
+            $camdev.append($('<option/>', {
                 value: device.deviceId,
                 text: device.label || "Webcam" + camnumber
             }));
-        } else {
+        } else if (device.kind == 'audioinput') {
             micnumber++;
-            $micdev.append($('<option/>', { 
+            $micdev.append($('<option/>', {
                 value: device.deviceId,
                 text: device.label || "Microphone" + micnumber
             }));
