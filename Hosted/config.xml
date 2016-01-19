@@ -109,4 +109,5 @@
   <preference name="ShowTitle" value="True" />
   <preference name="InAppBrowserStorageEnabled" value="True" />
   <preference name="SuppressesIncrementalRendering" value="True" />
+  <vs:plugin name="cordova-plugin-camera" version="1.2.0" />
 </widget>
