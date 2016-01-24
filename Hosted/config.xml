@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myappaf2387" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
   <name>SignalRTC</name>
-  <description>A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.</description>
-  <author href="http://cordova.io" email="dev@cordova.apache.org">Apache Cordova Team </author>
+  <description>Video Communication</description>
+  <author href="http://cordova.io" email="dev@cordova.apache.org">SignalRTC</author>
   <content src="index.html" />
   <access origin="*" />
   <vs:features />
@@ -110,4 +110,5 @@
   <preference name="InAppBrowserStorageEnabled" value="True" />
   <preference name="SuppressesIncrementalRendering" value="True" />
   <vs:plugin name="cordova-plugin-camera" version="1.2.0" />
+  <plugin name="cordova-plugin-media" version="2.1.0" />
 </widget>
