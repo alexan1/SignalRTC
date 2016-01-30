@@ -1,5 +1,7 @@
-﻿
-if (localStorage.nexttime == 'false') {
+﻿var android = 'false';
+android = localStorage.android;
+
+if (android == 'true' || localStorage.nexttime == 'false') {
     $myname.modal('show');
 } else {
     $myModal.modal('show');
@@ -42,7 +44,16 @@ $start1.click(function () {
 $start2.click(function () {    
     if (navigator.getUserMedia) {
         $device.show();
-        selectDevice();
+        if (android == 'true')
+        {
+            $camdev.hide();
+            $micdev.hide();
+            $mic.hide();
+        }
+        else
+        {
+            selectDevice();
+        }
     }
     else {
         $device.hide();
