@@ -1,4 +1,7 @@
-﻿var android = 'false';
+﻿//var ua = navigator.userAgent.toLowerCase();
+//var isAndroid = ua.indexOf("android") > -1;
+
+var android = 'false';
 android = localStorage.android;
 
 if (android == 'true' || localStorage.nexttime == 'false') {
