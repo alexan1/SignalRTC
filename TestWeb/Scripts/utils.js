@@ -1,10 +1,10 @@
-﻿//var ua = navigator.userAgent.toLowerCase();
-//var isAndroid = ua.indexOf("android") > -1;
+﻿var ua = navigator.userAgent.toLowerCase();
+var isAndroid = ua.indexOf("android") > -1;
 
 var android = 'false';
 android = localStorage.android;
 
-if (android == 'true' || localStorage.nexttime == 'false') {
+if (isAndroid == 'true' || localStorage.nexttime == 'false') {
     $myname.modal('show');
 } else {
     $myModal.modal('show');
@@ -47,7 +47,7 @@ $start1.click(function () {
 $start2.click(function () {    
     if (navigator.getUserMedia) {
         $device.show();
-        if (android == 'true')
+        if (isAndroid == 'true')
         {
             $camdev.hide();
             $micdev.hide();
