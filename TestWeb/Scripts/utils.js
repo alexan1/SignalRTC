@@ -1,10 +1,13 @@
 ﻿var ua = navigator.userAgent.toLowerCase();
 var isAndroid = ua.indexOf("android") > -1;
+console.log(ua);
+//isAndroid = true;
+console.log("isAndroid = " + isAndroid);
 
-var android = 'false';
-android = localStorage.android;
+//var android = 'false';
+//android = localStorage.android;
 
-if (isAndroid == 'true' || localStorage.nexttime == 'false') {
+if (isAndroid || localStorage.nexttime == 'false') {
     $myname.modal('show');
 } else {
     $myModal.modal('show');
@@ -47,7 +50,7 @@ $start1.click(function () {
 $start2.click(function () {    
     if (navigator.getUserMedia) {
         $device.show();
-        if (isAndroid == 'true')
+        if (isAndroid)
         {
             $camdev.hide();
             $micdev.hide();
