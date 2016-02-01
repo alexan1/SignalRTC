@@ -85,25 +85,26 @@ function starting() {
         trace('Answer sent ' + desc);
         getAnswer(JSON.parse(desc));
     };
-    var name = localStorage.userName;
+    //var name = localStorage.userName;
 
-    if (name == 'undefined') {
+    //if (name == 'undefined') {
         getUserName();        
-    }
-    else {
-        connect(name);
-    }
+    //}
+    //else {
+    //    connect(name);
+    //}
     
     startHub();    
 };
 
 function getUserName() {
     // Get the user name and store it to prepend to messages.
-    var name = "";
-    name = getUrlVars()["user"];
+    var name = localStorage.userName;
+    //name = getUrlVars()["user"];
+    //name = localStorage.useName;
     //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
-        var name = $user.val();       
+        name = $user.val();       
     }
     name = $.trim(name);
     console.trace('user2 = ' + name);
@@ -115,7 +116,7 @@ function getUserName() {
         //localStorage.nexttime = false;
     }
 
-    connect(name);
+    userConnect(name);
     //console.trace('user = ' + name);
     //console.trace('browser = ' + webrtcDetectedBrowser);
     //$myname.val(name);
@@ -126,7 +127,7 @@ function getUserName() {
     //$.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
 };
 
-function connect(name) {
+function userConnect(name) {
     console.trace('user = ' + name);
     console.trace('browser = ' + webrtcDetectedBrowser);
     $myname.val(name);

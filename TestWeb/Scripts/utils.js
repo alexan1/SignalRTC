@@ -10,7 +10,8 @@ var name = localStorage.userName;
 
 if (name != 'undefined') {
     //connect(name);
-    $start2.click();
+    start2();
+    //$myname.modal('show');
 }
 else {
     if (isAndroid || localStorage.nexttime == 'false') {
@@ -53,17 +54,40 @@ $start1.click(function () {
 });
 
 
-$start2.click(function () {    
+$start2.click(function () {
+    start2();
+    //if (navigator.getUserMedia) {
+    //    $device.show();
+    //    if (isAndroid)
+    //    {
+    //        $camdev.hide();
+    //        $micdev.hide();
+    //        $mic.hide();
+    //    }
+    //    else
+    //    {
+    //        selectDevice();
+    //    }
+    //}
+    //else {
+    //    $device.hide();
+    //    $alert1.show();
+    //}
+    //$video.hide();   
+    //$call.hide();
+    starting();
+});
+
+
+function start2() {
     if (navigator.getUserMedia) {
         $device.show();
-        if (isAndroid)
-        {
+        if (isAndroid) {
             $camdev.hide();
             $micdev.hide();
             $mic.hide();
         }
-        else
-        {
+        else {
             selectDevice();
         }
     }
@@ -71,10 +95,10 @@ $start2.click(function () {
         $device.hide();
         $alert1.show();
     }
-    $video.hide();   
+    $video.hide();
     $call.hide();
     starting();
-});
+}
 
 $user.keypress(function (e) {
     if (e.which == 13) {//Enter key pressed
