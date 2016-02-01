@@ -110,6 +110,5 @@
   <preference name="InAppBrowserStorageEnabled" value="True" />
   <preference name="SuppressesIncrementalRendering" value="True" />
   <vs:plugin name="cordova-plugin-camera" version="1.2.0" />
-  <plugin name="cordova-plugin-media" version="2.1.0" />
   <plugin name="cordova-plugin-media-capture" version="1.2.0" />
 </widget>
