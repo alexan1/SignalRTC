@@ -85,8 +85,15 @@ function starting() {
         trace('Answer sent ' + desc);
         getAnswer(JSON.parse(desc));
     };
+    var name = localStorage.userName;
 
-    getUserName();
+    if (name == 'undefined') {
+        getUserName();        
+    }
+    else {
+        connect(name);
+    }
+    
     startHub();    
 };
 
@@ -101,9 +108,25 @@ function getUserName() {
     name = $.trim(name);
     console.trace('user2 = ' + name);
     if (!(name) || name == null) {
-        name = generateQuickGuid();
-        //trace('user = ' + name);
+        name = generateQuickGuid();        
     }
+    else {
+        localStorage.userName = name;
+        //localStorage.nexttime = false;
+    }
+
+    connect(name);
+    //console.trace('user = ' + name);
+    //console.trace('browser = ' + webrtcDetectedBrowser);
+    //$myname.val(name);
+    //$displayname.val(name);
+    //// Set initial focus to message input box.
+    //$message.focus();
+    //// Start the connection.
+    //$.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
+};
+
+function connect(name) {
     console.trace('user = ' + name);
     console.trace('browser = ' + webrtcDetectedBrowser);
     $myname.val(name);
@@ -111,8 +134,8 @@ function getUserName() {
     // Set initial focus to message input box.
     $message.focus();
     // Start the connection.
-    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
-};
+    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
+}
 
 function startHub() {
     $.connection.hub.start().done(function () {

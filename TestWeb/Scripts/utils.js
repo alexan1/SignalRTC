@@ -6,13 +6,19 @@ console.log("isAndroid = " + isAndroid);
 
 //var android = 'false';
 //android = localStorage.android;
+var name = localStorage.userName;
 
-if (isAndroid || localStorage.nexttime == 'false') {
-    $myname.modal('show');
-} else {
-    $myModal.modal('show');
+if (name != 'undefined') {
+    //connect(name);
+    $start2.click();
+}
+else {
+    if (isAndroid || localStorage.nexttime == 'false') {
+        $myname.modal('show');
+    } else {
+        $myModal.modal('show');
+    };
 };
-
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15);       
 }

@@ -9,7 +9,7 @@
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
-        localStorage.abdroid = true;
+        //localStorage.abdroid = true;
         // Here, we redirect to the web site.
         var targetUrl = "https://signalrtc.com/";
         var bkpLink = document.getElementById("bkpLink");
