@@ -6,9 +6,10 @@ console.log("isAndroid = " + isAndroid);
 
 //var android = 'false';
 //android = localStorage.android;
-var name = localStorage.userName;
+//var name1 = localStorage.userName;
+var username = localStorage.userName;
 
-if (name != 'undefined') {
+if (username != 'undefined' && username != undefined) {
     //connect(name);
     start2();
     //$myname.modal('show');
