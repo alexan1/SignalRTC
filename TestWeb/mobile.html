@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <button id="google">press me</button>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js"></script>
+</body>
+</html>
+<script>
+    $('#google').click(function(){
+        var client = WindowsAzure.MobileServiceClient("https://signalrtc.azurewebsites.net");
+        console.log("client" + client);
+        client.login("facebook").done(function (results) {
+            alert("You are now logged in as: " + results.userId);
+        }, function (err) {
+            alert("Error: " + err);
+        });
+    });
+</script>
