@@ -16,9 +16,9 @@
             var client = new WindowsAzure.MobileServiceClient("https://signalrtc.azurewebsites.net");
             //console.log("client" + client);
             client.login("google").done(function (results) {
-                alert("You are now logged in as: " + results.userId);
+                console.log("You are now logged in as: " + results.userId);
             }, function (err) {
-                alert("Error: " + err);
+                console.log("Error: " + err);
             });
         });
     </script>
