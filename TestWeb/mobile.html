@@ -14,12 +14,12 @@
     <script>
         $('#google').click(function () {
             var client = new WindowsAzure.MobileServiceClient("https://signalrtc.azurewebsites.net");
-            //console.log("client" + client);
-            client.login("google").done(function (results) {
-                console.log("You are now logged in as: " + results.userId);
-            }, function (err) {
-                console.log("Error: " + err);
-            });
+            console.log("client  " + client);
+            //client.login("google").done(function (results) {
+            //    console.log("You are now logged in as: " + results.userId);
+            //}, function (err) {
+            //    console.log("Error: " + err);
+            //});
         });
     </script>
 </body>
