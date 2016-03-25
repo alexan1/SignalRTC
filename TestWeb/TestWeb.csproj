@@ -89,6 +89,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\alexan.pubxml" />
     <Content Include="favicon.ico" />
+    <Content Include="pics\btn_google_signin_dark_focus_web.png" />
+    <Content Include="pics\btn_google_signin_small.png" />
     <Content Include="pics\google-play-badge.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
