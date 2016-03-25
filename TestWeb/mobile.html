@@ -10,16 +10,20 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="Scripts/MobileServices.Web.min.js"></script>
     <!--script src="//ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js"></script>-->
-
+    <div class="major-provider   google-login" data-provider='google' data-oauthserver='https://accounts.google.com/o/oauth2/auth' data-oauthversion='2.0'>
+        <div class="icon-container"><span class="icon" style=""></span></div>
+        <div class="text"><span>Google</span></div>
+        <br class="cbt" />
+    </div>
     <script>
         $('#google').click(function () {
             var client = new WindowsAzure.MobileServiceClient("https://signalrtc.azurewebsites.net");
             console.log("client  " + client);
-            //client.login("google").done(function (results) {
-            //    console.log("You are now logged in as: " + results.userId);
-            //}, function (err) {
-            //    console.log("Error: " + err);
-            //});
+            client.login("google").done(function (results) {
+                console.log("You are now logged in as: " + results.userId);
+            }, function (err) {
+                console.log("Error: " + err);
+            });
         });
     </script>
 </body>
