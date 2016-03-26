@@ -18,10 +18,21 @@
     
     <script>
         $('#google').click(function () {
+
             var client = new WindowsAzure.MobileServiceClient("https://signalrtc.azurewebsites.net");
             console.log("client  " + client);
             client.login("google").done(function (results) {
                 console.log("You are now logged in as: " + results.userId);
+                console.log("results: " + results);
+
+                var url = client.applicationUrl + '/.auth/me';
+                fetch(url)
+                    .then(function (data) {
+                        return data.json()
+                    }).then(function (user) {
+                        // The user object contains the claims for the authenticated user
+                    });
+
             }, function (err) {
                 console.log("Error: " + err);
             });
