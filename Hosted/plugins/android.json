@@ -1,0 +1,27 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.signalrtc"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.signalrtc"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "com.signalrtc"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "com.signalrtc"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.signalrtc"
+        }
+    },
+    "dependent_plugins": {}
+}
