@@ -151,7 +151,8 @@ $mic.click(function () {
     }
     else {
         if (localStream != undefined) {
-            localStream.stop();
+            var audioTracks = localStream.getAudioTracks();
+            audioTracks[0].stop();
         };
         $(this).html(micoff);
         chat.server.activateMedia(0);
