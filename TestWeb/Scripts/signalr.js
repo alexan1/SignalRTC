@@ -16,7 +16,7 @@ function starting() {
         message = message + "    <font color='Gray'><small>" + getTime() + "</small></font>";
         $discussion.prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
-
+        console.log('message', message)
         var audio = new Audio('/sound/page-flip-01a.mp3');
         audio.play();
     };
@@ -93,8 +93,11 @@ function starting() {
     //else {
     //    connect(name);
     //}
-    
-    startHub();    
+        if ($.connection.hub && $.connection.hub.state !== $.signalR.connectionState.connected) {
+            console.log('hub will start');
+            startHub();
+        }
+    //startHub();    
 };
 
 function getUserName() {
@@ -140,6 +143,7 @@ function userConnect(name) {
 
 function startHub() {
     $.connection.hub.start().done(function () {
+        console.log('hub started');
         $sendmessage.click(function () {
             if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
                 $.connection.hub.start()

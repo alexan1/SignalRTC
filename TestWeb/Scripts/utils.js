@@ -92,7 +92,7 @@ $start2.click(function () {
     //}
     //$video.hide();   
     //$call.hide();
-    starting();
+    //starting();
 });
 
 
