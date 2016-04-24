@@ -123,7 +123,10 @@ $user.keypress(function (e) {
     }
 });
 
-$videocam.click(function () {   
+$videocam.click(function () {
+    if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+        $.connection.hub.start()
+    }
     $video.toggle();    
     if ($localVideo.is(':visible')) {       
         startDev(1);

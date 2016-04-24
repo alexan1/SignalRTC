@@ -141,6 +141,9 @@ function userConnect(name) {
 function startHub() {
     $.connection.hub.start().done(function () {
         $sendmessage.click(function () {
+            if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+                $.connection.hub.start()
+            }
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
             var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
