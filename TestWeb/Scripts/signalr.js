@@ -145,9 +145,9 @@ function startHub() {
     $.connection.hub.start().done(function () {
         console.log('hub started');
         $sendmessage.click(function () {
-            if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
-                $.connection.hub.start()
-            }
+            //if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+            //    $.connection.hub.start()
+            //}
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
             var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
@@ -161,6 +161,13 @@ function startHub() {
             // Clear text box and reset focus for next comment.
             $message.val('').focus();
         });
+
+        $.connection.hub.disconnected(function () {
+            //setTimeout(function () {
+                $.connection.hub.start();
+            //}, 5000); // Re-start connection after 5 seconds
+        });
+
 
         $message.keypress(function (e) {
             if (e.which == 13) {//Enter key pressed
