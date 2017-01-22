@@ -16,7 +16,7 @@ function starting() {
         message = message + "    <font color='Gray'><small>" + getTime() + "</small></font>";
         $discussion.prepend('<li><strong>' + encodedName
             + '</strong>:&nbsp;&nbsp;' + message + '</li>');
-
+        console.log('message', message)
         var audio = new Audio('/sound/page-flip-01a.mp3');
         audio.play();
     };
@@ -85,25 +85,52 @@ function starting() {
         trace('Answer sent ' + desc);
         getAnswer(JSON.parse(desc));
     };
+    //var name = localStorage.userName;
 
-    getUserName();
-    startHub();    
+    //if (name == 'undefined') {
+        getUserName();        
+    //}
+    //else {
+    //    connect(name);
+    //}
+        if ($.connection.hub && $.connection.hub.state !== $.signalR.connectionState.connected) {
+            console.log('hub will start');
+            startHub();
+        }
+    //startHub();    
 };
 
 function getUserName() {
     // Get the user name and store it to prepend to messages.
-    var name = "";
-    name = getUrlVars()["user"];
+    var name = localStorage.userName;
+    //name = getUrlVars()["user"];
+    //name = localStorage.useName;
     //trace('user1 = ' + name);
     if (!(name) || name == "undefined") {
-        var name = $user.val();       
+        name = $user.val();       
     }
     name = $.trim(name);
     console.trace('user2 = ' + name);
     if (!(name) || name == null) {
-        name = generateQuickGuid();
-        //trace('user = ' + name);
+        name = generateQuickGuid();        
     }
+    else {
+        localStorage.userName = name;
+        //localStorage.nexttime = false;
+    }
+
+    userConnect(name);
+    //console.trace('user = ' + name);
+    //console.trace('browser = ' + webrtcDetectedBrowser);
+    //$myname.val(name);
+    //$displayname.val(name);
+    //// Set initial focus to message input box.
+    //$message.focus();
+    //// Start the connection.
+    //$.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
+};
+
+function userConnect(name) {
     console.trace('user = ' + name);
     console.trace('browser = ' + webrtcDetectedBrowser);
     $myname.val(name);
@@ -111,12 +138,16 @@ function getUserName() {
     // Set initial focus to message input box.
     $message.focus();
     // Start the connection.
-    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;    
-};
+    $.connection.hub.qs = "userName=" + name + "&browser=" + webrtcDetectedBrowser;
+}
 
 function startHub() {
     $.connection.hub.start().done(function () {
+        console.log('hub started');
         $sendmessage.click(function () {
+            //if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+            //    $.connection.hub.start()
+            //}
             // Call the Send method on the hub.           
             var conn = $('input[name="user"]:checked').val();
             var conname = $('input[name="user"]:checked').next().text().split(' ')[0];
@@ -130,6 +161,13 @@ function startHub() {
             // Clear text box and reset focus for next comment.
             $message.val('').focus();
         });
+
+        $.connection.hub.disconnected(function () {
+            //setTimeout(function () {
+                $.connection.hub.start();
+            //}, 5000); // Re-start connection after 5 seconds
+        });
+
 
         $message.keypress(function (e) {
             if (e.which == 13) {//Enter key pressed

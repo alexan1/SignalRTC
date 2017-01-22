@@ -8,10 +8,12 @@
     <meta name="keywords" content="video,communication,chat,WebRTC,SignalR,Skype">
     <meta name="author" content="SignalRTC">    
     <meta name="msvalidate.01" content="2AE989738C7AC2BB9E24406975F12F5C" />    
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="341762296483-qu4ijn2f0t9tnt0ddcnq7h93jf60dle0.apps.googleusercontent.com">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="canonical" href="https://signalrtc.com/"/>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha256-4nVETqQoIoCwuephcXpJ501G8B5sgBHb1ZsKU/D476I= sha512-cfSmkkLRDAcUNaJxRRWopCyEGX43UkWCAOl2wErYMBGOQVWwOsZ7IFuXScF9H/6nMGbmsgV4m5/xYfesyvHTxw==" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha256-4nVETqQoIoCwuephcXpJ501G8B5sgBHb1ZsKU/D476I= sha512-cfSmkkLRDAcUNaJxRRWopCyEGX43UkWCAOl2wErYMBGOQVWwOsZ7IFuXScF9H/6nMGbmsgV4m5/xYfesyvHTxw==" crossorigin="anonymous">
     <link href="signalrtc.css" rel="stylesheet" />
     <script>
     (function (i, s, o, g, r, a, m) {
@@ -63,11 +65,15 @@
             <button id="clearMessages" class="btn btn-info">Clear messages</button>
         </div>
         </div>
-    
     <br />
-    <div class="panel-footer">
-        Copyright © 2015 SignalRTC All Rights Reserved
-    </div>
+    <div class="panel-footer hidden-xs hidden-sm">
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.myappaf2387&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="pics/google-play-badge.png" /></a>
+
+
+        <br />
+        <br />
+            Copyright © 2015 SignalRTC All Rights Reserved
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-lg">
@@ -94,10 +100,10 @@
                     </div>
                     <div class="modal-footer">
                         <div style="float:left;">
-                            <label>Don't show this window next time  <input type="checkbox" id="nexttime"value="" class="checkbox-inline left-checkbox"></label>
+                            <label>Don't show this window next time  <input type="checkbox" id="nexttime" value="" class="checkbox-inline left-checkbox"></label>
                         </div>
-                            <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Start</button>
-                        </div>
+                        <button type="button" id="start1" class="btn btn-default close" data-dismiss="modal">Start</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,12 +117,14 @@
 
                         <h4 class="modal-title">Enter your name:</h4>
                     </div>
-                    <div class="modal-body">      
+                    <div class="modal-body">
 
-                                <div class="controls">
-                                    <input id="user" name="user" type="text" autofocus>
-                                </div>                          
+                        <div class="controls">
+                            <input id="user" name="user" type="text" autofocus>
+                        </div>
                     </div>
+                    <br />
+                    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
                 </div>
                 <div class="modal-footer">
@@ -126,26 +134,27 @@
 
         </div>
 
-
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
         <!--Script references. -->
         <!--Reference the jQuery library. -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="Scripts/jquery-2.1.4.min.js">\x3C/script>')</script>
 
         <!--Reference the SignalR library. -->
-        <script src="https://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
 
-        <script src="https://rawgit.com/webrtc/adapter/master/adapter.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+        <!--<script src="//cdn.rawgit.com/webrtc/adapter/master/adapter.js"></script>-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/adapterjs/0.13.3/adapter.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
         <!--<script src="Scripts/bootstrap.min.js"></script>-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
         <!--For production -->
         <!--Reference the autogenerated SignalR hub script. -->
-        <script src="https://chatroomone.azurewebsites.net/signalr/hubs"></script>
-        <!--<script src="https://localhost:44301/signalr/hubs"></script>-->
+        <script src="//chatroomone.azurewebsites.net/signalr/hubs"></script>
+        <!--<script src="//localhost:44301/signalr/hubs"></script>-->
 
-    <script src="Scripts/dom.js"></script>
+        <script src="Scripts/dom.js"></script>
         <script src="Scripts/video.js"></script>
         <script src="Scripts/signalr.js"></script>
         <script src="Scripts/utils.js"></script>

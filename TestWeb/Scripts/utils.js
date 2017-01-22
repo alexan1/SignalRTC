@@ -1,8 +1,40 @@
-﻿
-if (localStorage.nexttime == 'false') {
-    $myname.modal('show');
-} else {
-    $myModal.modal('show');
+﻿var ua = navigator.userAgent.toLowerCase();
+var isAndroid = ua.indexOf("android") > -1;
+console.log(ua);
+//isAndroid = true;
+console.log("isAndroid = " + isAndroid);
+
+//var android = 'false';
+//android = localStorage.android;
+//var name1 = localStorage.userName;
+var username = localStorage.userName;
+
+if (username != 'undefined' && username != undefined) {
+    //connect(name);
+    start2();
+    //$myname.modal('show');
+}
+else {
+    if (isAndroid || localStorage.nexttime == 'false') {
+        $myname.modal('show');
+    } else {
+        $myModal.modal('show');
+    };
+};
+
+function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+    localStorage.userName = profile.getName();
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+    $start2.click();
 };
 
 function generateQuickGuid() {
@@ -39,19 +71,51 @@ $start1.click(function () {
 });
 
 
-$start2.click(function () {    
+$start2.click(function () {
+    start2();
+    //if (navigator.getUserMedia) {
+    //    $device.show();
+    //    if (isAndroid)
+    //    {
+    //        $camdev.hide();
+    //        $micdev.hide();
+    //        $mic.hide();
+    //    }
+    //    else
+    //    {
+    //        selectDevice();
+    //    }
+    //}
+    //else {
+    //    $device.hide();
+    //    $alert1.show();
+    //}
+    //$video.hide();   
+    //$call.hide();
+    //starting();
+});
+
+
+function start2() {
     if (navigator.getUserMedia) {
         $device.show();
-        selectDevice();
+        if (isAndroid) {
+            $camdev.hide();
+            $micdev.hide();
+            $mic.hide();
+        }
+        else {
+            selectDevice();
+        }
     }
     else {
         $device.hide();
         $alert1.show();
     }
-    $video.hide();   
+    $video.hide();
     $call.hide();
     starting();
-});
+}
 
 $user.keypress(function (e) {
     if (e.which == 13) {//Enter key pressed
@@ -59,7 +123,10 @@ $user.keypress(function (e) {
     }
 });
 
-$videocam.click(function () {   
+$videocam.click(function () {
+    //if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+    //    $.connection.hub.start()
+    //}
     $video.toggle();    
     if ($localVideo.is(':visible')) {       
         startDev(1);
@@ -87,7 +154,8 @@ $mic.click(function () {
     }
     else {
         if (localStream != undefined) {
-            localStream.stop();
+            var audioTracks = localStream.getAudioTracks();
+            audioTracks[0].stop();
         };
         $(this).html(micoff);
         chat.server.activateMedia(0);
