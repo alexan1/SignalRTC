@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChat", "SignalRChat\SignalRChat.csproj", "{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRTC_server", "SignalRChat\SignalRTC_server.csproj", "{5E35FE6D-2AF0-4F7D-80E4-7187F7E40D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWeb", "TestWeb\TestWeb.csproj", "{96C26568-BADF-495B-A876-9250CCC19036}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRTC_client", "TestWeb\SignalRTC_client.csproj", "{96C26568-BADF-495B-A876-9250CCC19036}"
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hosted", "Hosted\Hosted.jsproj", "{8D0011E6-322D-44A5-BAAA-16B262677538}"
 EndProject
