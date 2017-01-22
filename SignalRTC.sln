@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRTC_server", "SignalR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRTC_client", "TestWeb\SignalRTC_client.csproj", "{96C26568-BADF-495B-A876-9250CCC19036}"
 EndProject
-Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hosted", "Hosted\Hosted.jsproj", "{8D0011E6-322D-44A5-BAAA-16B262677538}"
+Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "SignalRTC_mobile", "Hosted\SignalRTC_mobile.jsproj", "{8D0011E6-322D-44A5-BAAA-16B262677538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
