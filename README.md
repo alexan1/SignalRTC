@@ -4,5 +4,5 @@ WebRTC application includes 3 parts:
 2. Client part (web application: https://signalrtc.com/
 3. Android mobile app (hosting app)
 
-License
-https://github.com/alexan1/SignalRTC/blob/master/LICENSE.md
+# License
+[MIT](LICENSE.md)
