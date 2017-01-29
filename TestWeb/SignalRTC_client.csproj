@@ -92,6 +92,7 @@
     <Content Include="pics\btn_google_signin_dark_focus_web.png" />
     <Content Include="pics\btn_google_signin_small.png" />
     <Content Include="pics\google-play-badge.png" />
+    <Content Include="Privacy.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dom.js" />
