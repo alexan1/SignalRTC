@@ -133,8 +133,7 @@
 
     function connect() {
         if (RTCPeerConnection) {
-            var servers = { 'iceServers': [{ 'urls': 'stun:74.125.142.127:19302' }] };
-            //var  _iceServers = [{ url: 'stun:74.125.142.127:19302' }], // stun.l.google.com - Firefox does not support DNS names.
+            var servers = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] };            
             
             connection = new RTCPeerConnection(servers);            
             connection.onicecandidate = function (e) {
