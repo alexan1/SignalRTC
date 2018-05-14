@@ -188,3 +188,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/.vs/SignalRTC/v15/sqlite3/db.lock
+/.vs/SignalRTC/v15/Server/sqlite3/db.lock
