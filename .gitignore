@@ -195,3 +195,6 @@ ModelManifest.xml
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /.vs/SignalRTC/v16/TestStore/0
+
+# VS Code
+.vscode/
