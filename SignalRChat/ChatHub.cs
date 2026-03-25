@@ -1,152 +1,83 @@
-﻿using Microsoft.AspNet.SignalR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
 namespace SignalRChat
 {
     public class ChatHub : Hub
-    {               
+    {
+        static readonly List<User> ConnectedUsers = new();
 
-        static List<User> ConnectedUsers = new List<User>();
-
-        public override Task OnConnected()
+        public override async Task OnConnectedAsync()
         {
-            string name = Context.User.Identity.Name;
-
-            name = GetClientName();
-            var browser = GetBrowser();            
+            string name = GetClientName();
+            string browser = GetBrowser();
 
             if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
-            {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
-            };
+                ConnectedUsers.Add(new User { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
 
             ShowUsersOnLine();
-
-            return base.OnConnected();
+            await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnected(bool stopCalled)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            string name = Context.User.Identity.Name;
-            name = GetClientName();
-            
             var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-
-            ConnectedUsers.Remove(item);
-
-            ShowUsersOnLine();
-
-            return base.OnDisconnected(stopCalled);
-        }
-
-        public override Task OnReconnected()
-        {
-            string name = Context.User.Identity.Name;
-            name = GetClientName();
-            var browser = GetBrowser();
-            
-            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
-            {
-                ConnectedUsers.Add(new User() { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
-            };
-
+            if (item != null)
+                ConnectedUsers.Remove(item);
 
             ShowUsersOnLine();
-
-            return base.OnReconnected();
+            await base.OnDisconnectedAsync(exception);
         }
 
-        public void Send(string name, string message)
-        {
-            // Call the broadcastMessage method to update clients.            
-            Clients.All.broadcastMessage(false, name, message);            
-        }
+        public void Send(string name, string message) =>
+            Clients.All.SendAsync("broadcastMessage", false, name, message);
 
         public void SendToUser(string toname, string connId, string name, string message)
-        {           
-            Clients.Client(connId).broadcastMessage(toname, name, message);
-            Clients.Client(Context.ConnectionId).broadcastMessage(toname, name, message);
-
-        }
-
-        public void HangUp()
-        {            
-            Clients.All.hangUpVideo();
-        }
-
-        public void Offer(string connId, string sdp)
         {
-            Clients.Client(connId).sendOffer(sdp);            
+            Clients.Client(connId).SendAsync("broadcastMessage", toname, name, message);
+            Clients.Client(Context.ConnectionId).SendAsync("broadcastMessage", toname, name, message);
         }
 
-        public void Answer(string sdp)
-        {
-            Clients.Others.sendAnswer(sdp);
-        }
+        public void HangUp() =>
+            Clients.All.SendAsync("hangUpVideo");
 
-        public void IceCandidate(string ice)
-        {
-            Clients.Others.sendIce(ice);           
-        }       
+        public void Offer(string connId, string sdp) =>
+            Clients.Client(connId).SendAsync("sendOffer", sdp);
 
-        private string GetClientName()
-        {
-            string clientName = "";
-            if (!(Context.QueryString["userName"] == null))
-            {
-                //clientId passed from application 
-                clientName = Context.QueryString["userName"].ToString();
-            }
+        public void Answer(string sdp) =>
+            Clients.Others.SendAsync("sendAnswer", sdp);
 
-            if (clientName.Trim() == "")
-            {
-                //default clientId: connectionId 
-                clientName = Context.ConnectionId;
-            }
-            return clientName;
-        }
-
-        private string GetBrowser()
-        {
-            string browser = "no WebRTC";
-            if (!(Context.QueryString["browser"] == null))
-            {
-                //clientId passed from application 
-                browser = Context.QueryString["browser"].ToString();
-            }
-            
-            return browser;
-        }
+        public void IceCandidate(string ice) =>
+            Clients.Others.SendAsync("sendIce", ice);
 
         public void ActivateMedia(int media)
         {
             var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            switch (media)
+            if (item != null)
             {
-                case 0:
-                    item.BroMedia = Media.None;
-                    break;
-                case 1:
-                    item.BroMedia = Media.WebCam;
-                    break;
-                case 2:
-                    item.BroMedia = Media.Mic;
-                    break;
-                default:
-                    item.BroMedia = Media.None;
-                    break;
+                item.BroMedia = media switch
+                {
+                    1 => Media.WebCam,
+                    2 => Media.Mic,
+                    _ => Media.None
+                };
             }
-                      
             ShowUsersOnLine();
         }
 
         public void ShowUsersOnLine()
         {
-            var users = JsonConvert.SerializeObject(ConnectedUsers);            
-            Clients.All.showUsersOnLine(users);
+            var users = JsonSerializer.Serialize(ConnectedUsers);
+            Clients.All.SendAsync("showUsersOnLine", users);
         }
+
+        private string GetClientName()
+        {
+            var name = Context.GetHttpContext()?.Request.Query["userName"].ToString() ?? "";
+            return name.Trim() == "" ? Context.ConnectionId : name;
+        }
+
+        private string GetBrowser() =>
+            Context.GetHttpContext()?.Request.Query["browser"].ToString() ?? "no WebRTC";
     }
 }
