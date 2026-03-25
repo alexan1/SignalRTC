@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>SignalRTC - Simple Video Chat</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        #users div { padding: 0.25rem 0; }
+        #chat { border: 1px solid #ccc; padding: 1rem; height: 200px; overflow-y: auto; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <h1>SignalRTC</h1>
+    <p>Status: <span id="status">Connecting...</span></p>
+
+    <h3>Online Users</h3>
+    <div id="users"></div>
+
+    <h3>Chat</h3>
+    <div id="chat"></div>
+    <input id="msgInput" type="text" placeholder="Message..." style="width:70%" />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const userName = params.get("userName") || ("user_" + Math.random().toString(36).slice(2, 6));
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(`/signalr?userName=${encodeURIComponent(userName)}&browser=${encodeURIComponent(navigator.userAgent)}`)
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("broadcastMessage", (toname, name, message) => {
+            const chat = document.getElementById("chat");
+            chat.innerHTML += `<div><b>${name}</b>: ${message}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+        });
+
+        connection.on("showUsersOnLine", (usersJson) => {
+            const users = JSON.parse(usersJson);
+            document.getElementById("users").innerHTML =
+                users.map(u => `<div>&#128100; ${u.Name} (${u.Browser.split(" ")[0]})</div>`).join("");
+        });
+
+        connection.on("hangUpVideo", () => console.log("Hang up received"));
+        connection.on("sendOffer",   (sdp) => console.log("Offer received", sdp));
+        connection.on("sendAnswer",  (sdp) => console.log("Answer received", sdp));
+        connection.on("sendIce",     (ice) => console.log("ICE received", ice));
+
+        connection.onreconnecting(() => document.getElementById("status").textContent = "Reconnecting...");
+        connection.onreconnected(() => document.getElementById("status").textContent = "Connected");
+        connection.onclose(() => document.getElementById("status").textContent = "Disconnected");
+
+        connection.start()
+            .then(() => document.getElementById("status").textContent = `Connected as ${userName}`)
+            .catch(err => {
+                document.getElementById("status").textContent = "Connection failed";
+                console.error(err);
+            });
+
+        function sendMessage() {
+            const input = document.getElementById("msgInput");
+            if (input.value.trim())
+                connection.invoke("Send", userName, input.value).then(() => input.value = "");
+        }
+
+        document.getElementById("msgInput").addEventListener("keyup", e => {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
