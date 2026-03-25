@@ -6,6 +6,10 @@
 *.user
 *.sln.docstates
 
+# Visual Studio workspace/cache folders
+.vs/
+**/.vs/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
