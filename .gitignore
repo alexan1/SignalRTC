@@ -202,3 +202,4 @@ ModelManifest.xml
 
 # VS Code
 .vscode/
+/SignalRChat/Properties/launchSettings.json
