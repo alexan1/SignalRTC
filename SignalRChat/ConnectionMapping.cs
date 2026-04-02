@@ -52,9 +52,16 @@ namespace SignalRChat
 
         public IEnumerable<string> GetConnections(T key)
         {
-            if (_connections.TryGetValue(key, out var connections))
-                return connections;
-
+            lock (_connections)
+            {
+                if (_connections.TryGetValue(key, out var connections))
+                {
+                    lock (connections)
+                    {
+                        return connections.ToList();
+                    }
+                }
+            }
             return Enumerable.Empty<string>();
         }
 

@@ -34,14 +34,24 @@
 
         connection.on("broadcastMessage", (toname, name, message) => {
             const chat = document.getElementById("chat");
-            chat.innerHTML += `<div><b>${name}</b>: ${message}</div>`;
+            const row = document.createElement("div");
+            const sender = document.createElement("b");
+            sender.textContent = name;
+            row.appendChild(sender);
+            row.appendChild(document.createTextNode(`: ${message}`));
+            chat.appendChild(row);
             chat.scrollTop = chat.scrollHeight;
         });
 
         connection.on("showUsersOnLine", (usersJson) => {
             const users = JSON.parse(usersJson);
-            document.getElementById("users").innerHTML =
-                users.map(u => `<div>&#128100; ${u.Name} (${u.Browser.split(" ")[0]})</div>`).join("");
+            const container = document.getElementById("users");
+            container.textContent = "";
+            users.forEach(u => {
+                const row = document.createElement("div");
+                row.textContent = `\u{1F464} ${u.Name} (${u.Browser.split(" ")[0]})`;
+                container.appendChild(row);
+            });
         });
 
         connection.on("hangUpVideo", () => console.log("Hang up received"));

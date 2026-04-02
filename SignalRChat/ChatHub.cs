@@ -1,59 +1,57 @@
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace SignalRChat
 {
     public class ChatHub : Hub
     {
-        static readonly List<User> ConnectedUsers = new();
+        static readonly ConcurrentDictionary<string, User> ConnectedUsers = new();
 
         public override async Task OnConnectedAsync()
         {
             string name = GetClientName();
             string browser = GetBrowser();
 
-            if (!ConnectedUsers.Any(c => c.Name == name || c.ConnectionId == Context.ConnectionId))
-                ConnectedUsers.Add(new User { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
+            ConnectedUsers.TryAdd(Context.ConnectionId,
+                new User { Name = name, ConnectionId = Context.ConnectionId, Browser = browser, BroMedia = Media.None });
 
-            ShowUsersOnLine();
+            await ShowUsersOnLine();
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            if (item != null)
-                ConnectedUsers.Remove(item);
+            ConnectedUsers.TryRemove(Context.ConnectionId, out _);
 
-            ShowUsersOnLine();
+            await ShowUsersOnLine();
             await base.OnDisconnectedAsync(exception);
         }
 
-        public void Send(string name, string message) =>
+        public Task Send(string name, string message) =>
             Clients.All.SendAsync("broadcastMessage", false, name, message);
 
-        public void SendToUser(string toname, string connId, string name, string message)
+        public async Task SendToUser(string toname, string connId, string name, string message)
         {
-            Clients.Client(connId).SendAsync("broadcastMessage", toname, name, message);
-            Clients.Client(Context.ConnectionId).SendAsync("broadcastMessage", toname, name, message);
+            await Clients.Client(connId).SendAsync("broadcastMessage", toname, name, message);
+            await Clients.Client(Context.ConnectionId).SendAsync("broadcastMessage", toname, name, message);
         }
 
-        public void HangUp() =>
+        public Task HangUp() =>
             Clients.All.SendAsync("hangUpVideo");
 
-        public void Offer(string connId, string sdp) =>
+        public Task Offer(string connId, string sdp) =>
             Clients.Client(connId).SendAsync("sendOffer", sdp);
 
-        public void Answer(string sdp) =>
+        public Task Answer(string sdp) =>
             Clients.Others.SendAsync("sendAnswer", sdp);
 
-        public void IceCandidate(string ice) =>
+        public Task IceCandidate(string ice) =>
             Clients.Others.SendAsync("sendIce", ice);
 
-        public void ActivateMedia(int media)
+        public async Task ActivateMedia(int media)
         {
-            var item = ConnectedUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            if (item != null)
+            if (ConnectedUsers.TryGetValue(Context.ConnectionId, out var item))
             {
                 item.BroMedia = media switch
                 {
@@ -62,13 +60,14 @@ namespace SignalRChat
                     _ => Media.None
                 };
             }
-            ShowUsersOnLine();
+            await ShowUsersOnLine();
         }
 
-        public void ShowUsersOnLine()
+        public Task ShowUsersOnLine()
         {
-            var users = JsonSerializer.Serialize(ConnectedUsers);
-            Clients.All.SendAsync("showUsersOnLine", users);
+            var snapshot = ConnectedUsers.Values.ToList();
+            var users = JsonSerializer.Serialize(snapshot);
+            return Clients.All.SendAsync("showUsersOnLine", users);
         }
 
         private string GetClientName()
