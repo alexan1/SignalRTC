@@ -12,7 +12,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowCredentials()));
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options => options.EnableDetailedErrors = builder.Environment.IsDevelopment());
 
 var app = builder.Build();
 
