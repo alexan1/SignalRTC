@@ -4,6 +4,11 @@ using System.Text.Json;
 
 namespace SignalRChat
 {
+    static class JsonOptions
+    {
+        public static readonly JsonSerializerOptions CamelCase = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    }
+
     public class ChatHub : Hub
     {
         static readonly ConcurrentDictionary<string, User> ConnectedUsers = new();
@@ -66,7 +71,7 @@ namespace SignalRChat
         public Task ShowUsersOnLine()
         {
             var snapshot = ConnectedUsers.Values.ToList();
-            var users = JsonSerializer.Serialize(snapshot);
+            var users = JsonSerializer.Serialize(snapshot, JsonOptions.CamelCase);
             return Clients.All.SendAsync("showUsersOnLine", users);
         }
 
