@@ -30,6 +30,3 @@ SignalRTC/
 │   └── SignalRTC_server.csproj
 └── SignalRTC.sln
 ```
-
-## License
-[MIT](LICENSE)
