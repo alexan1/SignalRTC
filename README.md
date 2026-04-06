@@ -32,7 +32,7 @@ The SignalR hub is available at `/signalr`. By default, CORS is configured to al
 
 ### Web Client
 
-See [alexan1/signalrtc.com](https://github.com/alexan1/signalrtc.com). Edit `Scripts/config.js` to point to your server URL.
+See [alexan1/signalrtc.com](https://github.com/alexan1/signalrtc.com) and follow that repository's configuration instructions to point the client at your SignalR server URL.
 
 ## Project Structure
 
