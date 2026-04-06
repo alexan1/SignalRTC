@@ -15,21 +15,6 @@ A WebRTC video and text chat application consisting of 2 parts:
 
 ## Getting Started
 
-### Server
-
-```bash
-cd SignalRChat
-dotnet run
-```
-
-The SignalR hub is available at `/signalr`. By default, CORS is configured to allow `https://signalrtc.com` and `https://www.signalrtc.com`. Override this in `appsettings.json`:
-
-```json
-{
-  "AllowedOrigins": ["https://your-domain.com"]
-}
-```
-
 ### Web Client
 
 See [alexan1/signalrtc.com](https://github.com/alexan1/signalrtc.com) and follow that repository's configuration instructions to point the client at your SignalR server URL.
